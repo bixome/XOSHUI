@@ -377,8 +377,23 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 .xo-dialog--narrow { min-width: min(40ch, 90vw); }
 .xo-dialog--wide   { min-width: min(96ch, 92vw); }
 
-/* Le corps défile, jamais la boîte : titre et actions restent visibles. */
-.xo-dialog__body { overflow: auto; max-height: var(--xo-max-h, 60vh); }
+/* Le corps défile, jamais la boîte : titre et actions restent visibles quelle
+   que soit la longueur du contenu. Colonne posée sur [open] seulement — un
+   display sur .xo-dialog écraserait le display: none d'une boîte fermée. */
+.xo-dialog { max-height: calc(100vh - 4em); }
+.xo-dialog[open] { display: flex; flex-direction: column; }
+/* Le formulaire est souvent l'unique enfant : il doit relayer la colonne. */
+.xo-dialog[open] > form { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+.xo-dialog__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  /* Vertical seulement : une largeur libre empêcherait les libellés de se
+     tronquer. Ce qui doit défiler à l'horizontale porte déjà son propre
+     conteneur — xo-pre, xo-diff, xo-table-wrap. */
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: var(--xo-max-h, none);
+}
 
 .xo-dialog--full {
   width: 100vw; max-width: 100vw;
@@ -479,7 +494,9 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 
 .xo-kv__row { display: flex; align-items: baseline; gap: var(--xo-gap); }
 .xo-kv dt   { color: var(--xo-muted); white-space: nowrap; }
-.xo-kv dd   { margin: 0; white-space: nowrap; }
+/* La clé ne se coupe jamais ; la valeur, si : nowrap la faisait déborder du
+   panneau sans prévenir dès qu'elle dépassait une ligne. */
+.xo-kv dd   { margin: 0; min-width: 0; text-align: right; overflow-wrap: anywhere; }
 .xo-kv__leader {
   flex: 1;
   min-width: 2ch;

@@ -62,29 +62,32 @@ xo_specimen('Erreur avec détails', <<<'HTML'
 
 <dialog class="xo-dialog xo-dialog--danger" id="m-err" aria-labelledby="m-err-t">
   <p class="xo-dialog__title" id="m-err-t">✗ Échec de la connexion</p>
-  <p>La base <code>db.interne:3306</code> n’a pas répondu en 30 secondes.</p>
 
-  <div class="xo-alert xo-alert--warning" role="status" style="margin-top: 8px">
-    <span aria-hidden="true">▲</span>
-    <span class="xo-alert__body">Les sessions basculent sur le disque en attendant.</span>
-  </div>
+  <div class="xo-dialog__body">
+    <p>La base <code>db.interne:3306</code> n’a pas répondu en 30 secondes.</p>
 
-  <details class="xo-accordion" style="margin-top: 8px">
-    <summary>Détails techniques</summary>
-    <div class="xo-accordion__body">
-      <pre class="xo-pre"><code>PDOException: SQLSTATE[HY000] [2002] Connection timed out
+    <div class="xo-alert xo-alert--warning" role="status" style="margin-top: 8px">
+      <span aria-hidden="true">▲</span>
+      <span class="xo-alert__body">Les sessions basculent sur le disque en attendant.</span>
+    </div>
+
+    <details class="xo-accordion" style="margin-top: 8px">
+      <summary>Détails techniques</summary>
+      <div class="xo-accordion__body">
+        <pre class="xo-pre"><code>PDOException: SQLSTATE[HY000] [2002] Connection timed out
   #0 /libs/core/Db.php(24): PDO-&gt;__construct()
   #1 /libs/core/Db.php(41): Db::get()
   #2 /api/orders.php(8): Db::all()</code></pre>
-    </div>
-  </details>
+      </div>
+    </details>
+  </div>
 
   <div class="xo-dialog__actions">
     <button class="xo-btn" data-xo-close autofocus>Fermer</button>
     <button class="xo-btn xo-btn--danger" data-xo-close>Réessayer</button>
   </div>
 </dialog>
-HTML, 'La trace est repliée : visible pour qui la cherche, invisible pour les autres. Ne jamais l’afficher en production sans filtrage.');
+HTML, 'Le contenu variable va dans xo-dialog__body : une trace de 200 lignes fait défiler le corps, jamais la boîte — les actions restent atteignables. Ne jamais afficher de trace en production sans filtrage.');
 
 xo_specimen_fin([
     'xo-dialog--narrow'  => 'boîte étroite, pour un message court',
