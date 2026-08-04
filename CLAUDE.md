@@ -15,6 +15,8 @@ Servi par Laragon depuis `D:\laragon\www\XOSHUI` → http://xoshui.test
 
 **[docs/api.md](docs/api.md)** — l'aide-mémoire des classes. À lire avant d'écrire du HTML.
 **[demo.php](demo.php)** — toutes les classes sur une page.
+**[layouts/](layouts/)** — des pages entières à copier. Y aller **avant** d'assembler des
+composants un à un : c'est le chemin le plus court vers un écran correct.
 
 ## Fichiers
 
@@ -24,7 +26,9 @@ Servi par Laragon depuis `D:\laragon\www\XOSHUI` → http://xoshui.test
 | `libs/js/xoshui.js` | Module unique : clavier, onglets, modale, palette, aide |
 | `docs/api.md` | Aide-mémoire des classes |
 | `docs/charte-graphique.md` | Référence design (palette, grammaire, a11y) — consultation, pas lecture par défaut |
-| `demo.php` | Page de démonstration |
+| `demo.php` | Page de démonstration : chaque classe isolée |
+| `layouts/` | Recettes : des pages entières à copier |
+| `index.php` | Page d'accueil |
 | `moodboard/` | Références visuelles (archives) |
 
 ## Règles

@@ -846,7 +846,36 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 ::-webkit-scrollbar-thumb { background: var(--xo-border); }
 ::-webkit-scrollbar-thumb:hover { background: var(--xo-accent); }
 
-/* --- 29. Utilitaires ---------------------------------------------------- */
+/* --- 29. Texte de lecture ------------------------------------------------ */
+
+/* Le reset supprime les marges : elles reviennent ici, et seulement ici.
+   Largeur mesurée en caractères — la seule zone du framework qui ne remplit
+   pas l'écran, parce qu'au-delà de ~80 signes une ligne devient pénible. */
+.xo-prose { max-width: 80ch; }
+.xo-prose > * + * { margin-top: var(--xo-pad); }
+.xo-prose h1, .xo-prose h2, .xo-prose h3 { font-size: inherit; font-weight: 700; }
+.xo-prose h1 { color: var(--xo-accent); }
+.xo-prose h2, .xo-prose h3 { color: var(--xo-fg); margin-top: calc(var(--xo-pad) * 3); }
+.xo-prose h2::before { content: "## "; color: var(--xo-faint); }
+.xo-prose h3::before { content: "### "; color: var(--xo-faint); }
+.xo-prose ul, .xo-prose ol { padding-left: 3ch; }
+.xo-prose li + li { margin-top: var(--xo-sp-1, 2px); }
+.xo-prose ul > li::marker { content: "- "; color: var(--xo-faint); }
+.xo-prose ol { list-style: decimal; }
+.xo-prose ol > li::marker { color: var(--xo-faint); }
+.xo-prose blockquote {
+  margin: 0;
+  padding-left: 2ch;
+  border-left: 1px solid var(--xo-border);
+  color: var(--xo-muted);
+}
+.xo-prose code { background: var(--xo-subtle); padding: 0 .5ch; color: var(--xo-info); }
+.xo-prose pre code { background: none; padding: 0; color: inherit; }
+.xo-prose table { width: 100%; border-collapse: collapse; }
+.xo-prose th { text-align: left; color: var(--xo-muted); font-weight: 400; }
+.xo-prose th, .xo-prose td { padding: 2px var(--xo-gap); border-bottom: 1px solid var(--xo-rule); }
+
+/* --- 30. Utilitaires ---------------------------------------------------- */
 
 .xo-muted   { color: var(--xo-muted); }
 .xo-faint   { color: var(--xo-faint); }
@@ -865,7 +894,7 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
   padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }
 
-/* --- 30. Préférences & responsive --------------------------------------- */
+/* --- 31. Préférences & responsive --------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

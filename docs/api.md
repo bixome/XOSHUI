@@ -6,7 +6,12 @@
 ```
 
 Tout est en monospace, sans arrondi, sans ombre. La sélection est une barre en vidéo
-inverse. Voir [demo.php](../demo.php) pour un exemple complet de chaque classe.
+inverse.
+
+- **[demo.php](../demo.php)** — chaque classe, isolée.
+- **[layouts/](../layouts/)** — des pages entières à copier : tableau de bord,
+  maître-détail, table, explorateur, formulaire, console, article, connexion.
+  Partir de là coûte moins cher que d'assembler les composants un à un.
 
 ## Mise en page
 
@@ -495,6 +500,19 @@ grille aligne les colonnes.
 Glisser à la souris, ← → au clavier. La largeur vit dans `--xo-split` (15 % à 85 %).
 Sous 720 px les deux volets s'empilent et la poignée disparaît — elle sort donc aussi du
 parcours clavier.
+
+## Texte de lecture
+
+```html
+<article class="xo-prose">
+  <h1>Titre</h1>
+  <p>Paragraphe…</p>
+</article>
+```
+
+Seule zone du framework qui ne remplit pas l'écran : largeur plafonnée à `80ch`. Rétablit
+les marges que le reset supprime, préfixe les titres de `##` / `###`, et style les listes,
+citations, `code` et tableaux. À réserver au contenu rédigé — jamais à une interface.
 
 ## Utilitaires
 
