@@ -21,6 +21,7 @@ function xo_e(string|int|float|null $v): string
 const XO_PAGES = [
     'accueil' => ['/',               'Accueil', 'Point d’entrée'],
     'layouts' => ['/layouts/',       'Layouts', 'Pages entières à copier'],
+    'compos'  => ['/components/',    'Composants', 'Un composant par page, isolé'],
     'demo'    => ['/demo.php',       'Démo',    'Chaque classe isolée'],
     'docs'    => ['/docs.php',       'Docs',    'Aide-mémoire, charte, déploiement'],
     'lint'    => ['/tools/lint.php', 'Lint',    'Vérification des règles'],
@@ -36,6 +37,21 @@ const XO_DOCS = [
     'deploiement' => ['docs/deploiement.md',       'Déploiement'],
 ];
 
+/** Niveau 2 — sous-pages de « composants ». */
+const XO_COMPOSANTS = [
+    'index'    => ['Sommaire',   'La liste des composants'],
+    'panel'    => ['Panneau',    'Le cadre à titre incrusté'],
+    'list'     => ['Liste',      'Sélection, arbre, navigation clavier'],
+    'table'    => ['Tableau',    'En-tête collant, zébrage, tri'],
+    'form'     => ['Formulaire', 'Champs, cases, radio, curseur'],
+    'nav'      => ['Navigation', 'Barres, onglets, fil d’Ariane, pagination'],
+    'feedback' => ['Retour',     'Alertes, notifications, badges, étiquettes'],
+    'data'     => ['Données',    'Clé-valeur, métriques, jauges, chronologie'],
+    'code'     => ['Code',       'Bloc, terminal, diff, invite'],
+    'overlay'  => ['Surcouches', 'Modale, menu, palette, aide'],
+    'layout'   => ['Mise en page', 'Grille, pile, séparateur, texte'],
+];
+
 /** Niveau 2 — sous-pages de « layouts ». */
 const XO_LAYOUTS = [
     'index'         => ['Sommaire',        'La liste des mises en page'],
@@ -49,12 +65,18 @@ const XO_LAYOUTS = [
     'login'         => ['Connexion',       'Panneau centré'],
 ];
 
-/** Le slug de niveau 1 auquel appartient une page. */
+/**
+ * Le slug de niveau 1 auquel appartient une page.
+ * « index » appartient à deux registres : les sommaires passent donc le slug
+ * de leur section (« layouts », « compos »), pas « index ».
+ */
 function xo_section(string $current): string
 {
     if (isset(XO_PAGES[$current])) { return $current; }
-    if (isset(XO_DOCS[$current]))  { return 'docs'; }
-    return isset(XO_LAYOUTS[$current]) ? 'layouts' : 'accueil';
+    if (isset(XO_DOCS[$current]))       { return 'docs'; }
+    if (isset(XO_LAYOUTS[$current]))    { return 'layouts'; }
+    if (isset(XO_COMPOSANTS[$current])) { return 'compos'; }
+    return 'accueil';
 }
 
 /**
@@ -84,9 +106,21 @@ function xo_nav(string $current = ''): void
   <nav class="xo-nav xo-nav--sub" aria-label="Layouts">
     <ul class="xo-nav__list">
       <?php foreach (XO_LAYOUTS as $slug => [$label, $_]):
-          $url = $slug === 'index' ? '/layouts/' : '/layouts/' . $slug . '.php'; ?>
+          $url  = $slug === 'index' ? '/layouts/' : '/layouts/' . $slug . '.php';
+          $ici  = $slug === $current || ($slug === 'index' && $current === $section); ?>
       <li><a class="xo-nav__link" href="<?= xo_e($url) ?>"
-             <?= $slug === $current ? 'aria-current="page"' : '' ?>><?= xo_e($label) ?></a></li>
+             <?= $ici ? 'aria-current="page"' : '' ?>><?= xo_e($label) ?></a></li>
+      <?php endforeach; ?>
+    </ul>
+  </nav>
+    <?php elseif ($section === 'compos'): ?>
+  <nav class="xo-nav xo-nav--sub" aria-label="Composants">
+    <ul class="xo-nav__list">
+      <?php foreach (XO_COMPOSANTS as $slug => [$label, $_]):
+          $url  = $slug === 'index' ? '/components/' : '/components/' . $slug . '.php';
+          $ici  = $slug === $current || ($slug === 'index' && $current === $section); ?>
+      <li><a class="xo-nav__link" href="<?= xo_e($url) ?>"
+             <?= $ici ? 'aria-current="page"' : '' ?>><?= xo_e($label) ?></a></li>
       <?php endforeach; ?>
     </ul>
   </nav>
@@ -142,6 +176,10 @@ function xo_palette(string $current = ''): void
     foreach (XO_LAYOUTS as $slug => [$label, $desc]) {
         $url = $slug === 'index' ? '/layouts/' : '/layouts/' . $slug . '.php';
         $entrees[] = [$url, 'Layouts › ' . $label, $desc];
+    }
+    foreach (XO_COMPOSANTS as $slug => [$label, $desc]) {
+        $url = $slug === 'index' ? '/components/' : '/components/' . $slug . '.php';
+        $entrees[] = [$url, 'Composants › ' . $label, $desc];
     }
     foreach (XO_DOCS as $slug => [$chemin, $label]) {
         $entrees[] = ['/docs.php?f=' . $slug, 'Docs › ' . $label, $chemin];

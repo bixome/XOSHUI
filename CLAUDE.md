@@ -17,6 +17,8 @@ Servi par Laragon (**nginx**, pas Apache) depuis `D:\laragon\www\XOSHUI` → htt
 **[demo.php](demo.php)** — toutes les classes sur une page.
 **[layouts/](layouts/)** — des pages entières à copier. Y aller **avant** d'assembler des
 composants un à un : c'est le chemin le plus court vers un écran correct.
+**[components/](components/)** — un composant isolé, ses variantes et sa source, quand il
+faut comprendre un comportement précis.
 
 ## Fichiers
 
@@ -31,6 +33,7 @@ composants un à un : c'est le chemin le plus court vers un écran correct.
 | `docs/charte-graphique.md` | Référence design (palette, grammaire, a11y) — consultation, pas lecture par défaut |
 | `demo.php` | Page de démonstration : chaque classe isolée |
 | `layouts/` | Recettes : des pages entières à copier |
+| `components/` | Un composant par page, isolé, avec sa source |
 | `index.php` | Page d'accueil |
 | `tools/lint.php` | Vérifie les règles ci-dessous — `php tools/lint.php` |
 | `docs/deploiement.md` | Ce qui ne doit pas être servi (nginx / Apache) |

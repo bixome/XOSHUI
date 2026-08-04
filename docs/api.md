@@ -12,6 +12,8 @@ inverse.
 - **[layouts/](../layouts/)** — des pages entières à copier : tableau de bord,
   maître-détail, table, explorateur, formulaire, console, article, connexion.
   Partir de là coûte moins cher que d'assembler les composants un à un.
+- **[components/](../components/)** — un composant par page, isolé, avec ses variantes
+  et sa source à déplier.
 
 ## Mise en page
 
