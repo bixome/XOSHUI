@@ -132,6 +132,93 @@ Jauge : `--warning` ≥ 70 %, `--danger` ≥ 90 %. Toujours afficher la valeur �
 
 `<dialog>` natif : `Échap` ferme, focus piégé, sans JS supplémentaire.
 
+## Navigation
+
+```html
+<nav class="xo-nav" aria-label="Principale">
+  <span class="xo-nav__brand">XOSHUI</span>
+  <ul class="xo-nav__list">
+    <li><a class="xo-nav__link" href="/" aria-current="page">Accueil</a></li>
+  </ul>
+  <span class="xo-spacer"></span>
+</nav>
+
+<nav class="xo-breadcrumb" aria-label="Fil d'Ariane">
+  <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><a href="#">libs</a>
+  <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><span aria-current="page">css</span>
+</nav>
+```
+
+Le lien courant se marque avec `aria-current="page"` (vidéo inverse), pas une classe.
+
+## Barre d'outils
+
+```html
+<div class="xo-toolbar">
+  <div class="xo-btn-group" role="group" aria-label="Tri">
+    <button class="xo-btn" aria-pressed="true">CPU</button>
+    <button class="xo-btn" aria-pressed="false">MEM</button>
+  </div>
+  <span class="xo-toolbar__sep" aria-hidden="true"></span>
+  <button class="xo-btn xo-btn--ghost">[/] filtrer</button>
+  <span class="xo-spacer"></span>
+</div>
+```
+
+`xo-btn-group` accole les boutons (bordures fusionnées). L'état actif d'un bouton bascule
+se déclare avec `aria-pressed="true"`.
+
+## Pagination
+
+```html
+<div class="xo-pagination">
+  <button class="xo-btn" aria-label="Page précédente">‹</button>
+  <span class="xo-pagination__info">page 1 / 30</span>
+  <button class="xo-btn" aria-label="Page suivante">›</button>
+</div>
+```
+
+## Alerte
+
+```html
+<div class="xo-alert xo-alert--warning" role="status">
+  <span aria-hidden="true">▲</span>
+  <span class="xo-alert__body">
+    <span class="xo-alert__title">Titre.</span> Détail du message.
+  </span>
+</div>
+```
+
+`--success` `--warning` `--danger` ; sans modificateur = information (teal).
+`role="status"` pour un message informatif, `role="alert"` pour une erreur bloquante.
+
+## Clé-valeur
+
+```html
+<dl class="xo-kv">
+  <div class="xo-kv__row">
+    <dt>Version</dt>
+    <span class="xo-kv__leader" aria-hidden="true"></span>
+    <dd>1.0</dd>
+  </div>
+</dl>
+```
+
+Les trois éléments sont nécessaires : `xo-kv__leader` est la ligne de pointillés qui relie
+la clé à la valeur.
+
+## État vide
+
+```html
+<div class="xo-empty">
+  <pre class="xo-empty__art" aria-hidden="true">┌───────┐
+│ vide  │
+└───────┘</pre>
+  <p class="xo-empty__msg">Aucun élément.</p>
+  <button class="xo-btn">Créer</button>
+</div>
+```
+
 ## Utilitaires
 
 `xo-muted` `xo-faint` `xo-success` `xo-warning` `xo-danger` `xo-info` `xo-special` `xo-alt`

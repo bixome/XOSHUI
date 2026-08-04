@@ -41,6 +41,22 @@ $files = [
 <body>
 <div class="xo-app">
 
+  <!-- Navigation -->
+  <nav class="xo-nav" aria-label="Principale">
+    <span class="xo-nav__brand">XOSHUI</span>
+    <ul class="xo-nav__list">
+      <li><a class="xo-nav__link" href="#" aria-current="page">Démo</a></li>
+      <li><a class="xo-nav__link" href="/docs/api.md">Aide-mémoire</a></li>
+      <li><a class="xo-nav__link" href="/docs/charte-graphique.md">Charte</a></li>
+    </ul>
+    <span class="xo-spacer"></span>
+    <nav class="xo-breadcrumb" aria-label="Fil d'Ariane">
+      <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><a href="#">libs</a>
+      <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><a href="#">css</a>
+      <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><span aria-current="page">xoshui.css</span>
+    </nav>
+  </nav>
+
   <!-- Barre de statut -->
   <div class="xo-statusbar">
     <strong>XOSHUI</strong>
@@ -62,6 +78,28 @@ $files = [
 
     <!-- ------------------------------------------------ Onglet 1 -->
     <section id="tab-dash" role="tabpanel" class="xo-tabpanel">
+
+      <div class="xo-toolbar">
+        <div class="xo-btn-group" role="group" aria-label="Tri">
+          <button class="xo-btn" aria-pressed="true">CPU</button>
+          <button class="xo-btn" aria-pressed="false">MEM</button>
+          <button class="xo-btn" aria-pressed="false">PID</button>
+        </div>
+        <span class="xo-toolbar__sep" aria-hidden="true"></span>
+        <button class="xo-btn xo-btn--ghost">[/] filtrer</button>
+        <button class="xo-btn xo-btn--ghost">[r] rafraîchir</button>
+        <span class="xo-spacer"></span>
+        <span class="xo-muted">537 tâches · 1866 threads</span>
+      </div>
+
+      <div class="xo-alert xo-alert--warning" role="status" style="margin-bottom: 8px">
+        <span aria-hidden="true">▲</span>
+        <span class="xo-alert__body">
+          <span class="xo-alert__title">Température élevée.</span>
+          Le CPU dépasse 70 °C depuis 4 minutes.
+        </span>
+      </div>
+
       <div class="xo-grid">
 
         <div class="xo-col-3 xo-stack">
@@ -125,6 +163,12 @@ $files = [
             <span class="xo-panel__count">1 of <?= count($processes) ?></span>
           </section>
 
+          <div class="xo-pagination">
+            <button class="xo-btn" aria-label="Page précédente">‹</button>
+            <span class="xo-pagination__info">page 1 / 30</span>
+            <button class="xo-btn" aria-label="Page suivante">›</button>
+          </div>
+
           <div class="xo-grid">
             <section class="xo-panel xo-panel--pad xo-col-6">
               <h2 class="xo-panel__title">Ressources</h2>
@@ -149,6 +193,24 @@ $files = [
             </section>
 
             <section class="xo-panel xo-panel--pad xo-col-6">
+              <h2 class="xo-panel__title">Système</h2>
+              <dl class="xo-kv">
+                <?php foreach ([
+                    'Version'     => '1.0',
+                    'PHP'         => '8.3.30',
+                    'Hôte'        => 'xoshui.test',
+                    'Uptime'      => '7 j 08:40:22',
+                ] as $k => $v): ?>
+                <div class="xo-kv__row">
+                  <dt><?= $e($k) ?></dt>
+                  <span class="xo-kv__leader" aria-hidden="true"></span>
+                  <dd><?= $e($v) ?></dd>
+                </div>
+                <?php endforeach; ?>
+              </dl>
+            </section>
+
+            <section class="xo-panel xo-panel--pad xo-col-12">
               <h2 class="xo-panel__title">États</h2>
               <div class="xo-row" style="margin-bottom: 8px">
                 <span class="xo-badge xo-badge--success">✓ READY</span>
@@ -223,6 +285,16 @@ $ _</pre>
           <div class="xo-diff__line xo-diff__line--add"><span class="xo-diff__num">13</span><span>+  border-radius: 0;</span></div>
           <div class="xo-diff__line xo-diff__line--add"><span class="xo-diff__num">14</span><span>+  border: 1px solid var(--xo-border);</span></div>
           <div class="xo-diff__line"><span class="xo-diff__num">15</span><span>}</span></div>
+        </div>
+      </section>
+      <section class="xo-panel" style="margin-top: 8px">
+        <h2 class="xo-panel__title">Stash</h2>
+        <div class="xo-empty">
+          <pre class="xo-empty__art" aria-hidden="true">┌───────────┐
+│   vide    │
+└───────────┘</pre>
+          <p class="xo-empty__msg">Aucune modification remisée.</p>
+          <button class="xo-btn">Créer un stash</button>
         </div>
       </section>
     </section>
