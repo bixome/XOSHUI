@@ -47,8 +47,8 @@ $sources = [
       <span class="xo-search__prefix" aria-hidden="true">/</span>
       <input type="search" placeholder="filtrer le flux…" aria-label="Filtrer">
     </label>
-    <label class="xo-switch">
-      <input type="checkbox" checked><span class="xo-switch__box"></span>
+    <label class="xo-check">
+      <input type="checkbox" checked>
       <span>Suivre</span>
     </label>
     <span class="xo-spacer"></span>
@@ -88,8 +88,8 @@ $sources = [
           <h2 class="xo-panel__title">Sources</h2>
           <div class="xo-stack xo-stack--tight">
             <?php foreach ($sources as [$nom, $actif]): ?>
-            <label class="xo-switch">
-              <input type="checkbox" <?= $actif ? 'checked' : '' ?>><span class="xo-switch__box"></span>
+            <label class="xo-check">
+              <input type="checkbox" <?= $actif ? 'checked' : '' ?>>
               <span><?= xo_e($nom) ?></span>
             </label>
             <?php endforeach; ?>

@@ -398,16 +398,11 @@ Variantes : `--success` `--warning` `--danger`.
 
 Pur CSS, apparaît au survol **et** au focus clavier.
 
-## Interrupteur, radio, curseur, fichier
+## Case, radio, curseur, fichier
 
 ```html
-<label class="xo-switch">
-  <input type="checkbox" checked><span class="xo-switch__box"></span><span>Journal</span>
-</label>
-
-<label class="xo-radio">
-  <input type="radio" name="env"><span class="xo-radio__box"></span><span>Recette</span>
-</label>
+<label class="xo-check"><input type="checkbox" checked> Journal</label>
+<label class="xo-radio"><input type="radio" name="env"> Recette</label>
 
 <div class="xo-range">
   <input type="range" min="0" max="9" value="3" aria-label="Verbosité">
@@ -417,8 +412,9 @@ Pur CSS, apparaît au survol **et** au focus clavier.
 <div class="xo-file"><input type="file" aria-label="Fichier"></div>
 ```
 
-L'interrupteur rend `[ ]` / `[x]`, le radio `( )` / `(•)`. La case native est masquée mais
-reste la source de vérité : le focus et l'état viennent d'elle.
+`xo-check` rend `[ ]` / `[x]`, `xo-radio` rend `( )` / `(•)`. La case native est masquée
+mais reste la source de vérité — focus, état coché, soumission du formulaire. Aucun
+élément à ajouter : le marqueur est un `::before` du label.
 `xo-field--inline` met le label à gauche du champ.
 
 ## Colonne latérale, menus, pied

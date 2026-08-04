@@ -680,23 +680,28 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 
 /* --- 22. Formulaire : interrupteur, radio, curseur, fichier ------------- */
 
-.xo-switch, .xo-radio {
+/* La case native est un rectangle arrondi bleu : elle jure avec le reste.
+   Elle reste la source de vérité (focus, état, soumission), mais devient
+   invisible ; c'est le label qui dessine [ ] / [x] et ( ) / (•).
+   Le marqueur est un ::before du label, donc aucun élément à ajouter. */
+.xo-check, .xo-radio {
   display: inline-flex;
   gap: var(--xo-gap);
   align-items: baseline;
   cursor: pointer;
 }
-.xo-switch input, .xo-radio input {
+.xo-check input, .xo-radio input {
   position: absolute; width: 1px; height: 1px; opacity: 0;
 }
-.xo-switch__box::before { content: "[ ]"; color: var(--xo-muted); }
-.xo-switch input:checked ~ .xo-switch__box::before { content: "[x]"; color: var(--xo-success); }
-.xo-radio__box::before  { content: "( )"; color: var(--xo-muted); }
-.xo-radio input:checked ~ .xo-radio__box::before { content: "(•)"; color: var(--xo-accent); }
-.xo-switch input:focus-visible ~ .xo-switch__box,
-.xo-radio  input:focus-visible ~ .xo-radio__box { outline: 1px solid var(--xo-accent); }
-.xo-switch input:disabled ~ .xo-switch__box,
-.xo-radio  input:disabled ~ .xo-radio__box { color: var(--xo-faint); }
+.xo-check::before { content: "[ ]"; color: var(--xo-muted); }
+.xo-radio::before { content: "( )"; color: var(--xo-muted); }
+.xo-check:has(input:checked)::before { content: "[x]"; color: var(--xo-success); }
+.xo-radio:has(input:checked)::before { content: "(•)"; color: var(--xo-accent); }
+.xo-check:has(input:focus-visible)::before,
+.xo-radio:has(input:focus-visible)::before { outline: 1px solid var(--xo-accent); }
+.xo-check:has(input:disabled), .xo-radio:has(input:disabled) {
+  color: var(--xo-faint); cursor: not-allowed;
+}
 
 .xo-range { display: flex; gap: var(--xo-gap); align-items: center; }
 .xo-range input[type="range"] { flex: 1; min-width: 8ch; accent-color: var(--xo-accent); }
@@ -724,6 +729,8 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 /* --- 23. Colonne latérale, menus, pied ---------------------------------- */
 
 .xo-layout  { display: flex; flex: 1; min-height: 0; }
+/* Contre une colonne latérale, 8px collent le texte à la bordure. */
+.xo-layout > .xo-main { padding-left: calc(var(--xo-gap) * 2); }
 .xo-sidebar {
   flex: none;
   width: 24ch;

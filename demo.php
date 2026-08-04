@@ -440,19 +440,18 @@ $ _</pre>
         <section class="xo-panel xo-panel--pad xo-col-6">
           <h2 class="xo-panel__title">Controles</h2>
           <div class="xo-stack xo-stack--tight">
-            <label class="xo-switch">
-              <input type="checkbox" checked><span class="xo-switch__box"></span>
+            <label class="xo-check">
+              <input type="checkbox" checked>
               <span>Journalisation</span>
             </label>
-            <label class="xo-switch">
-              <input type="checkbox"><span class="xo-switch__box"></span>
+            <label class="xo-check">
+              <input type="checkbox">
               <span>Mode strict</span>
             </label>
             <div class="xo-rule">Profil</div>
             <?php foreach (['Developpement', 'Recette', 'Production'] as $i => $opt): ?>
             <label class="xo-radio">
-              <input type="radio" name="env" <?= $i === 0 ? 'checked' : '' ?>>
-              <span class="xo-radio__box"></span><span><?= $e($opt) ?></span>
+              <input type="radio" name="env" <?= $i === 0 ? 'checked' : '' ?>><span><?= $e($opt) ?></span>
             </label>
             <?php endforeach; ?>
             <div class="xo-range">

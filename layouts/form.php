@@ -94,20 +94,19 @@ $valeurs = ['hote' => 'db.interne', 'port' => '33O6', 'base' => 'xoshui', 'user'
             <legend>Options</legend>
 
             <div class="xo-stack xo-stack--tight">
-              <label class="xo-switch">
-                <input type="checkbox" name="ssl" checked><span class="xo-switch__box"></span>
+              <label class="xo-check">
+                <input type="checkbox" name="ssl" checked>
                 <span>Forcer TLS</span>
               </label>
-              <label class="xo-switch">
-                <input type="checkbox" name="log"><span class="xo-switch__box"></span>
+              <label class="xo-check">
+                <input type="checkbox" name="log">
                 <span>Journaliser les requêtes lentes</span>
               </label>
 
               <div class="xo-rule">Jeu de caractères</div>
               <?php foreach (['utf8mb4' => 'utf8mb4 (recommandé)', 'utf8' => 'utf8', 'latin1' => 'latin1'] as $v => $lib): ?>
               <label class="xo-radio">
-                <input type="radio" name="charset" value="<?= xo_e($v) ?>" <?= $v === 'utf8mb4' ? 'checked' : '' ?>>
-                <span class="xo-radio__box"></span><span><?= xo_e($lib) ?></span>
+                <input type="radio" name="charset" value="<?= xo_e($v) ?>" <?= $v === 'utf8mb4' ? 'checked' : '' ?>><span><?= xo_e($lib) ?></span>
               </label>
               <?php endforeach; ?>
 

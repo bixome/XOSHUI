@@ -51,8 +51,8 @@ $erreur = null; // ex. 'Identifiants invalides.'
           </div>
 
           <div class="xo-row" style="margin-bottom: 16px">
-            <label class="xo-switch">
-              <input type="checkbox" name="memoriser"><span class="xo-switch__box"></span>
+            <label class="xo-check">
+              <input type="checkbox" name="memoriser">
               <span>Rester connecté</span>
             </label>
             <span class="xo-spacer"></span>

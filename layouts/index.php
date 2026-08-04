@@ -27,13 +27,17 @@ require __DIR__ . '/_nav.php';
     <div class="xo-grid">
       <?php foreach (XO_LAYOUTS as $slug => [$label, $desc]):
           if ($slug === 'index') { continue; } ?>
-      <section class="xo-panel xo-panel--pad xo-col-4">
+      <!-- Colonne flex + marge auto : les boutons s'alignent quelle que soit
+           la longueur de la description. -->
+      <section class="xo-panel xo-panel--pad xo-col-4"
+               style="display: flex; flex-direction: column; gap: 8px">
         <h2 class="xo-panel__title"><?= xo_e($label) ?></h2>
-        <p class="xo-muted" style="margin-bottom: 8px"><?= xo_e($desc) ?></p>
-        <div class="xo-row">
-          <a class="xo-btn xo-btn--primary" href="<?= xo_e($slug) ?>.php">Ouvrir</a>
-          <span class="xo-faint">layouts/<?= xo_e($slug) ?>.php</span>
-        </div>
+        <p class="xo-muted"><?= xo_e($desc) ?></p>
+        <p class="xo-faint xo-nowrap" style="overflow: hidden; text-overflow: ellipsis">
+          layouts/<?= xo_e($slug) ?>.php
+        </p>
+        <a class="xo-btn xo-btn--primary" href="<?= xo_e($slug) ?>.php"
+           style="margin-top: auto; align-self: flex-start">Ouvrir</a>
       </section>
       <?php endforeach; ?>
     </div>
