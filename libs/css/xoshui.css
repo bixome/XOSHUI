@@ -3,6 +3,27 @@
    <link rel="stylesheet" href="/libs/css/xoshui.css">
    ========================================================================== */
 
+/* --- 0. Police embarquée -------------------------------------------------
+   Deux fichiers à déposer dans libs/fonts/ — voir libs/fonts/README.md.
+   Tant qu'ils sont absents, le navigateur passe à la pile système sans rien
+   casser : la seule trace est un 404 dans la console.
+   Auto-hébergée, jamais chargée depuis le réseau. */
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* --- 1. Tokens ---------------------------------------------------------- */
 
 :root {
@@ -28,7 +49,7 @@
   --xo-scrim:     rgba(17,17,27,.6);
   --xo-term:      #000000;   /* fond terminal : le seul noir pur du système */
 
-  --xo-font: ui-monospace, "Cascadia Mono", "JetBrains Mono", Consolas,
+  --xo-font: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas,
              "DejaVu Sans Mono", "Courier New", monospace;
   --xo-fs:   14px;
   --xo-lh:   1.35;
@@ -52,6 +73,10 @@ body {
   color: var(--xo-fg);
   font: 400 var(--xo-fs)/var(--xo-lh) var(--xo-font);
   -webkit-text-size-adjust: 100%;
+  /* Aucun terminal ne fusionne != ou ->. La chasse resterait fixe, mais le
+     rendu s'éloignerait de sa référence — et un diff se lit caractère à
+     caractère. */
+  font-variant-ligatures: none;
 }
 
 h1, h2, h3, p, ul, ol, figure { margin: 0; }

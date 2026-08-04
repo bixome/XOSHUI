@@ -23,6 +23,7 @@ composants un à un : c'est le chemin le plus court vers un écran correct.
 | Chemin | Rôle |
 |---|---|
 | `libs/css/xoshui.css` | Feuille unique : tokens + reset + composants |
+| `libs/fonts/` | JetBrains Mono auto-hébergée — voir le README du dossier |
 | `libs/js/xoshui.js` | Module unique : clavier, onglets, modale, palette, aide |
 | `libs/site.php` | Navigation du site : `xo_nav($slug)` émet barre, sous-barre, palette et aide |
 | `docs.php` | Lecture des documents dans le framework (liste blanche XO_DOCS) |
