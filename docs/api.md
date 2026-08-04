@@ -490,6 +490,8 @@ grille aligne les colonnes.
 ```
 
 Glisser à la souris, ← → au clavier. La largeur vit dans `--xo-split` (15 % à 85 %).
+Sous 720 px les deux volets s'empilent et la poignée disparaît — elle sort donc aussi du
+parcours clavier.
 
 ## Utilitaires
 

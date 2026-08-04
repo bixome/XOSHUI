@@ -878,4 +878,14 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
   :root { --xo-fs: 12px; }
   .xo-grid > [class*="xo-col-"] { grid-column: span 12; }
   .xo-list__item { padding-top: 6px; padding-bottom: 6px; }
+
+  /* Deux colonnes redimensionnables n'ont pas de sens sur un écran étroit :
+     elles s'empilent et la poignée disparaît — donc sort aussi du parcours
+     clavier, ce qu'un simple visibility n'aurait pas fait. */
+  .xo-split {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;   /* deux rangs : la poignée n'en occupe plus */
+  }
+  .xo-split__handle { display: none; }
+  .xo-split > :first-child { border-bottom: 1px solid var(--xo-border); }
 }
