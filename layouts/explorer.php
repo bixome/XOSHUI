@@ -52,8 +52,9 @@ CSS;
     <div class="xo-grid">
 
       <!-- Volet 1 : arborescence -->
-      <section class="xo-panel xo-col-3" style="max-height: 70vh; overflow: auto">
+      <section class="xo-panel xo-col-3">
         <h2 class="xo-panel__title">Arborescence</h2>
+        <div class="xo-panel__body" style="--xo-max-h: 70vh">
         <ul class="xo-list xo-list--tree" data-xo-list role="tree" aria-label="Dossiers">
           <?php foreach ($arbre as $i => $n): ?>
           <li class="xo-list__item" role="treeitem"
@@ -65,11 +66,13 @@ CSS;
           </li>
           <?php endforeach; ?>
         </ul>
+        </div>
       </section>
 
       <!-- Volet 2 : contenu du dossier -->
-      <section class="xo-panel xo-col-4" style="max-height: 70vh; overflow: auto">
+      <section class="xo-panel xo-col-4">
         <h2 class="xo-panel__title">libs/css</h2>
+        <div class="xo-panel__body" style="--xo-max-h: 70vh">
         <ul class="xo-list" data-xo-list role="listbox" aria-label="Fichiers">
           <?php foreach ($fichiers as $i => $f): ?>
           <li class="xo-list__item" role="option"
@@ -80,12 +83,14 @@ CSS;
           </li>
           <?php endforeach; ?>
         </ul>
+        </div>
         <span class="xo-panel__count">1 of <?= count($fichiers) ?></span>
       </section>
 
       <!-- Volet 3 : aperçu -->
-      <section class="xo-panel xo-panel--pad xo-col-5" style="max-height: 70vh; overflow: auto">
+      <section class="xo-panel xo-panel--pad xo-col-5">
         <h2 class="xo-panel__title">Aperçu</h2>
+        <div class="xo-panel__body" style="--xo-max-h: 70vh">
         <dl class="xo-kv" style="margin-bottom: 8px">
           <?php foreach ([
               'Nom'      => 'xoshui.css',
@@ -105,6 +110,7 @@ CSS;
           <button class="xo-btn xo-btn--primary">Ouvrir</button>
           <button class="xo-btn">Renommer</button>
           <button class="xo-btn xo-btn--danger">Supprimer</button>
+        </div>
         </div>
       </section>
 

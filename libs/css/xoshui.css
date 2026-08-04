@@ -68,7 +68,9 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 /* --- 3. Mise en page ---------------------------------------------------- */
 
 .xo-app  { min-height: 100vh; display: flex; flex-direction: column; }
-.xo-main { flex: 1; padding: var(--xo-pad); min-height: 0; }
+/* Marge haute doublée : le titre du premier panneau remonte dans sa bordure et
+   viendrait sinon toucher la barre qui le précède. */
+.xo-main { flex: 1; padding: calc(var(--xo-pad) * 2) var(--xo-pad); min-height: 0; }
 
 /* Interligne double en vertical : les titres et compteurs de panneau vivent
    dans la bordure et débordent de part et d'autre. */
@@ -94,6 +96,15 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 }
 .xo-panel--active { border-color: var(--xo-accent); }
 .xo-panel--pad    { padding-left: var(--xo-gap); padding-right: var(--xo-gap); }
+
+/* Un panneau ne défile JAMAIS lui-même : son titre et son compteur débordent
+   de la bordure, et le moindre overflow les couperait en deux. C'est ce corps
+   qui défile — hauteur via --xo-max-h, ou une hauteur donnée au panneau. */
+.xo-panel__body {
+  overflow: auto;
+  max-height: var(--xo-max-h, none);
+  min-height: 0;
+}
 
 .xo-panel__title,
 .xo-panel__count {
@@ -133,8 +144,11 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 .xo-list__item[aria-selected="true"] * { color: inherit; }
 .xo-list__item[aria-disabled="true"] { color: var(--xo-faint); cursor: not-allowed; }
 
-.xo-list__icon { color: var(--xo-muted); }
-.xo-list__meta { margin-left: auto; color: var(--xo-muted); padding-left: 2ch; }
+/* C'est le libellé qui se tronque, jamais la méta : sans min-width: 0 un enfant
+   flex refuse de rétrécir sous son contenu et pousse la méta hors du cadre. */
+.xo-list__item > * { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.xo-list__icon { flex: none; color: var(--xo-muted); }
+.xo-list__meta { flex: none; margin-left: auto; color: var(--xo-muted); padding-left: 2ch; }
 
 .xo-list--tree .xo-list__item { padding-left: calc(var(--xo-gap) + var(--xo-depth, 0) * 2ch); }
 
@@ -235,7 +249,7 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 .xo-textarea { resize: vertical; min-height: 6em; }
 .xo-input::placeholder, .xo-textarea::placeholder { color: var(--xo-faint); }
 .xo-input[aria-invalid="true"] { border-color: var(--xo-danger); }
-.xo-help  { color: var(--xo-muted); }
+.xo-hint  { color: var(--xo-muted); }   /* aide d'un champ — la modale, c'est xo-help */
 .xo-error { color: var(--xo-danger); }
 
 .xo-check { display: flex; gap: var(--xo-gap); align-items: baseline; cursor: pointer; }

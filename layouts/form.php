@@ -85,7 +85,7 @@ $valeurs = ['hote' => 'db.interne', 'port' => '33O6', 'base' => 'xoshui', 'user'
               <label class="xo-label" for="f-pass">Mot de passe</label>
               <div style="flex: 1">
                 <input class="xo-input" id="f-pass" name="pass" type="password" aria-describedby="f-pass-help">
-                <span class="xo-help" id="f-pass-help">Stocké chiffré dans config.local.php.</span>
+                <span class="xo-hint" id="f-pass-help">Stocké chiffré dans config.local.php.</span>
               </div>
             </div>
           </fieldset>

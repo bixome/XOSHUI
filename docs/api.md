@@ -38,6 +38,16 @@ inverse.
 (pour que les lignes sélectionnées aillent d'un bord à l'autre) ; ajouter `--pad` pour du
 texte libre, un formulaire ou des boutons.
 
+**Un panneau ne défile jamais lui-même** : son titre et son compteur débordent de la
+bordure, et le moindre `overflow` les couperait en deux. Faire défiler son corps :
+
+```html
+<section class="xo-panel">
+  <h2 class="xo-panel__title">Titre</h2>
+  <div class="xo-panel__body" style="--xo-max-h: 40vh">…</div>
+</section>
+```
+
 ## Liste
 
 ```html
@@ -87,8 +97,9 @@ Transparent au repos, plein au survol et au focus.
 ## Formulaire
 
 `xo-field` (bloc label + champ) · `xo-label` · `xo-input` · `xo-select` · `xo-textarea` ·
-`xo-check` · `xo-help` · `xo-error`
+`xo-check` · `xo-hint` · `xo-error`
 Erreur : `aria-invalid="true"` sur le champ + `<span class="xo-error">`.
+`xo-hint` pour un texte d'aide ; `xo-help` est la **modale** des raccourcis, à ne pas confondre.
 
 ## Barres
 

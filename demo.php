@@ -342,7 +342,7 @@ $files = [
           <div class="xo-field">
             <label class="xo-label" for="f-note">Notes</label>
             <textarea class="xo-textarea" id="f-note" placeholder="Optionnel…"></textarea>
-            <span class="xo-help">Markdown accepté.</span>
+            <span class="xo-hint">Markdown accepté.</span>
           </div>
 
           <label class="xo-check"><input type="checkbox" checked> Activer le journal</label>

@@ -51,8 +51,9 @@ $historique = [
     <div class="xo-split" data-xo-split style="--xo-split: 34%; min-height: 32em">
 
       <!-- Maître -->
-      <section class="xo-panel xo-panel--active" style="height: 100%; overflow: auto">
+      <section class="xo-panel xo-panel--active" style="height: 100%; display: flex; flex-direction: column">
         <h2 class="xo-panel__title">Tickets</h2>
+        <div class="xo-panel__body" style="flex: 1">
         <ul class="xo-list" data-xo-list role="listbox" aria-label="Tickets">
           <?php foreach ($tickets as $i => $t): ?>
           <li class="xo-list__item" role="option"
@@ -63,6 +64,7 @@ $historique = [
           </li>
           <?php endforeach; ?>
         </ul>
+        </div>
         <span class="xo-panel__count">1 of <?= count($tickets) ?></span>
       </section>
 
@@ -70,8 +72,9 @@ $historique = [
               aria-label="Redimensionner" aria-valuenow="34" aria-valuemin="15" aria-valuemax="85"></button>
 
       <!-- Détail -->
-      <section class="xo-panel xo-panel--pad" style="height: 100%; overflow: auto">
+      <section class="xo-panel xo-panel--pad" style="height: 100%; display: flex; flex-direction: column">
         <h2 class="xo-panel__title">#<?= (int) $courant['id'] ?></h2>
+        <div class="xo-panel__body" style="flex: 1">
 
         <div class="xo-row" style="margin-bottom: 8px">
           <h1 style="font-size: var(--xo-fs); font-weight: 700"><?= xo_e($courant['titre']) ?></h1>
@@ -123,6 +126,7 @@ $historique = [
           <button class="xo-btn xo-btn--primary">Prendre en charge</button>
           <button class="xo-btn">Commenter</button>
           <button class="xo-btn xo-btn--danger">Clore</button>
+        </div>
         </div>
       </section>
 
