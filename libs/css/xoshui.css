@@ -65,14 +65,17 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 .xo-app  { min-height: 100vh; display: flex; flex-direction: column; }
 .xo-main { flex: 1; padding: var(--xo-pad); min-height: 0; }
 
-.xo-grid { display: grid; gap: var(--xo-pad); grid-template-columns: repeat(12, 1fr); }
+/* Interligne double en vertical : les titres et compteurs de panneau vivent
+   dans la bordure et débordent de part et d'autre. */
+.xo-grid { display: grid; gap: calc(var(--xo-pad) * 2) var(--xo-pad); grid-template-columns: repeat(12, 1fr); }
 .xo-col-2  { grid-column: span 2; }  .xo-col-3  { grid-column: span 3; }
 .xo-col-4  { grid-column: span 4; }  .xo-col-5  { grid-column: span 5; }
 .xo-col-6  { grid-column: span 6; }  .xo-col-8  { grid-column: span 8; }
 .xo-col-9  { grid-column: span 9; }  .xo-col-12 { grid-column: span 12; }
 
 .xo-row   { display: flex; gap: var(--xo-gap); align-items: center; flex-wrap: wrap; }
-.xo-stack { display: flex; flex-direction: column; gap: var(--xo-pad); }
+.xo-stack { display: flex; flex-direction: column; gap: calc(var(--xo-pad) * 2); }
+.xo-stack--tight { gap: var(--xo-pad); }   /* à l'intérieur d'un panneau */
 .xo-spacer{ flex: 1; }
 
 /* --- 4. Panneau --------------------------------------------------------- */
@@ -279,18 +282,7 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 .xo-badge--solid.xo-badge--danger   { background: var(--xo-danger);  color: var(--xo-inverse); }
 .xo-badge--solid.xo-badge--info     { background: var(--xo-info);    color: var(--xo-inverse); }
 
-.xo-gauge {
-  display: flex; align-items: center; gap: var(--xo-gap);
-}
-.xo-gauge__track {
-  flex: 1; height: 1em; min-width: 8ch;
-  background: var(--xo-subtle);
-  border: 1px solid var(--xo-border);
-}
-.xo-gauge__fill { height: 100%; background: var(--xo-success); }
-.xo-gauge--warning .xo-gauge__fill { background: var(--xo-warning); }
-.xo-gauge--danger  .xo-gauge__fill { background: var(--xo-danger); }
-.xo-gauge__value { color: var(--xo-muted); min-width: 5ch; text-align: right; }
+/* Jauge et progression sont le même objet : voir xo-progress (§18). */
 
 .xo-spark { letter-spacing: -.05em; color: var(--xo-info); }
 
@@ -355,7 +347,16 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
   background: var(--xo-accent); color: var(--xo-inverse); font-weight: 700;
 }
 
-.xo-breadcrumb { display: flex; flex-wrap: wrap; align-items: baseline; color: var(--xo-muted); }
+/* Barre à part entière : sa place est sous la nav, pas dedans. */
+.xo-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  padding: 2px var(--xo-gap);
+  background: var(--xo-bg);
+  border-bottom: 1px solid var(--xo-rule);
+  color: var(--xo-muted);
+}
 .xo-breadcrumb a { color: var(--xo-info); }
 .xo-breadcrumb__sep { color: var(--xo-faint); padding: 0 .25ch; }
 .xo-breadcrumb [aria-current="page"] { color: var(--xo-fg); font-weight: 700; }
@@ -488,6 +489,7 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 .xo-stat__delta--down { color: var(--xo-danger); }
 
 .xo-progress { display: flex; gap: var(--xo-gap); align-items: center; }
+.xo-progress__label { color: var(--xo-muted); min-width: 9ch; }
 .xo-progress__track {
   position: relative;
   flex: 1;

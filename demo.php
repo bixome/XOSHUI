@@ -58,11 +58,12 @@ $files = [
       <li><a class="xo-nav__link" href="/docs/charte-graphique.md">Charte</a></li>
     </ul>
     <span class="xo-spacer"></span>
-    <nav class="xo-breadcrumb" aria-label="Fil d'Ariane">
-      <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><a href="#">libs</a>
-      <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><a href="#">css</a>
-      <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><span aria-current="page">xoshui.css</span>
-    </nav>
+  </nav>
+
+  <nav class="xo-breadcrumb" aria-label="Fil d'Ariane">
+    <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><a href="#">libs</a>
+    <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><a href="#">css</a>
+    <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><span aria-current="page">xoshui.css</span>
   </nav>
 
   <!-- Barre de statut -->
@@ -217,17 +218,17 @@ $files = [
           <div class="xo-grid">
             <section class="xo-panel xo-panel--pad xo-col-6">
               <h2 class="xo-panel__title">Ressources</h2>
-              <div class="xo-stack">
+              <div class="xo-stack xo-stack--tight">
                 <?php
-                $gauges = [['CPU', 29, ''], ['MEM', 78, 'xo-gauge--warning'], ['DISK', 94, 'xo-gauge--danger']];
+                $gauges = [['CPU', 29, 'success'], ['MEM', 78, 'warning'], ['DISK', 94, 'danger']];
                 foreach ($gauges as [$label, $pct, $mod]): ?>
-                <div class="xo-gauge <?= $e($mod) ?>">
-                  <span class="xo-muted" style="min-width:5ch"><?= $e($label) ?></span>
-                  <div class="xo-gauge__track" role="meter" aria-valuenow="<?= (int) $pct ?>"
+                <div class="xo-progress xo-progress--<?= $e($mod) ?>">
+                  <span class="xo-progress__label" style="min-width: 5ch"><?= $e($label) ?></span>
+                  <div class="xo-progress__track" role="meter" aria-valuenow="<?= (int) $pct ?>"
                        aria-valuemin="0" aria-valuemax="100" aria-label="<?= $e($label) ?>">
-                    <div class="xo-gauge__fill" style="width: <?= (int) $pct ?>%"></div>
+                    <div class="xo-progress__fill" style="width: <?= (int) $pct ?>%"></div>
                   </div>
-                  <span class="xo-gauge__value"><?= (int) $pct ?>%</span>
+                  <span class="xo-progress__value"><?= (int) $pct ?>%</span>
                 </div>
                 <?php endforeach; ?>
                 <div class="xo-row">
@@ -270,9 +271,9 @@ $files = [
 
             <section class="xo-panel xo-panel--pad xo-col-12">
               <h2 class="xo-panel__title">Transfert</h2>
-              <div class="xo-stack">
+              <div class="xo-stack xo-stack--tight">
                 <div class="xo-progress">
-                  <span class="xo-muted" style="min-width: 9ch">archive</span>
+                  <span class="xo-progress__label">archive</span>
                   <div class="xo-progress__track" role="progressbar"
                        aria-valuenow="64" aria-valuemin="0" aria-valuemax="100" aria-label="archive">
                     <div class="xo-progress__fill" style="width: 64%"></div>

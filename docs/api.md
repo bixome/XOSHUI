@@ -16,7 +16,7 @@ inverse. Voir [demo.php](../demo.php) pour un exemple complet de chaque classe.
 | `xo-main` | Zone centrale, remplit l'espace |
 | `xo-grid` + `xo-col-{2,3,4,5,6,8,9,12}` | Grille 12 colonnes ; pleine largeur < 720px |
 | `xo-row` | Flex horizontal, gouttière `1ch` |
-| `xo-stack` | Flex vertical, gouttière `8px` |
+| `xo-stack` | Flex vertical, gouttière `16px` ; `--tight` (`8px`) à l'intérieur d'un panneau |
 | `xo-spacer` | Pousse le reste à droite |
 
 ## Panneau
@@ -98,20 +98,15 @@ Erreur : `aria-invalid="true"` sur le champ + `<span class="xo-error">`.
 
 ```html
 <span class="xo-badge xo-badge--success">✓ OK</span>
-
-<div class="xo-gauge xo-gauge--warning">
-  <div class="xo-gauge__track" role="meter" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100">
-    <div class="xo-gauge__fill" style="width:78%"></div>
-  </div>
-  <span class="xo-gauge__value">78%</span>
-</div>
-
 <span class="xo-spark">▁▂▃▅▇█▆▄</span>
 ```
 
 Badge : `--success` `--warning` `--danger` `--info`. `--solid` se **combine** avec une
 variante : `class="xo-badge xo-badge--solid xo-badge--danger"`.
-Jauge : `--warning` ≥ 70 %, `--danger` ≥ 90 %. Toujours afficher la valeur à côté.
+
+Pour une jauge (CPU, mémoire, disque), utiliser **`xo-progress`** avec `role="meter"` :
+c'est le même objet. Seuils d'usage : `--warning` ≥ 70 %, `--danger` ≥ 90 %, et toujours
+la valeur chiffrée à côté.
 
 ## Code, terminal, diff
 
@@ -150,6 +145,7 @@ Jauge : `--warning` ≥ 70 %, `--danger` ≥ 90 %. Toujours afficher la valeur �
 ```
 
 Le lien courant se marque avec `aria-current="page"` (vidéo inverse), pas une classe.
+`xo-breadcrumb` est une barre à part entière : sa place est **sous** la nav, pas dedans.
 
 ## Barre d'outils
 
@@ -264,6 +260,7 @@ et la fermeture après un choix. `--right` sur le menu pour l'aligner à droite.
 
 ```html
 <div class="xo-progress">
+  <span class="xo-progress__label">archive</span>
   <div class="xo-progress__track" role="progressbar"
        aria-valuenow="64" aria-valuemin="0" aria-valuemax="100" aria-label="archive">
     <div class="xo-progress__fill" style="width: 64%"></div>
