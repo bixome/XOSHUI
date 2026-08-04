@@ -147,7 +147,7 @@ la valeur chiffrée à côté.
 
 `<dialog>` natif : `Échap` ferme, focus piégé, sans JS supplémentaire.
 
-Variantes : `--narrow` `--wide` `--drawer` `--drawer-left` `--full`, et la sévérité
+Variantes : `--narrow` `--wide` `--full`, et la sévérité
 `--success` `--warning` `--danger` (titre et bordure, jamais le fond).
 `xo-dialog__body` est la zone qui défile entre titre et actions.
 

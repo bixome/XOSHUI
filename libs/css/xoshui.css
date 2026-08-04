@@ -380,17 +380,6 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 /* Le corps défile, jamais la boîte : titre et actions restent visibles. */
 .xo-dialog__body { overflow: auto; max-height: var(--xo-max-h, 60vh); }
 
-/* Tiroir : collé à un bord, pleine hauteur. Les marges automatiques d'une
-   <dialog> modale doivent être neutralisées d'un seul côté. */
-.xo-dialog--drawer {
-  min-width: min(56ch, 92vw);
-  height: 100vh;
-  max-height: 100vh;
-  margin: 0 0 0 auto;
-  border-width: 0 0 0 1px;
-}
-.xo-dialog--drawer-left { margin: 0 auto 0 0; border-width: 0 1px 0 0; }
-
 .xo-dialog--full {
   width: 100vw; max-width: 100vw;
   height: 100vh; max-height: 100vh;
