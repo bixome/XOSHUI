@@ -219,6 +219,111 @@ la clé à la valeur.
 </div>
 ```
 
+## Menu déroulant
+
+```html
+<details class="xo-dropdown">
+  <summary class="xo-btn">Actions ▾</summary>
+  <div class="xo-dropdown__menu" role="menu">
+    <button class="xo-dropdown__item" role="menuitem">
+      Rafraîchir <span class="xo-dropdown__key">r</span>
+    </button>
+    <div class="xo-dropdown__sep" role="separator"></div>
+    <button class="xo-dropdown__item" role="menuitem" aria-disabled="true">Tuer</button>
+  </div>
+</details>
+```
+
+Bâti sur `<details>` : ouvre et ferme sans JS. Le module ajoute `Échap`, le clic extérieur
+et la fermeture après un choix. `--right` sur le menu pour l'aligner à droite.
+
+## Recherche
+
+```html
+<label class="xo-search">
+  <span class="xo-search__prefix" aria-hidden="true">/</span>
+  <input type="search" placeholder="filtrer…" aria-label="Filtrer">
+</label>
+```
+
+`xo-mark` pour surligner les correspondances dans les résultats.
+
+## Métrique
+
+```html
+<div class="xo-stat">
+  <span class="xo-stat__value">537</span>
+  <span class="xo-stat__label">Tâches</span>
+  <span class="xo-stat__delta xo-stat__delta--up">+12</span>
+</div>
+```
+
+`--up` (vert) / `--down` (rouge) sur le delta ; sans modificateur il reste neutre.
+
+## Progression
+
+```html
+<div class="xo-progress">
+  <div class="xo-progress__track" role="progressbar"
+       aria-valuenow="64" aria-valuemin="0" aria-valuemax="100" aria-label="archive">
+    <div class="xo-progress__fill" style="width: 64%"></div>
+  </div>
+  <span class="xo-progress__value">64%</span>
+</div>
+
+<span class="xo-spinner" aria-hidden="true"></span>
+```
+
+La barre est découpée en cellules d'un caractère (rendu `████░░░░`) par le CSS : rien à
+générer côté serveur. `--success` `--warning` `--danger` changent la couleur du remplissage.
+`xo-spinner` anime `⣾⣽⣻⢿⡿⣟⣯⣷`, figé sous `prefers-reduced-motion`.
+
+## Journal
+
+```html
+<div class="xo-log" style="--xo-max-h: 12em">
+  <div class="xo-log__line xo-log__line--warn">
+    <span class="xo-log__time">14:01:02</span>
+    <span class="xo-log__level">warn</span>
+    <span class="xo-log__msg">Requête lente…</span>
+  </div>
+</div>
+```
+
+Niveaux : `--ok` `--info` `--warn` `--error`.
+
+## Accordéon
+
+```html
+<details class="xo-accordion">
+  <summary>Options avancées</summary>
+  <div class="xo-accordion__body">…</div>
+</details>
+```
+
+Chevron `▸`/`▾` automatique, aucun JS.
+
+## Étiquettes
+
+```html
+<span class="xo-tag xo-tag--warning">
+  non suivi <button class="xo-tag__remove" aria-label="Retirer">×</button>
+</span>
+```
+
+`--accent` `--success` `--warning` `--danger`. Le bouton de retrait est facultatif.
+
+## Fieldset
+
+```html
+<fieldset class="xo-fieldset">
+  <legend>Connexion</legend>
+  …
+</fieldset>
+```
+
+La légende s'incruste dans la bordure, comme le titre d'un panneau — mais en natif.
+
 ## Utilitaires
 
 `xo-muted` `xo-faint` `xo-success` `xo-warning` `xo-danger` `xo-info` `xo-special` `xo-alt`

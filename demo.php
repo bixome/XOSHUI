@@ -21,6 +21,14 @@ $branches = [
     ['name' => 'fix/contrast',    'meta' => '1w', 'cls' => ''],
 ];
 
+$logs = [
+    ['14:00:27', 'ok',    'Connexion établie sur xoshui.test'],
+    ['14:00:31', 'info',  'Cache vidé — 128 entrées'],
+    ['14:01:02', 'warn',  'Requête lente : SELECT * FROM sessions (1.4 s)'],
+    ['14:01:09', 'error', 'Échec du montage /mnt/backup : périphérique occupé'],
+    ['14:02:44', 'info',  'Rechargement de la configuration'],
+];
+
 $files = [
     ['icon' => '▾', 'name' => 'libs',      'depth' => 0, 'cls' => 'xo-info'],
     ['icon' => '▾', 'name' => 'css',       'depth' => 1, 'cls' => 'xo-info'],
@@ -86,8 +94,28 @@ $files = [
           <button class="xo-btn" aria-pressed="false">PID</button>
         </div>
         <span class="xo-toolbar__sep" aria-hidden="true"></span>
-        <button class="xo-btn xo-btn--ghost">[/] filtrer</button>
-        <button class="xo-btn xo-btn--ghost">[r] rafraîchir</button>
+
+        <label class="xo-search" style="width: 28ch">
+          <span class="xo-search__prefix" aria-hidden="true">/</span>
+          <input type="search" placeholder="filtrer…" aria-label="Filtrer les processus">
+        </label>
+
+        <details class="xo-dropdown">
+          <summary class="xo-btn">Actions ▾</summary>
+          <div class="xo-dropdown__menu" role="menu">
+            <button class="xo-dropdown__item" role="menuitem">
+              Rafraîchir <span class="xo-dropdown__key">r</span>
+            </button>
+            <button class="xo-dropdown__item" role="menuitem">
+              Exporter en CSV <span class="xo-dropdown__key">e</span>
+            </button>
+            <div class="xo-dropdown__sep" role="separator"></div>
+            <button class="xo-dropdown__item" role="menuitem" aria-disabled="true">
+              Tuer le processus <span class="xo-dropdown__key">k</span>
+            </button>
+          </div>
+        </details>
+
         <span class="xo-spacer"></span>
         <span class="xo-muted">537 tâches · 1866 threads</span>
       </div>
@@ -98,6 +126,23 @@ $files = [
           <span class="xo-alert__title">Température élevée.</span>
           Le CPU dépasse 70 °C depuis 4 minutes.
         </span>
+      </div>
+
+      <div class="xo-grid" style="margin-bottom: 8px">
+        <?php foreach ([
+            ['Tâches',   '537',    '+12',   'up'],
+            ['Threads',  '1 866',  '−4',    'down'],
+            ['Charge',   '0.94',   'stable', ''],
+            ['Uptime',   '7 j',    '08:40',  ''],
+        ] as [$label, $value, $delta, $dir]): ?>
+        <section class="xo-panel xo-panel--pad xo-col-3">
+          <div class="xo-stat">
+            <span class="xo-stat__value"><?= $e($value) ?></span>
+            <span class="xo-stat__label"><?= $e($label) ?></span>
+            <span class="xo-stat__delta<?= $dir ? ' xo-stat__delta--' . $e($dir) : '' ?>"><?= $e($delta) ?></span>
+          </div>
+        </section>
+        <?php endforeach; ?>
       </div>
 
       <div class="xo-grid">
@@ -210,6 +255,42 @@ $files = [
               </dl>
             </section>
 
+            <section class="xo-panel xo-col-12">
+              <h2 class="xo-panel__title">Journal</h2>
+              <div class="xo-log" style="--xo-max-h: 12em">
+                <?php foreach ($logs as [$time, $level, $msg]): ?>
+                <div class="xo-log__line xo-log__line--<?= $e($level) ?>">
+                  <span class="xo-log__time"><?= $e($time) ?></span>
+                  <span class="xo-log__level"><?= $e($level) ?></span>
+                  <span class="xo-log__msg"><?= $e($msg) ?></span>
+                </div>
+                <?php endforeach; ?>
+              </div>
+            </section>
+
+            <section class="xo-panel xo-panel--pad xo-col-12">
+              <h2 class="xo-panel__title">Transfert</h2>
+              <div class="xo-stack">
+                <div class="xo-progress">
+                  <span class="xo-muted" style="min-width: 9ch">archive</span>
+                  <div class="xo-progress__track" role="progressbar"
+                       aria-valuenow="64" aria-valuemin="0" aria-valuemax="100" aria-label="archive">
+                    <div class="xo-progress__fill" style="width: 64%"></div>
+                  </div>
+                  <span class="xo-progress__value">64%</span>
+                </div>
+                <div class="xo-row">
+                  <span class="xo-spinner" aria-hidden="true"></span>
+                  <span class="xo-muted">Indexation en cours…</span>
+                  <span class="xo-tag xo-tag--accent">3 fichiers</span>
+                  <span class="xo-tag">css</span>
+                  <span class="xo-tag xo-tag--warning">
+                    non suivi <button class="xo-tag__remove" aria-label="Retirer">×</button>
+                  </span>
+                </div>
+              </div>
+            </section>
+
             <section class="xo-panel xo-panel--pad xo-col-12">
               <h2 class="xo-panel__title">États</h2>
               <div class="xo-row" style="margin-bottom: 8px">
@@ -263,6 +344,20 @@ $files = [
           </div>
 
           <label class="xo-check"><input type="checkbox" checked> Activer le journal</label>
+
+          <details class="xo-accordion" style="margin-top: 8px">
+            <summary>Options avancées</summary>
+            <div class="xo-accordion__body">
+              <fieldset class="xo-fieldset">
+                <legend>Connexion</legend>
+                <div class="xo-field">
+                  <label class="xo-label" for="f-tout">Délai (s)</label>
+                  <input class="xo-input" id="f-tout" value="30">
+                </div>
+                <label class="xo-check"><input type="checkbox"> Reconnexion automatique</label>
+              </fieldset>
+            </div>
+          </details>
         </section>
 
         <section class="xo-panel xo-panel--pad xo-col-6">

@@ -7,6 +7,7 @@
      [data-xo-tabs]            onglets ←→, bascule des [role="tabpanel"]
      [data-xo-open="#id"]      ouvre la <dialog> ciblée
      [data-xo-close]           ferme la <dialog> parente
+     .xo-dropdown              <details> : Échap et clic extérieur referment
    ========================================================================== */
 
 const KEY_PREV = ['ArrowUp', 'ArrowLeft'];
@@ -121,6 +122,34 @@ function initDialogs(scope) {
   });
 }
 
+/* --- Menus déroulants ---------------------------------------------------- */
+
+/* Le <details> s'ouvre et se ferme nativement. On n'ajoute que ce que le
+   navigateur ne fait pas : refermer sur Échap et au clic extérieur. */
+function initDropdowns(scope) {
+  const closeAll = (except = null) => {
+    for (const d of document.querySelectorAll('.xo-dropdown[open]')) {
+      if (d !== except) d.open = false;
+    }
+  };
+
+  scope.addEventListener('click', (e) => {
+    const inside = e.target.closest('.xo-dropdown');
+    closeAll(inside);
+    // Un choix dans le menu referme le menu.
+    if (inside && e.target.closest('.xo-dropdown__item')) inside.open = false;
+  });
+
+  scope.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const open = document.querySelector('.xo-dropdown[open]');
+    if (!open) return;
+    e.preventDefault();
+    open.open = false;
+    open.querySelector('summary')?.focus();
+  });
+}
+
 /* --- Montage ------------------------------------------------------------ */
 
 const mounted = new WeakSet();
@@ -136,6 +165,7 @@ export function mount(scope = document) {
 
 if (!mounted.has(document.body ?? document)) {
   initDialogs(document);
+  initDropdowns(document);
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => mount());
   } else {

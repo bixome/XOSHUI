@@ -421,7 +421,163 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 .xo-empty__art { white-space: pre; line-height: 1.2; color: var(--xo-faint); }
 .xo-empty__msg { color: var(--xo-muted); }
 
-/* --- 17. Utilitaires ---------------------------------------------------- */
+/* --- 17. Menu déroulant, recherche -------------------------------------- */
+
+/* Sur <details> : fonctionne sans JS. Le JS n'ajoute que Échap et clic extérieur. */
+.xo-dropdown { position: relative; display: inline-block; }
+.xo-dropdown > summary { list-style: none; cursor: pointer; }
+.xo-dropdown > summary::-webkit-details-marker { display: none; }
+
+.xo-dropdown__menu {
+  position: absolute;
+  z-index: 100;
+  top: calc(100% + 1px);
+  left: 0;
+  min-width: 22ch;
+  background: var(--xo-raise);
+  border: 1px solid var(--xo-border);
+  padding: 2px 0;
+}
+.xo-dropdown__menu--right { left: auto; right: 0; }
+
+.xo-dropdown__item {
+  display: flex;
+  gap: var(--xo-gap);
+  align-items: baseline;
+  width: 100%;
+  padding: 2px var(--xo-gap);
+  background: none;
+  border: 0;
+  color: var(--xo-fg);
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.xo-dropdown__item:hover, .xo-dropdown__item:focus-visible {
+  background: var(--xo-accent); color: var(--xo-inverse); text-decoration: none;
+}
+.xo-dropdown__item[aria-disabled="true"] { color: var(--xo-faint); cursor: not-allowed; }
+.xo-dropdown__item[aria-disabled="true"]:hover { background: none; color: var(--xo-faint); }
+.xo-dropdown__key { margin-left: auto; padding-left: 2ch; color: var(--xo-faint); }
+.xo-dropdown__item:hover .xo-dropdown__key { color: inherit; }
+.xo-dropdown__sep { height: 1px; background: var(--xo-rule); margin: 2px 0; }
+
+.xo-search {
+  display: flex;
+  align-items: center;
+  background: var(--xo-bg);
+  border: 1px solid var(--xo-border);
+}
+.xo-search:focus-within { border-color: var(--xo-accent); }
+.xo-search__prefix { padding: 0 .5ch 0 var(--xo-gap); color: var(--xo-accent); font-weight: 700; }
+.xo-search input {
+  flex: 1; min-width: 0;
+  padding: 2px var(--xo-gap) 2px 0;
+  background: none; border: 0; outline: none;
+}
+.xo-search input::placeholder { color: var(--xo-faint); }
+.xo-mark { background: var(--xo-warning); color: var(--xo-inverse); }
+
+/* --- 18. Métrique, progression, journal --------------------------------- */
+
+.xo-stat { display: flex; flex-direction: column; }
+.xo-stat__value { font-size: 2em; line-height: 1.1; font-weight: 700; }
+.xo-stat__label { color: var(--xo-muted); }
+.xo-stat__delta { color: var(--xo-muted); }
+.xo-stat__delta--up   { color: var(--xo-success); }
+.xo-stat__delta--down { color: var(--xo-danger); }
+
+.xo-progress { display: flex; gap: var(--xo-gap); align-items: center; }
+.xo-progress__track {
+  position: relative;
+  flex: 1;
+  min-width: 8ch;
+  height: 1em;
+  background: var(--xo-subtle);
+  border: 1px solid var(--xo-border);
+  overflow: hidden;
+}
+.xo-progress__fill { height: 100%; background: var(--xo-accent); }
+/* Découpe la barre en cellules d'un caractère : rendu « ████░░░░ » */
+.xo-progress__track::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg, transparent 0 calc(1ch - 1px), var(--xo-panel) calc(1ch - 1px) 1ch);
+  pointer-events: none;
+}
+.xo-progress__value { color: var(--xo-muted); min-width: 5ch; text-align: right; }
+.xo-progress--success .xo-progress__fill { background: var(--xo-success); }
+.xo-progress--warning .xo-progress__fill { background: var(--xo-warning); }
+.xo-progress--danger  .xo-progress__fill { background: var(--xo-danger); }
+
+.xo-spinner { color: var(--xo-accent); }
+.xo-spinner::after { content: "⣾"; animation: xo-spin 800ms steps(1) infinite; }
+@keyframes xo-spin {
+  0%   { content: "⣾"; } 12.5% { content: "⣽"; } 25%   { content: "⣻"; } 37.5% { content: "⢿"; }
+  50%  { content: "⡿"; } 62.5% { content: "⣟"; } 75%   { content: "⣯"; } 87.5% { content: "⣷"; }
+}
+
+.xo-log { overflow: auto; max-height: var(--xo-max-h, none); line-height: 1.2; }
+.xo-log__line { display: flex; gap: var(--xo-gap); padding: 0 var(--xo-gap); }
+.xo-log__line:hover { background: var(--xo-subtle); }
+.xo-log__time  { color: var(--xo-faint); white-space: nowrap; }
+.xo-log__level { width: 5ch; flex: none; color: var(--xo-muted); text-transform: uppercase; }
+.xo-log__msg   { min-width: 0; overflow-wrap: anywhere; }
+.xo-log__line--ok    .xo-log__level { color: var(--xo-success); }
+.xo-log__line--warn  .xo-log__level { color: var(--xo-warning); }
+.xo-log__line--error .xo-log__level { color: var(--xo-danger); }
+.xo-log__line--info  .xo-log__level { color: var(--xo-info); }
+
+/* --- 19. Accordéon, étiquettes, fieldset -------------------------------- */
+
+.xo-accordion > summary {
+  display: flex;
+  gap: var(--xo-gap);
+  align-items: baseline;
+  padding: 2px var(--xo-gap);
+  cursor: pointer;
+  list-style: none;
+}
+.xo-accordion > summary::-webkit-details-marker { display: none; }
+.xo-accordion > summary::before { content: "▸"; color: var(--xo-muted); }
+.xo-accordion[open] > summary::before { content: "▾"; }
+.xo-accordion > summary:hover { background: var(--xo-subtle); }
+.xo-accordion__body { padding: var(--xo-pad) var(--xo-gap) var(--xo-pad) 2ch; }
+
+.xo-tag {
+  display: inline-flex;
+  gap: .5ch;
+  align-items: baseline;
+  padding: 0 .5ch;
+  background: var(--xo-subtle);
+  color: var(--xo-muted);
+}
+.xo-tag--accent  { color: var(--xo-accent); }
+.xo-tag--success { color: var(--xo-success); }
+.xo-tag--warning { color: var(--xo-warning); }
+.xo-tag--danger  { color: var(--xo-danger); }
+.xo-tag__remove {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--xo-faint); line-height: 1;
+}
+.xo-tag__remove:hover, .xo-tag__remove:focus-visible { color: var(--xo-danger); }
+
+.xo-fieldset {
+  border: 1px solid var(--xo-border);
+  padding: var(--xo-pad) var(--xo-gap);
+  margin: 0;
+  min-width: 0;
+}
+.xo-fieldset > legend {
+  padding: 0 .5ch;
+  margin-left: calc(var(--xo-gap) - .5ch);
+  color: var(--xo-muted);
+  font-weight: 700;
+}
+
+/* --- 20. Utilitaires ---------------------------------------------------- */
 
 .xo-muted   { color: var(--xo-muted); }
 .xo-faint   { color: var(--xo-faint); }
@@ -440,7 +596,7 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
   padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }
 
-/* --- 18. Préférences & responsive --------------------------------------- */
+/* --- 21. Préférences & responsive --------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
