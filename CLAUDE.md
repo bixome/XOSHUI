@@ -29,9 +29,14 @@ composants un à un : c'est le chemin le plus court vers un écran correct.
 | `demo.php` | Page de démonstration : chaque classe isolée |
 | `layouts/` | Recettes : des pages entières à copier |
 | `index.php` | Page d'accueil |
+| `tools/lint.php` | Vérifie les règles ci-dessous — `php tools/lint.php` |
 | `moodboard/` | Références visuelles (archives) |
 
 ## Règles
+
+Elles sont vérifiées automatiquement : `php tools/lint.php` (sortie 1 s'il reste une
+erreur, `/tools/lint.php` pour la même analyse en navigateur). Une ligne portant
+`xo-lint-ignore` est exclue de l'analyse.
 
 - **Aucun hex en dur.** Utiliser un token `--xo-*`, ou en ajouter un dans `xoshui.css`.
 - Préfixe de classe unique `xo-`, en BEM (`xo-panel__title`, `xo-btn--danger`).

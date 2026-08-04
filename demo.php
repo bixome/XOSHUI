@@ -376,9 +376,10 @@ $ _</pre>
     <section id="tab-code" role="tabpanel" class="xo-tabpanel" hidden>
       <section class="xo-panel xo-panel--pad">
         <h2 class="xo-panel__title">Diff — libs/css/xoshui.css</h2>
+        <!-- xo-lint-ignore : le diff ci-dessous cite du CSS, il ne l'applique pas -->
         <div class="xo-diff">
           <div class="xo-diff__line"><span class="xo-diff__num">12</span><span>.xo-panel {</span></div>
-          <div class="xo-diff__line xo-diff__line--del"><span class="xo-diff__num">13</span><span>-  border-radius: 4px;</span></div>
+          <div class="xo-diff__line xo-diff__line--del"><span class="xo-diff__num">13</span><span>-  border-radius: 4px;</span></div><!-- xo-lint-ignore -->
           <div class="xo-diff__line xo-diff__line--add"><span class="xo-diff__num">13</span><span>+  border-radius: 0;</span></div>
           <div class="xo-diff__line xo-diff__line--add"><span class="xo-diff__num">14</span><span>+  border: 1px solid var(--xo-border);</span></div>
           <div class="xo-diff__line"><span class="xo-diff__num">15</span><span>}</span></div>

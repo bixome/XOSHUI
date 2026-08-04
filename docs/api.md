@@ -527,4 +527,6 @@ Couleurs : `--xo-bg` `--xo-panel` `--xo-subtle` `--xo-raise` · `--xo-fg` `--xo-
 Autres : `--xo-font` `--xo-fs` `--xo-lh` `--xo-gap` (1ch) `--xo-pad` (8px)
 
 **Jamais de hex en dur** : utiliser un token, ou en ajouter un.
+`php tools/lint.php` le vérifie, ainsi que les arrondis, les ombres, les dégradés, les
+ressources externes, les classes `xo-*` inexistantes et les `data-xo-*` non montés.
 `--xo-faint` a un contraste < 4,5:1 — décor uniquement, jamais de texte utile.
