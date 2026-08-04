@@ -7,7 +7,6 @@
      [data-xo-tabs]            onglets ←→, bascule des [role="tabpanel"]
      [data-xo-open="#id"]      ouvre la <dialog> ciblée
      [data-xo-close]           ferme la <dialog> parente
-     [data-xo-theme]           bascule mocha ⇄ phosphor (mémorisé)
    ========================================================================== */
 
 const KEY_PREV = ['ArrowUp', 'ArrowLeft'];
@@ -122,24 +121,6 @@ function initDialogs(scope) {
   });
 }
 
-/* --- Thème -------------------------------------------------------------- */
-
-const THEMES = ['mocha', 'phosphor'];
-
-function initTheme(scope) {
-  const saved = localStorage.getItem('xo-theme');
-  if (saved && THEMES.includes(saved)) {
-    document.documentElement.dataset.theme = saved;
-  }
-  scope.addEventListener('click', (e) => {
-    if (!e.target.closest('[data-xo-theme]')) return;
-    const root = document.documentElement;
-    const next = THEMES[(THEMES.indexOf(root.dataset.theme || 'mocha') + 1) % THEMES.length];
-    root.dataset.theme = next;
-    localStorage.setItem('xo-theme', next);
-  });
-}
-
 /* --- Montage ------------------------------------------------------------ */
 
 const mounted = new WeakSet();
@@ -155,7 +136,6 @@ export function mount(scope = document) {
 
 if (!mounted.has(document.body ?? document)) {
   initDialogs(document);
-  initTheme(document);
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => mount());
   } else {

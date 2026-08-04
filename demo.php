@@ -31,15 +31,11 @@ $files = [
 ];
 ?>
 <!DOCTYPE html>
-<html lang="fr" data-theme="mocha">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>XOSHUI — démo</title>
-<script>
-  // Applique le thème mémorisé avant le rendu, pour éviter le flash.
-  try { const t = localStorage.getItem('xo-theme'); if (t) document.documentElement.dataset.theme = t; } catch (_) {}
-</script>
 <link rel="stylesheet" href="/libs/css/xoshui.css">
 </head>
 <body>
@@ -53,7 +49,6 @@ $files = [
     <span><span class="xo-statusbar__label">MEM:</span> 17.07G / 17.18G</span>
     <span><span class="xo-statusbar__label">TEMP:</span> <span class="xo-warning">74°C</span></span>
     <span class="xo-spacer"></span>
-    <button class="xo-btn xo-btn--ghost" data-xo-theme>[t] thème</button>
   </div>
 
   <main class="xo-main">
@@ -71,7 +66,7 @@ $files = [
 
         <div class="xo-col-3 xo-stack">
 
-          <section class="xo-panel xo-panel--active xo-panel--flush">
+          <section class="xo-panel xo-panel--active">
             <h2 class="xo-panel__title">Local Branches</h2>
             <ul class="xo-list" data-xo-list role="listbox" aria-label="Branches">
               <?php foreach ($branches as $i => $b): ?>
@@ -87,7 +82,7 @@ $files = [
             <span class="xo-panel__count">1 of <?= count($branches) ?></span>
           </section>
 
-          <section class="xo-panel xo-panel--flush">
+          <section class="xo-panel">
             <h2 class="xo-panel__title">Files</h2>
             <ul class="xo-list xo-list--tree" data-xo-list role="tree" aria-label="Fichiers">
               <?php foreach ($files as $f): ?>
@@ -103,7 +98,7 @@ $files = [
 
         <div class="xo-col-9 xo-stack">
 
-          <section class="xo-panel xo-panel--flush">
+          <section class="xo-panel">
             <h2 class="xo-panel__title">Processes</h2>
             <div class="xo-table-wrap">
               <table class="xo-table" data-xo-list aria-label="Processus">
@@ -131,7 +126,7 @@ $files = [
           </section>
 
           <div class="xo-grid">
-            <section class="xo-panel xo-col-6">
+            <section class="xo-panel xo-panel--pad xo-col-6">
               <h2 class="xo-panel__title">Ressources</h2>
               <div class="xo-stack">
                 <?php
@@ -153,7 +148,7 @@ $files = [
               </div>
             </section>
 
-            <section class="xo-panel xo-col-6">
+            <section class="xo-panel xo-panel--pad xo-col-6">
               <h2 class="xo-panel__title">États</h2>
               <div class="xo-row" style="margin-bottom: 8px">
                 <span class="xo-badge xo-badge--success">✓ READY</span>
@@ -178,7 +173,7 @@ $files = [
     <!-- ------------------------------------------------ Onglet 2 -->
     <section id="tab-form" role="tabpanel" class="xo-tabpanel" hidden>
       <div class="xo-grid">
-        <section class="xo-panel xo-col-6">
+        <section class="xo-panel xo-panel--pad xo-col-6">
           <h2 class="xo-panel__title">Configuration</h2>
 
           <div class="xo-field">
@@ -208,7 +203,7 @@ $files = [
           <label class="xo-check"><input type="checkbox" checked> Activer le journal</label>
         </section>
 
-        <section class="xo-panel xo-col-6">
+        <section class="xo-panel xo-panel--pad xo-col-6">
           <h2 class="xo-panel__title">Terminal</h2>
           <pre class="xo-pre xo-pre--terminal">$ php -S localhost:8000
 [Tue Aug  4 18:24:01 2026] PHP 8.3.0 Development Server started
@@ -220,7 +215,7 @@ $ _</pre>
 
     <!-- ------------------------------------------------ Onglet 3 -->
     <section id="tab-code" role="tabpanel" class="xo-tabpanel" hidden>
-      <section class="xo-panel">
+      <section class="xo-panel xo-panel--pad">
         <h2 class="xo-panel__title">Diff — libs/css/xoshui.css</h2>
         <div class="xo-diff">
           <div class="xo-diff__line"><span class="xo-diff__num">12</span><span>.xo-panel {</span></div>
@@ -239,7 +234,6 @@ $ _</pre>
     <span><kbd>↑↓</kbd> naviguer</span>
     <span><kbd>←→</kbd> onglet</span>
     <span><kbd>Entrée</kbd> activer</span>
-    <span><kbd>t</kbd> thème</span>
     <span><kbd>Échap</kbd> fermer</span>
     <span class="xo-spacer"></span>
     <span class="xo-faint">xoshui.test</span>

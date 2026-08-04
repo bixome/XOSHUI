@@ -1,12 +1,11 @@
 /* ==========================================================================
    XOSHUI 1.0 — feuille unique. Aucune dépendance, aucun build.
    <link rel="stylesheet" href="/libs/css/xoshui.css">
-   Thème : <html data-theme="mocha"> (défaut) ou "phosphor".
    ========================================================================== */
 
 /* --- 1. Tokens ---------------------------------------------------------- */
 
-:root, [data-theme="mocha"] {
+:root {
   --xo-bg:        #1E1E2E;
   --xo-panel:     #181825;
   --xo-subtle:    #252537;
@@ -27,18 +26,7 @@
   --xo-add:       #1B3A2A;
   --xo-del:       #4A1F2B;
   --xo-scrim:     rgba(17,17,27,.6);
-}
 
-[data-theme="phosphor"] {
-  --xo-bg: #000; --xo-panel: #000; --xo-subtle: #000C00; --xo-raise: #001100;
-  --xo-fg: #0F0; --xo-muted: #0C0; --xo-faint: #070; --xo-inverse: #000;
-  --xo-accent: #0F0; --xo-success: #0F0; --xo-warning: #FF0; --xo-danger: #F00;
-  --xo-info: #0FF; --xo-special: #F0F; --xo-alt: #FA0;
-  --xo-border: #080; --xo-rule: #050; --xo-add: #030; --xo-del: #300;
-  --xo-scrim: rgba(0,0,0,.7);
-}
-
-:root {
   --xo-font: ui-monospace, "Cascadia Mono", "JetBrains Mono", Consolas,
              "DejaVu Sans Mono", "Courier New", monospace;
   --xo-fs:   14px;
@@ -93,11 +81,11 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
   position: relative;
   background: var(--xo-panel);
   border: 1px solid var(--xo-border);
-  padding: calc(var(--xo-pad) + 2px) var(--xo-gap) var(--xo-pad);
+  padding: calc(var(--xo-pad) + 2px) 0 var(--xo-pad);   /* listes et tableaux à fleur de bord */
   min-width: 0;
 }
 .xo-panel--active { border-color: var(--xo-accent); }
-.xo-panel--flush  { padding-left: 0; padding-right: 0; }
+.xo-panel--pad    { padding-left: var(--xo-gap); padding-right: var(--xo-gap); }
 
 .xo-panel__title,
 .xo-panel__count {
@@ -115,8 +103,8 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 
 /* --- 5. Liste / arbre --------------------------------------------------- */
 
-.xo-list { margin: 0 calc(var(--xo-gap) * -1); }
-.xo-panel--flush .xo-list { margin: 0; }
+.xo-list { margin: 0; }
+.xo-panel--pad .xo-list { margin: 0 calc(var(--xo-gap) * -1); }
 
 .xo-list__item {
   display: flex;
@@ -169,7 +157,9 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 
 /* --- 7. Tableau --------------------------------------------------------- */
 
-.xo-table-wrap { overflow-x: auto; }
+/* L'en-tête collant n'opère que si la hauteur est contrainte :
+   <div class="xo-table-wrap" style="--xo-max-h: 40vh"> */
+.xo-table-wrap { overflow: auto; max-height: var(--xo-max-h, none); }
 
 .xo-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
 
@@ -277,12 +267,17 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
   color: var(--xo-muted);
   white-space: nowrap;
 }
-.xo-badge--solid   { background: currentColor; border-color: transparent; }
-.xo-badge--solid > * { color: var(--xo-inverse); }
 .xo-badge--success { color: var(--xo-success); }
 .xo-badge--warning { color: var(--xo-warning); }
 .xo-badge--danger  { color: var(--xo-danger); }
 .xo-badge--info    { color: var(--xo-info); }
+
+/* --solid se combine avec une variante : class="xo-badge xo-badge--solid xo-badge--danger" */
+.xo-badge--solid                    { background: var(--xo-muted);   color: var(--xo-inverse); border-color: transparent; }
+.xo-badge--solid.xo-badge--success  { background: var(--xo-success); color: var(--xo-inverse); }
+.xo-badge--solid.xo-badge--warning  { background: var(--xo-warning); color: var(--xo-inverse); }
+.xo-badge--solid.xo-badge--danger   { background: var(--xo-danger);  color: var(--xo-inverse); }
+.xo-badge--solid.xo-badge--info     { background: var(--xo-info);    color: var(--xo-inverse); }
 
 .xo-gauge {
   display: flex; align-items: center; gap: var(--xo-gap);

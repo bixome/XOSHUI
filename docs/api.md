@@ -1,7 +1,6 @@
 # XOSHUI — aide-mémoire
 
 ```html
-<html data-theme="mocha">            <!-- ou "phosphor" -->
 <link rel="stylesheet" href="/libs/css/xoshui.css">
 <script type="module" src="/libs/js/xoshui.js"></script>
 ```
@@ -30,8 +29,9 @@ inverse. Voir [demo.php](../demo.php) pour un exemple complet de chaque classe.
 </section>
 ```
 
-`--active` = bordure et titre en accent. `--flush` = supprime le padding horizontal
-(à utiliser dès qu'on met une liste ou un tableau dedans).
+`--active` = bordure et titre en accent. Par défaut le contenu est **à fleur de bord**
+(pour que les lignes sélectionnées aillent d'un bord à l'autre) ; ajouter `--pad` pour du
+texte libre, un formulaire ou des boutons.
 
 ## Liste
 
@@ -60,8 +60,9 @@ Arbre : `xo-list--tree` sur le `<ul>` + `style="--xo-depth: 2"` sur l'item.
 </div>
 ```
 
-En-tête collant, lignes zébrées, `xo-num` pour aligner les nombres à droite.
-`data-xo-list` rend les lignes navigables.
+Lignes zébrées, `xo-num` pour aligner les nombres à droite. `data-xo-list` rend les lignes
+navigables. L'en-tête ne devient collant que si la hauteur est contrainte :
+`<div class="xo-table-wrap" style="--xo-max-h: 40vh">`.
 
 ## Onglets
 
@@ -108,7 +109,8 @@ Erreur : `aria-invalid="true"` sur le champ + `<span class="xo-error">`.
 <span class="xo-spark">▁▂▃▅▇█▆▄</span>
 ```
 
-Badge : `--success` `--warning` `--danger` `--info` `--solid`.
+Badge : `--success` `--warning` `--danger` `--info`. `--solid` se **combine** avec une
+variante : `class="xo-badge xo-badge--solid xo-badge--danger"`.
 Jauge : `--warning` ≥ 70 %, `--danger` ≥ 90 %. Toujours afficher la valeur à côté.
 
 ## Code, terminal, diff
@@ -134,12 +136,6 @@ Jauge : `--warning` ≥ 70 %, `--danger` ≥ 90 %. Toujours afficher la valeur �
 
 `xo-muted` `xo-faint` `xo-success` `xo-warning` `xo-danger` `xo-info` `xo-special` `xo-alt`
 `xo-bold` `xo-right` `xo-num` `xo-nowrap` `xo-scroll` `xo-sr` (masqué visuellement)
-
-## Thème
-
-`<button data-xo-theme>` bascule `mocha` ⇄ `phosphor` et mémorise le choix.
-Pour éviter le flash au chargement, relire `localStorage.getItem('xo-theme')` dans un
-`<script>` inline en `<head>` (voir `demo.php`).
 
 ## Tokens
 
