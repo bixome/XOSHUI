@@ -19,12 +19,21 @@ function xo_e(string|int|float|null $v): string
 
 /** Niveau 1 — slug => [url, libellé, description]. */
 const XO_PAGES = [
-    'accueil' => ['/',                          'Accueil',      'Point d’entrée'],
-    'layouts' => ['/layouts/',                  'Layouts',      'Pages entières à copier'],
-    'demo'    => ['/demo.php',                  'Démo',         'Chaque classe isolée'],
-    'lint'    => ['/tools/lint.php',            'Lint',         'Vérification des règles'],
-    'api'     => ['/docs/api.md',               'Aide-mémoire', 'Une ligne par classe'],
-    'charte'  => ['/docs/charte-graphique.md',  'Charte',       'Références de design'],
+    'accueil' => ['/',               'Accueil', 'Point d’entrée'],
+    'layouts' => ['/layouts/',       'Layouts', 'Pages entières à copier'],
+    'demo'    => ['/demo.php',       'Démo',    'Chaque classe isolée'],
+    'docs'    => ['/docs.php',       'Docs',    'Aide-mémoire, charte, déploiement'],
+    'lint'    => ['/tools/lint.php', 'Lint',    'Vérification des règles'],
+];
+
+/**
+ * Documents lisibles — slug => [chemin, libellé].
+ * Liste blanche : docs.php ne lit jamais un chemin venu de l'URL.
+ */
+const XO_DOCS = [
+    'api'         => ['docs/api.md',               'Aide-mémoire'],
+    'charte'      => ['docs/charte-graphique.md',  'Charte graphique'],
+    'deploiement' => ['docs/deploiement.md',       'Déploiement'],
 ];
 
 /** Niveau 2 — sous-pages de « layouts ». */
@@ -43,7 +52,9 @@ const XO_LAYOUTS = [
 /** Le slug de niveau 1 auquel appartient une page. */
 function xo_section(string $current): string
 {
-    return isset(XO_PAGES[$current]) ? $current : 'layouts';
+    if (isset(XO_PAGES[$current])) { return $current; }
+    if (isset(XO_DOCS[$current]))  { return 'docs'; }
+    return isset(XO_LAYOUTS[$current]) ? 'layouts' : 'accueil';
 }
 
 /**
@@ -75,6 +86,15 @@ function xo_nav(string $current = ''): void
       <?php foreach (XO_LAYOUTS as $slug => [$label, $_]):
           $url = $slug === 'index' ? '/layouts/' : '/layouts/' . $slug . '.php'; ?>
       <li><a class="xo-nav__link" href="<?= xo_e($url) ?>"
+             <?= $slug === $current ? 'aria-current="page"' : '' ?>><?= xo_e($label) ?></a></li>
+      <?php endforeach; ?>
+    </ul>
+  </nav>
+    <?php elseif ($section === 'docs'): ?>
+  <nav class="xo-nav xo-nav--sub" aria-label="Documents">
+    <ul class="xo-nav__list">
+      <?php foreach (XO_DOCS as $slug => [$_, $label]): ?>
+      <li><a class="xo-nav__link" href="/docs.php?f=<?= xo_e($slug) ?>"
              <?= $slug === $current ? 'aria-current="page"' : '' ?>><?= xo_e($label) ?></a></li>
       <?php endforeach; ?>
     </ul>
@@ -122,6 +142,9 @@ function xo_palette(string $current = ''): void
     foreach (XO_LAYOUTS as $slug => [$label, $desc]) {
         $url = $slug === 'index' ? '/layouts/' : '/layouts/' . $slug . '.php';
         $entrees[] = [$url, 'Layouts › ' . $label, $desc];
+    }
+    foreach (XO_DOCS as $slug => [$chemin, $label]) {
+        $entrees[] = ['/docs.php?f=' . $slug, 'Docs › ' . $label, $chemin];
     }
     ?>
 <dialog class="xo-palette" id="xo-palette" data-xo-palette aria-label="Aller à…">

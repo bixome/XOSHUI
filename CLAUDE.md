@@ -25,6 +25,7 @@ composants un à un : c'est le chemin le plus court vers un écran correct.
 | `libs/css/xoshui.css` | Feuille unique : tokens + reset + composants |
 | `libs/js/xoshui.js` | Module unique : clavier, onglets, modale, palette, aide |
 | `libs/site.php` | Navigation du site : `xo_nav($slug)` émet barre, sous-barre, palette et aide |
+| `docs.php` | Lecture des documents dans le framework (liste blanche XO_DOCS) |
 | `docs/api.md` | Aide-mémoire des classes |
 | `docs/charte-graphique.md` | Référence design (palette, grammaire, a11y) — consultation, pas lecture par défaut |
 | `demo.php` | Page de démonstration : chaque classe isolée |
