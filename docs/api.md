@@ -321,6 +321,176 @@ Chevron `▸`/`▾` automatique, aucun JS.
 
 La légende s'incruste dans la bordure, comme le titre d'un panneau — mais en natif.
 
+## Palette de commandes
+
+```html
+<dialog class="xo-palette" id="palette" data-xo-palette aria-label="Palette">
+  <label class="xo-search">
+    <span class="xo-search__prefix" aria-hidden="true">&gt;</span>
+    <input type="text" placeholder="Tapez une commande…" aria-label="Commande">
+  </label>
+  <ul class="xo-palette__list xo-list" data-xo-list role="listbox">
+    <li class="xo-list__item" role="option" aria-selected="true" data-value="open">
+      <span class="xo-palette__label">Ouvrir un fichier</span>
+      <span class="xo-list__meta">Ctrl+O</span>
+    </li>
+  </ul>
+  <p class="xo-palette__empty" hidden>Aucune commande ne correspond.</p>
+  <div class="xo-keys"><span><kbd>↑↓</kbd> naviguer</span></div>
+</dialog>
+```
+
+`Ctrl+K` (ou `Cmd+K`) l'ouvre. La frappe filtre les lignes et surligne la correspondance ;
+`↑↓` circulent dans les lignes **visibles** ; `Entrée` émet `xo:activate` et referme.
+`xo-palette__label` est obligatoire sur le libellé : c'est là que le surlignage est inséré.
+Écouter `xo:activate` sur le dialogue pour exécuter la commande (`event.detail.value`).
+
+## Aide des raccourcis
+
+```html
+<dialog class="xo-help" id="help" data-xo-help aria-label="Raccourcis">
+  <p class="xo-help__title">Raccourcis</p>
+  <dl class="xo-help__grid">
+    <dt class="xo-help__group">Navigation</dt>
+    <dt>↑ ↓</dt><dd>Déplacer la sélection</dd>
+  </dl>
+</dialog>
+```
+
+`?` l'ouvre — sauf pendant une saisie. `xo-help__group` occupe toute la largeur.
+
+## Notifications
+
+```html
+<div class="xo-toasts">
+  <div class="xo-toast xo-toast--success" role="status" data-xo-toast="4000">
+    <span aria-hidden="true">✓</span>
+    <span class="xo-toast__body"><span class="xo-toast__title">Enregistré.</span> 4 fichiers.</span>
+    <button class="xo-toast__close" aria-label="Fermer">×</button>
+  </div>
+</div>
+```
+
+`data-xo-toast` = délai avant disparition en ms ; `0` ou absent = permanent.
+Variantes : `--success` `--warning` `--danger`.
+
+## Infobulle
+
+```html
+<span data-xo-tip="Dernier commit il y a 4 minutes" tabindex="0">survolez-moi</span>
+```
+
+Pur CSS, apparaît au survol **et** au focus clavier.
+
+## Interrupteur, radio, curseur, fichier
+
+```html
+<label class="xo-switch">
+  <input type="checkbox" checked><span class="xo-switch__box"></span><span>Journal</span>
+</label>
+
+<label class="xo-radio">
+  <input type="radio" name="env"><span class="xo-radio__box"></span><span>Recette</span>
+</label>
+
+<div class="xo-range">
+  <input type="range" min="0" max="9" value="3" aria-label="Verbosité">
+  <span class="xo-range__value">3</span>
+</div>
+
+<div class="xo-file"><input type="file" aria-label="Fichier"></div>
+```
+
+L'interrupteur rend `[ ]` / `[x]`, le radio `( )` / `(•)`. La case native est masquée mais
+reste la source de vérité : le focus et l'état viennent d'elle.
+`xo-field--inline` met le label à gauche du champ.
+
+## Colonne latérale, menus, pied
+
+```html
+<div class="xo-layout">
+  <nav class="xo-sidebar" aria-label="Sections">
+    <div class="xo-sidebar__group">Projet</div>
+    <a class="xo-sidebar__link" href="#" aria-current="page">Vue d'ensemble</a>
+  </nav>
+  <main class="xo-main">…</main>
+</div>
+
+<div class="xo-menubar">
+  <button class="xo-menubar__item"><span class="xo-menubar__key">F1</span>Aide</button>
+</div>
+
+<footer class="xo-footer"><span>XOSHUI 1.0</span></footer>
+```
+
+## Bannière, filet titré, avatar
+
+```html
+<div class="xo-banner">
+  <pre class="xo-banner__art">…art ASCII…</pre>
+  <p class="xo-banner__tagline">Sous-titre</p>
+</div>
+
+<div class="xo-rule">Section</div>          <!-- filet ─── Section ─── -->
+<div class="xo-rule xo-rule--start">Section</div>  <!-- titre à gauche -->
+
+<span class="xo-avatar">RL</span>
+```
+
+## Chronologie, étapes
+
+```html
+<ul class="xo-timeline">
+  <li class="xo-timeline__item">
+    <span class="xo-timeline__marker" aria-hidden="true">●</span>
+    <div class="xo-timeline__body">
+      <div>Dépôt initialisé</div>
+      <div class="xo-timeline__time">14:00</div>
+    </div>
+  </li>
+</ul>
+
+<div class="xo-steps">
+  <span class="xo-steps__step xo-steps__step--done">✓ Analyse</span>
+  <span class="xo-steps__sep" aria-hidden="true">─►</span>
+  <span class="xo-steps__step" aria-current="step">● Compilation</span>
+</div>
+```
+
+## Graphe en barres, squelette, invite
+
+```html
+<div class="xo-bars">
+  <span class="xo-bars__label">CSS</span>
+  <span class="xo-bars__bar" aria-hidden="true">████████████████████</span>
+  <span class="xo-bars__value">62%</span>
+</div>
+
+<span class="xo-skeleton" style="width: 32ch">&nbsp;</span>
+
+<label class="xo-prompt">
+  <span class="xo-prompt__sign" aria-hidden="true">$</span>
+  <input type="text" aria-label="Commande">
+</label>
+<span class="xo-cursor" aria-hidden="true"></span>
+```
+
+La barre est du texte : `str_repeat('█', round($pct / 3))`. Trois éléments par ligne, la
+grille aligne les colonnes.
+
+## Séparateur redimensionnable
+
+```html
+<div class="xo-split" data-xo-split>
+  <div class="xo-scroll">…gauche…</div>
+  <button class="xo-split__handle" role="separator" aria-orientation="vertical"
+          aria-label="Redimensionner" aria-valuenow="50" aria-valuemin="15" aria-valuemax="85"></button>
+  <div class="xo-scroll">…droite…</div>
+</div>
+```
+
+Glisser à la souris, ← → au clavier. La largeur vit dans `--xo-split` (15 % à 85 %).
+
 ## Utilitaires
 
 `xo-muted` `xo-faint` `xo-success` `xo-warning` `xo-danger` `xo-info` `xo-special` `xo-alt`

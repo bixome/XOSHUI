@@ -21,7 +21,7 @@ Servi par Laragon depuis `D:\laragon\www\XOSHUI` → http://xoshui.test
 | Chemin | Rôle |
 |---|---|
 | `libs/css/xoshui.css` | Feuille unique : tokens + reset + composants |
-| `libs/js/xoshui.js` | Module unique : clavier, onglets, modale |
+| `libs/js/xoshui.js` | Module unique : clavier, onglets, modale, palette, aide |
 | `docs/api.md` | Aide-mémoire des classes |
 | `docs/charte-graphique.md` | Référence design (palette, grammaire, a11y) — consultation, pas lecture par défaut |
 | `demo.php` | Page de démonstration |
@@ -34,7 +34,8 @@ Servi par Laragon depuis `D:\laragon\www\XOSHUI` → http://xoshui.test
 - Les états ayant un équivalent ARIA sont ciblés par attribut (`[aria-selected="true"]`),
   pas par classe.
 - `border-radius: 0`, aucune ombre, aucun dégradé. Monospace partout.
-- Comportements déclarés en HTML (`data-xo-list`, `data-xo-tabs`, `data-xo-open`) —
+- Comportements déclarés en HTML (`data-xo-list`, `data-xo-tabs`, `data-xo-open`,
+  `data-xo-palette`, `data-xo-help`, `data-xo-split`, `data-xo-toast`, `data-xo-tip`) —
   pas d'appel JS à écrire.
 - Tout navigable au clavier, focus toujours visible. `xo-keys` en bas de chaque écran.
 - `--xo-faint` a un contraste < 4,5:1 : décor uniquement, jamais de texte utile.

@@ -83,6 +83,7 @@ $files = [
       <button class="xo-tabs__tab" role="tab" aria-selected="true"  aria-controls="tab-dash">[1] Dashboard</button>
       <button class="xo-tabs__tab" role="tab" aria-selected="false" aria-controls="tab-form">[2] Formulaire</button>
       <button class="xo-tabs__tab" role="tab" aria-selected="false" aria-controls="tab-code">[3] Code</button>
+      <button class="xo-tabs__tab" role="tab" aria-selected="false" aria-controls="tab-kit">[4] Kit</button>
     </div>
 
     <!-- ------------------------------------------------ Onglet 1 -->
@@ -395,6 +396,172 @@ $ _</pre>
       </section>
     </section>
 
+    <!-- ------------------------------------------------ Onglet 4 -->
+    <section id="tab-kit" role="tabpanel" class="xo-tabpanel" hidden>
+
+      <div class="xo-menubar">
+        <?php foreach (['F1' => 'Aide', 'F2' => 'Ouvrir', 'F3' => 'Chercher',
+                        'F5' => 'Recharger', 'F10' => 'Quitter'] as $key => $label): ?>
+        <button class="xo-menubar__item">
+          <span class="xo-menubar__key"><?= $e($key) ?></span><?= $e($label) ?>
+        </button>
+        <?php endforeach; ?>
+      </div>
+
+      <div class="xo-banner" style="margin: 16px 0">
+        <pre class="xo-banner__art"> __  __ ___  ___ _  _ _   _ ___
+ \ \/ // _ \/ __| || | | | |_ _|
+  >  <| (_) \__ \ __ | |_| || |
+ /_/\_\\___/|___/_||_|\___/|___|</pre>
+        <p class="xo-banner__tagline">bootstrap maison au look TUI &mdash; 1.0</p>
+      </div>
+
+      <div class="xo-rule xo-rule--start" style="margin-bottom: 16px">Colonne laterale</div>
+
+      <div class="xo-layout" style="height: 12em; border: 1px solid var(--xo-border); margin-bottom: 16px">
+        <nav class="xo-sidebar" aria-label="Sections">
+          <div class="xo-sidebar__group">Projet</div>
+          <a class="xo-sidebar__link" href="#" aria-current="page">Vue d&rsquo;ensemble</a>
+          <a class="xo-sidebar__link" href="#">Fichiers</a>
+          <a class="xo-sidebar__link" href="#">Historique</a>
+          <div class="xo-sidebar__group">Reglages</div>
+          <a class="xo-sidebar__link" href="#">General</a>
+          <a class="xo-sidebar__link" href="#">Acces</a>
+        </nav>
+        <div class="xo-scroll" style="padding: 8px 1ch; flex: 1">
+          <p class="xo-muted">Contenu de la section selectionnee.</p>
+        </div>
+      </div>
+
+      <div class="xo-rule xo-rule--start" style="margin-bottom: 16px">Formulaire</div>
+
+      <div class="xo-grid">
+        <section class="xo-panel xo-panel--pad xo-col-6">
+          <h2 class="xo-panel__title">Controles</h2>
+          <div class="xo-stack xo-stack--tight">
+            <label class="xo-switch">
+              <input type="checkbox" checked><span class="xo-switch__box"></span>
+              <span>Journalisation</span>
+            </label>
+            <label class="xo-switch">
+              <input type="checkbox"><span class="xo-switch__box"></span>
+              <span>Mode strict</span>
+            </label>
+            <div class="xo-rule">Profil</div>
+            <?php foreach (['Developpement', 'Recette', 'Production'] as $i => $opt): ?>
+            <label class="xo-radio">
+              <input type="radio" name="env" <?= $i === 0 ? 'checked' : '' ?>>
+              <span class="xo-radio__box"></span><span><?= $e($opt) ?></span>
+            </label>
+            <?php endforeach; ?>
+            <div class="xo-range">
+              <span class="xo-muted" style="min-width: 9ch">Verbosite</span>
+              <input type="range" min="0" max="9" value="3" aria-label="Verbosite">
+              <span class="xo-range__value">3</span>
+            </div>
+            <div class="xo-file">
+              <input type="file" aria-label="Fichier de configuration">
+            </div>
+            <div class="xo-field xo-field--inline">
+              <label class="xo-label" for="k-host">Hote</label>
+              <input class="xo-input" id="k-host" value="localhost">
+            </div>
+          </div>
+        </section>
+
+        <section class="xo-panel xo-panel--pad xo-col-6">
+          <h2 class="xo-panel__title">Progression</h2>
+          <div class="xo-stack xo-stack--tight">
+            <div class="xo-steps">
+              <span class="xo-steps__step xo-steps__step--done">&check; Analyse</span>
+              <span class="xo-steps__sep" aria-hidden="true">&mdash;&gt;</span>
+              <span class="xo-steps__step" aria-current="step">&bull; Compilation</span>
+              <span class="xo-steps__sep" aria-hidden="true">&mdash;&gt;</span>
+              <span class="xo-steps__step">&cir; Envoi</span>
+            </div>
+            <div class="xo-rule">Chronologie</div>
+            <ul class="xo-timeline">
+              <?php foreach ([
+                  ['14:00', 'Depot initialise'],
+                  ['14:12', 'Premier lot de composants'],
+                  ['14:40', 'Palette de commandes'],
+              ] as [$time, $label]): ?>
+              <li class="xo-timeline__item">
+                <span class="xo-timeline__marker" aria-hidden="true">&bull;</span>
+                <div class="xo-timeline__body">
+                  <div><?= $e($label) ?></div>
+                  <div class="xo-timeline__time"><?= $e($time) ?></div>
+                </div>
+              </li>
+              <?php endforeach; ?>
+            </ul>
+            <div class="xo-rule">Chargement</div>
+            <div class="xo-stack xo-stack--tight">
+              <span class="xo-skeleton" style="width: 32ch">&nbsp;</span>
+              <span class="xo-skeleton" style="width: 24ch">&nbsp;</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="xo-panel xo-panel--pad xo-col-6">
+          <h2 class="xo-panel__title">Repartition</h2>
+          <div class="xo-bars">
+            <?php foreach (['CSS' => 62, 'JS' => 21, 'PHP' => 12, 'MD' => 5] as $lang => $pct): ?>
+            <span class="xo-bars__label"><?= $e($lang) ?></span>
+            <span class="xo-bars__bar" aria-hidden="true"><?= str_repeat("\u{2588}", (int) round($pct / 3)) ?></span>
+            <span class="xo-bars__value"><?= (int) $pct ?>%</span>
+            <?php endforeach; ?>
+          </div>
+        </section>
+
+        <section class="xo-panel xo-panel--pad xo-col-6">
+          <h2 class="xo-panel__title">Divers</h2>
+          <div class="xo-stack xo-stack--tight">
+            <div class="xo-row">
+              <span class="xo-avatar">RL</span>
+              <span>Romain Lamboley</span>
+              <span class="xo-muted" data-xo-tip="Dernier commit il y a 4 minutes" tabindex="0">survolez-moi</span>
+            </div>
+            <div class="xo-rule">Invite</div>
+            <label class="xo-prompt">
+              <span class="xo-prompt__sign" aria-hidden="true">$</span>
+              <input type="text" value="git status" aria-label="Commande">
+            </label>
+            <div><span class="xo-muted">sortie</span> <span class="xo-cursor" aria-hidden="true"></span></div>
+            <div class="xo-rule">Actions</div>
+            <div class="xo-row">
+              <button class="xo-btn xo-btn--primary" data-xo-open="#palette">Ctrl+K palette</button>
+              <button class="xo-btn" data-xo-open="#help">? aide</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="xo-rule xo-rule--start" style="margin: 16px 0">Separateur redimensionnable</div>
+
+      <div class="xo-split" data-xo-split style="height: 14em; border: 1px solid var(--xo-border)">
+        <div class="xo-scroll">
+          <ul class="xo-list" data-xo-list role="listbox" aria-label="Fichiers">
+            <?php foreach (['README.md', 'xoshui.css', 'xoshui.js', 'demo.php'] as $i => $f): ?>
+            <li class="xo-list__item" role="option" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"><?= $e($f) ?></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+        <button class="xo-split__handle" role="separator" aria-orientation="vertical"
+                aria-label="Redimensionner" aria-valuenow="50" aria-valuemin="15" aria-valuemax="85"></button>
+        <div class="xo-scroll" style="padding: 8px 1ch">
+          <p class="xo-muted">Glissez la poignee, ou utilisez les fleches au clavier.</p>
+        </div>
+      </div>
+
+      <div class="xo-footer" style="margin-top: 16px">
+        <span>XOSHUI 1.0</span>
+        <span class="xo-spacer"></span>
+        <span>PHP <?= $e(PHP_VERSION) ?></span>
+        <span>Aucune dependance</span>
+      </div>
+    </section>
+
   </main>
 
   <!-- Raccourcis -->
@@ -407,6 +574,63 @@ $ _</pre>
     <span class="xo-faint">xoshui.test</span>
   </div>
 
+</div>
+
+<!-- Palette de commandes - Ctrl+K -->
+<dialog class="xo-palette" id="palette" data-xo-palette aria-label="Palette de commandes">
+  <label class="xo-search">
+    <span class="xo-search__prefix" aria-hidden="true">&gt;</span>
+    <input type="text" placeholder="Tapez une commande..." aria-label="Commande">
+  </label>
+  <ul class="xo-palette__list xo-list" data-xo-list role="listbox" aria-label="Commandes">
+    <?php foreach ([
+        ['Ouvrir un fichier',         'Ctrl+O'],
+        ['Rechercher dans le projet', 'Ctrl+Maj+F'],
+        ['Basculer la colonne',       'Ctrl+B'],
+        ['Nouveau panneau',           'Ctrl+N'],
+        ['Recharger la page',         'F5'],
+        ['Quitter',                   'Ctrl+Q'],
+    ] as $i => [$cmd, $key]): ?>
+    <li class="xo-list__item" role="option" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"
+        data-value="<?= $e($cmd) ?>">
+      <span class="xo-palette__label"><?= $e($cmd) ?></span>
+      <span class="xo-list__meta"><?= $e($key) ?></span>
+    </li>
+    <?php endforeach; ?>
+  </ul>
+  <p class="xo-palette__empty" hidden>Aucune commande ne correspond.</p>
+  <div class="xo-keys">
+    <span><kbd>&uarr;&darr;</kbd> naviguer</span>
+    <span><kbd>Entree</kbd> executer</span>
+    <span><kbd>Echap</kbd> fermer</span>
+  </div>
+</dialog>
+
+<!-- Aide - ? -->
+<dialog class="xo-help" id="help" data-xo-help aria-label="Raccourcis clavier">
+  <p class="xo-help__title">Raccourcis</p>
+  <dl class="xo-help__grid">
+    <dt class="xo-help__group">Navigation</dt>
+    <dt>&uarr; &darr;</dt><dd>Deplacer la selection</dd>
+    <dt>&larr; &rarr;</dt><dd>Changer d&rsquo;onglet</dd>
+    <dt>Entree</dt><dd>Activer la selection</dd>
+    <dt class="xo-help__group">Global</dt>
+    <dt>Ctrl+K</dt><dd>Palette de commandes</dd>
+    <dt>?</dt><dd>Cette aide</dd>
+    <dt>Echap</dt><dd>Fermer</dd>
+  </dl>
+  <div class="xo-dialog__actions">
+    <button class="xo-btn" data-xo-close>Fermer</button>
+  </div>
+</dialog>
+
+<!-- Notifications -->
+<div class="xo-toasts">
+  <div class="xo-toast xo-toast--success" role="status" data-xo-toast="0">
+    <span aria-hidden="true">&check;</span>
+    <span class="xo-toast__body"><span class="xo-toast__title">Enregistre.</span> 4 fichiers ecrits.</span>
+    <button class="xo-toast__close" aria-label="Fermer">&times;</button>
+  </div>
 </div>
 
 <dialog class="xo-dialog" id="confirm">
