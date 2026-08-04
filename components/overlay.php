@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/_page.php';
+require __DIR__ . '/../libs/specimen.php';
 
-xo_compo_debut('overlay', 'Tout ce qui se superpose. Chaque composant s’appuie sur un élément natif — <dialog> ou <details> — pour hériter du piège à focus, d’Échap et du fonctionnement sans JavaScript.');
+xo_specimen_debut('overlay', 'Tout ce qui se superpose. Chaque composant s’appuie sur un élément natif — <dialog> ou <details> — pour hériter du piège à focus, d’Échap et du fonctionnement sans JavaScript.');
 
 xo_specimen('Modale', <<<'HTML'
 <button class="xo-btn xo-btn--danger" data-xo-open="#d-confirm">Supprimer</button>
@@ -52,7 +52,7 @@ xo_specimen('Aide des raccourcis', <<<'HTML'
 <button class="xo-btn" data-xo-open="#xo-help">Ouvrir l’aide</button>
 HTML, 'Ouverte par « ? », sauf pendant une saisie — sinon on ne pourrait plus taper de point d’interrogation.');
 
-xo_compo_fin([
+xo_specimen_fin([
     'xo-dialog'          => 'modale, sur <dialog>',
     'xo-dropdown'        => 'menu, sur <details>',
     'xo-dropdown__key'   => 'raccourci, aligné à droite',

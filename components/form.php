@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/_page.php';
+require __DIR__ . '/../libs/specimen.php';
 
-xo_compo_debut('form', 'Les contrôles natifs restent la source de vérité — focus, état coché, soumission. Ils sont simplement masqués, et le label dessine [ ] ou ( ) à leur place.');
+xo_specimen_debut('form', 'Les contrôles natifs restent la source de vérité — focus, état coché, soumission. Ils sont simplement masqués, et le label dessine [ ] ou ( ) à leur place.');
 
 xo_specimen('Champs', <<<'HTML'
 <div class="xo-field">
@@ -72,7 +72,7 @@ xo_specimen('Groupe et champ en ligne', <<<'HTML'
 </fieldset>
 HTML, 'La légende du fieldset s’incruste dans la bordure nativement — contrairement au titre de panneau, qui demande du positionnement.');
 
-xo_compo_fin([
+xo_specimen_fin([
     'xo-field'          => 'bloc label + champ',
     'xo-field--inline'  => 'label à gauche du champ',
     'xo-label'          => 'libellé',

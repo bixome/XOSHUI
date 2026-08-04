@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Socle des pages de composants.
+ * Socle des pages de catalogue — composants et modales.
  *
  * Un spécimen se déclare une seule fois, dans un heredoc nowdoc : la même
  * chaîne est affichée telle quelle (rendu) puis échappée (source). Aucune
@@ -13,22 +13,28 @@ declare(strict_types=1);
  *   xo_specimen('Par défaut', <<<'HTML'
  *   <section class="xo-panel">…</section>
  *   HTML);
- *   xo_compo_fin(['xo-panel', 'xo-panel--active']);
+ *   xo_specimen_fin(['xo-panel' => 'le cadre']);
  */
 
-require_once __DIR__ . '/../libs/site.php';
+require_once __DIR__ . '/site.php';
 
-/** Ouvre la page : squelette, navigation, titre. */
-function xo_compo_debut(string $slug, string $intro): void
+/**
+ * Ouvre la page : squelette, navigation, titre.
+ * Le libellé et le fil d'Ariane viennent du registre auquel le slug appartient.
+ */
+function xo_specimen_debut(string $slug, string $intro): void
 {
-    [$label] = XO_COMPOSANTS[$slug] ?? ['Composant'];
+    $section = xo_section($slug);
+    $racine  = $section === 'modales' ? '/modals/' : '/components/';
+    $libelle = $section === 'modales' ? 'modales' : 'composants';
+    [$label] = (XO_COMPOSANTS[$slug] ?? XO_MODALES[$slug] ?? ['Catalogue']);
     ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?= xo_e($label) ?> — Composants XOSHUI</title>
+<title><?= xo_e($label) ?> — XOSHUI</title>
 <link rel="stylesheet" href="/libs/css/xoshui.css">
 </head>
 <body>
@@ -37,7 +43,7 @@ function xo_compo_debut(string $slug, string $intro): void
 <?php xo_nav($slug); ?>
 
   <nav class="xo-breadcrumb" aria-label="Fil d’Ariane">
-    <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><a href="/components/">composants</a>
+    <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><a href="<?= xo_e($racine) ?>"><?= xo_e($libelle) ?></a>
     <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><span aria-current="page"><?= xo_e($slug) ?></span>
   </nav>
 
@@ -83,7 +89,7 @@ function xo_specimen(string $titre, string $html, string $note = '', bool $fleur
  * @param array<string,string> $classes classe => rôle
  * @param array<string,string> $clavier touche => action
  */
-function xo_compo_fin(array $classes = [], array $clavier = []): void
+function xo_specimen_fin(array $classes = [], array $clavier = []): void
 {
     ?>
       <?php if ($classes): ?>

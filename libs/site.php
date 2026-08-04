@@ -22,6 +22,7 @@ const XO_PAGES = [
     'accueil' => ['/',               'Accueil', 'Point d’entrée'],
     'layouts' => ['/layouts/',       'Layouts', 'Pages entières à copier'],
     'compos'  => ['/components/',    'Composants', 'Un composant par page, isolé'],
+    'modales' => ['/modals/',        'Modales', 'Boîtes de message, invites, confirmations'],
     'demo'    => ['/demo.php',       'Démo',    'Chaque classe isolée'],
     'docs'    => ['/docs.php',       'Docs',    'Aide-mémoire, charte, déploiement'],
     'lint'    => ['/tools/lint.php', 'Lint',    'Vérification des règles'],
@@ -35,6 +36,17 @@ const XO_DOCS = [
     'api'         => ['docs/api.md',               'Aide-mémoire'],
     'charte'      => ['docs/charte-graphique.md',  'Charte graphique'],
     'deploiement' => ['docs/deploiement.md',       'Déploiement'],
+];
+
+/** Niveau 2 — sous-pages de « modales ». */
+const XO_MODALES = [
+    'index'    => ['Sommaire',      'La liste des boîtes'],
+    'message'  => ['Message',       'Information, succès, avertissement, erreur'],
+    'confirm'  => ['Confirmation',  'Oui / non, destructif, saisie de garde'],
+    'prompt'   => ['Invite',        'Saisie, mot de passe, choix dans une liste'],
+    'formulaire' => ['Formulaire',  'Plusieurs champs, étapes, validation'],
+    'progress' => ['Progression',   'Tâche longue, attente bloquante, résultat'],
+    'panneau'  => ['Panneau',       'Tiroir latéral, plein écran'],
 ];
 
 /** Niveau 2 — sous-pages de « composants ». */
@@ -76,6 +88,7 @@ function xo_section(string $current): string
     if (isset(XO_DOCS[$current]))       { return 'docs'; }
     if (isset(XO_LAYOUTS[$current]))    { return 'layouts'; }
     if (isset(XO_COMPOSANTS[$current])) { return 'compos'; }
+    if (isset(XO_MODALES[$current]))    { return 'modales'; }
     return 'accueil';
 }
 
@@ -118,6 +131,17 @@ function xo_nav(string $current = ''): void
     <ul class="xo-nav__list">
       <?php foreach (XO_COMPOSANTS as $slug => [$label, $_]):
           $url  = $slug === 'index' ? '/components/' : '/components/' . $slug . '.php';
+          $ici  = $slug === $current || ($slug === 'index' && $current === $section); ?>
+      <li><a class="xo-nav__link" href="<?= xo_e($url) ?>"
+             <?= $ici ? 'aria-current="page"' : '' ?>><?= xo_e($label) ?></a></li>
+      <?php endforeach; ?>
+    </ul>
+  </nav>
+    <?php elseif ($section === 'modales'): ?>
+  <nav class="xo-nav xo-nav--sub" aria-label="Modales">
+    <ul class="xo-nav__list">
+      <?php foreach (XO_MODALES as $slug => [$label, $_]):
+          $url  = $slug === 'index' ? '/modals/' : '/modals/' . $slug . '.php';
           $ici  = $slug === $current || ($slug === 'index' && $current === $section); ?>
       <li><a class="xo-nav__link" href="<?= xo_e($url) ?>"
              <?= $ici ? 'aria-current="page"' : '' ?>><?= xo_e($label) ?></a></li>
@@ -180,6 +204,10 @@ function xo_palette(string $current = ''): void
     foreach (XO_COMPOSANTS as $slug => [$label, $desc]) {
         $url = $slug === 'index' ? '/components/' : '/components/' . $slug . '.php';
         $entrees[] = [$url, 'Composants › ' . $label, $desc];
+    }
+    foreach (XO_MODALES as $slug => [$label, $desc]) {
+        $url = $slug === 'index' ? '/modals/' : '/modals/' . $slug . '.php';
+        $entrees[] = [$url, 'Modales › ' . $label, $desc];
     }
     foreach (XO_DOCS as $slug => [$chemin, $label]) {
         $entrees[] = ['/docs.php?f=' . $slug, 'Docs › ' . $label, $chemin];

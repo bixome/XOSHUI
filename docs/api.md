@@ -14,6 +14,8 @@ inverse.
   Partir de là coûte moins cher que d'assembler les composants un à un.
 - **[components/](../components/)** — un composant par page, isolé, avec ses variantes
   et sa source à déplier.
+- **[modals/](../modals/)** — les boîtes de message : information, confirmation, invite,
+  formulaire, progression, tiroir.
 
 ## Mise en page
 
@@ -144,6 +146,18 @@ la valeur chiffrée à côté.
 ```
 
 `<dialog>` natif : `Échap` ferme, focus piégé, sans JS supplémentaire.
+
+Variantes : `--narrow` `--wide` `--drawer` `--drawer-left` `--full`, et la sévérité
+`--success` `--warning` `--danger` (titre et bordure, jamais le fond).
+`xo-dialog__body` est la zone qui défile entre titre et actions.
+
+Deux hooks propres aux boîtes :
+
+```html
+<button data-xo-key="o">Écraser</button>          <!-- la touche O l'active -->
+<input data-xo-guard="XOSHUI">                     <!-- texte à recopier -->
+<button data-xo-guard-ok>Supprimer</button>        <!-- inerte tant que ça ne correspond pas -->
+```
 
 ## Navigation
 

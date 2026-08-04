@@ -34,6 +34,8 @@ faut comprendre un comportement précis.
 | `demo.php` | Page de démonstration : chaque classe isolée |
 | `layouts/` | Recettes : des pages entières à copier |
 | `components/` | Un composant par page, isolé, avec sa source |
+| `modals/` | Boîtes de message : confirmation, invite, progression, tiroir |
+| `libs/specimen.php` | Socle des catalogues : un exemple rendu **et** montré en source |
 | `index.php` | Page d'accueil |
 | `tools/lint.php` | Vérifie les règles ci-dessous — `php tools/lint.php` |
 | `docs/deploiement.md` | Ce qui ne doit pas être servi (nginx / Apache) |
@@ -51,8 +53,8 @@ erreur, `/tools/lint.php` pour la même analyse en navigateur). Une ligne portan
   pas par classe.
 - `border-radius: 0`, aucune ombre, aucun dégradé. Monospace partout.
 - Comportements déclarés en HTML (`data-xo-list`, `data-xo-tabs`, `data-xo-open`,
-  `data-xo-palette`, `data-xo-help`, `data-xo-split`, `data-xo-toast`, `data-xo-tip`) —
-  pas d'appel JS à écrire.
+  `data-xo-palette`, `data-xo-help`, `data-xo-split`, `data-xo-toast`, `data-xo-tip`,
+  `data-xo-key`, `data-xo-guard`) — pas d'appel JS à écrire.
 - Tout navigable au clavier, focus toujours visible. `xo-keys` en bas de chaque écran.
 - `--xo-faint` a un contraste < 4,5:1 : décor uniquement, jamais de texte utile.
 - PHP : `declare(strict_types=1)`, PDO + requêtes préparées, `htmlspecialchars` en sortie.

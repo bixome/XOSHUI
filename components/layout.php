@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/_page.php';
+require __DIR__ . '/../libs/specimen.php';
 
-xo_compo_debut('layout', 'Deux axes, deux unités : l’horizontal se mesure en caractères (ch), le vertical en multiples de 4 px. C’est ce qui aligne les colonnes sans effort.');
+xo_specimen_debut('layout', 'Deux axes, deux unités : l’horizontal se mesure en caractères (ch), le vertical en multiples de 4 px. C’est ce qui aligne les colonnes sans effort.');
 
 xo_specimen('Grille', <<<'HTML'
 <div class="xo-grid">
@@ -70,7 +70,7 @@ xo_specimen('Texte de lecture', <<<'HTML'
 </article>
 HTML);
 
-xo_compo_fin([
+xo_specimen_fin([
     'xo-app'        => 'colonne pleine hauteur',
     'xo-main'       => 'zone centrale',
     'xo-grid'       => 'grille 12 colonnes',

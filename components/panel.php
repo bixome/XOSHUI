@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/_page.php';
+require __DIR__ . '/../libs/specimen.php';
 
-xo_compo_debut('panel', 'Le cadre à titre incrusté — l’atome du framework. Son titre et son compteur vivent dans la bordure et débordent de part et d’autre : c’est ce qui donne le trait coupé des interfaces en mode texte.');
+xo_specimen_debut('panel', 'Le cadre à titre incrusté — l’atome du framework. Son titre et son compteur vivent dans la bordure et débordent de part et d’autre : c’est ce qui donne le trait coupé des interfaces en mode texte.');
 
 xo_specimen('Par défaut', <<<'HTML'
 <section class="xo-panel xo-panel--pad">
@@ -46,7 +46,7 @@ xo_specimen('Corps défilant', <<<'HTML'
 </section>
 HTML, 'Un panneau ne défile jamais lui-même : un overflow poserait un ciseau sur son titre. C’est xo-panel__body qui défile.', true);
 
-xo_compo_fin([
+xo_specimen_fin([
     'xo-panel'         => 'le cadre',
     'xo-panel--pad'    => 'padding horizontal, pour du texte ou un formulaire',
     'xo-panel--active' => 'bordure et titre en accent',

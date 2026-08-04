@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/_page.php';
+require __DIR__ . '/../libs/specimen.php';
 
-xo_compo_debut('data', 'Afficher des chiffres sans quitter la grille de caractères. Les barres sont découpées en cellules d’un caractère : elles ressemblent à un terminal, pas à une barre de progression web.');
+xo_specimen_debut('data', 'Afficher des chiffres sans quitter la grille de caractères. Les barres sont découpées en cellules d’un caractère : elles ressemblent à un terminal, pas à une barre de progression web.');
 
 xo_specimen('Clé-valeur', <<<'HTML'
 <dl class="xo-kv">
@@ -127,7 +127,7 @@ xo_specimen('Chargement', <<<'HTML'
 </div>
 HTML, 'Le squelette occupe la place du contenu à venir, pour que la page ne saute pas quand il arrive.');
 
-xo_compo_fin([
+xo_specimen_fin([
     'xo-kv'          => 'liste clé-valeur à pointillés',
     'xo-kv__leader'  => 'la ligne de pointillés — élément obligatoire',
     'xo-stat'        => 'métrique : valeur, libellé, delta',

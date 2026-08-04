@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/_page.php';
+require __DIR__ . '/../libs/specimen.php';
 
-xo_compo_debut('nav', 'Toutes les barres suivent la même règle : l’élément courant se marque avec aria-current, ce qui le passe en vidéo inverse. Jamais une classe « active ».');
+xo_specimen_debut('nav', 'Toutes les barres suivent la même règle : l’élément courant se marque avec aria-current, ce qui le passe en vidéo inverse. Jamais une classe « active ».');
 
 xo_specimen('Barre de navigation', <<<'HTML'
 <nav class="xo-nav" aria-label="Exemple">
@@ -77,7 +77,7 @@ xo_specimen('Pagination', <<<'HTML'
 </div>
 HTML);
 
-xo_compo_fin([
+xo_specimen_fin([
     'xo-nav'          => 'barre principale ; --sub pour une sous-barre',
     'xo-nav__brand'   => 'nom de l’application',
     'xo-nav__link'    => 'lien ; aria-current="page" pour le courant',

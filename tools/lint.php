@@ -29,7 +29,8 @@ const EXTENSIONS = ['php', 'css', 'js', 'html'];
 const EXCLUS = ['.git', 'moodboard', 'docs', 'vendor', 'node_modules', '.cache'];
 
 /** Comportements que le module JS sait monter. */
-const HOOKS = ['list', 'tabs', 'open', 'close', 'palette', 'help', 'split', 'toast', 'tip', 'timer'];
+const HOOKS = ['list', 'tabs', 'open', 'close', 'palette', 'help', 'split', 'toast', 'tip',
+               'timer', 'key', 'guard', 'guard-ok'];
 
 /* ---------------------------------------------------------------- Collecte */
 
@@ -107,8 +108,12 @@ function analyser(string $fichier, array $vocab): array
             continue;
         }
 
-        // --- Couleurs en dur. Les ancres (href="#section") ne sont pas des hex.
-        if (!$estRef && preg_match_all('/(?<![\w=]"|\'|&)#([0-9a-f]{3,8})\b/i', $ligne, $m, PREG_SET_ORDER)) {
+        // --- Couleurs en dur. Hors CSS, on n'inspecte que les lignes qui
+        // déclarent du style : « #412 » dans un texte est un numéro de ticket,
+        // pas une couleur — et les ancres (href="#section") non plus.
+        $ligneStyle = $estCss || str_contains($ligne, 'style=') || str_contains($ligne, '<style');
+        if (!$estRef && $ligneStyle
+            && preg_match_all('/(?<![\w=]"|\'|&)#([0-9a-f]{3,8})\b/i', $ligne, $m, PREG_SET_ORDER)) {
             foreach ($m as $hit) {
                 $len = strlen($hit[1]);
                 if (in_array($len, [3, 4, 6, 8], true)) {

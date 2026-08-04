@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/_page.php';
+require __DIR__ . '/../libs/specimen.php';
 
-xo_compo_debut('feedback', 'Tout ce qui informe l’utilisateur d’un état. Règle commune : la couleur ne porte jamais seule le message — elle est toujours doublée d’un glyphe ou d’un mot.');
+xo_specimen_debut('feedback', 'Tout ce qui informe l’utilisateur d’un état. Règle commune : la couleur ne porte jamais seule le message — elle est toujours doublée d’un glyphe ou d’un mot.');
 
 xo_specimen('Alertes', <<<'HTML'
 <div class="xo-stack xo-stack--tight">
@@ -67,7 +67,7 @@ xo_specimen('État vide', <<<'HTML'
 </div>
 HTML, 'Un état vide propose toujours l’action qui le remplit.');
 
-xo_compo_fin([
+xo_specimen_fin([
     'xo-alert'        => 'message inline ; --success --warning --danger',
     'xo-alert__title' => 'première phrase, en gras',
     'xo-toast'        => 'notification ; data-xo-toast = délai en ms',

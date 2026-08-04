@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/_page.php';
+require __DIR__ . '/../libs/specimen.php';
 
-xo_compo_debut('code', 'Le seul endroit où l’interligne se resserre à 1.2 : dans un bloc préformaté, l’alignement vertical prime sur le confort de lecture.');
+xo_specimen_debut('code', 'Le seul endroit où l’interligne se resserre à 1.2 : dans un bloc préformaté, l’alignement vertical prime sur le confort de lecture.');
 
 xo_specimen('Bloc de code', <<<'HTML'
 <pre class="xo-pre"><code>.xo-panel {
@@ -38,7 +38,7 @@ xo_specimen('Invite de commande', <<<'HTML'
 </div>
 HTML, 'Le curseur clignote en pas discrets, jamais en fondu — et se fige sous prefers-reduced-motion.');
 
-xo_compo_fin([
+xo_specimen_fin([
     'xo-pre'            => 'bloc préformaté, défilant',
     'xo-pre--terminal'  => 'fond noir, texte vert',
     'xo-diff'           => 'conteneur de diff',

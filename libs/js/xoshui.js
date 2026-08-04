@@ -12,6 +12,9 @@
      [data-xo-help]            aide des raccourcis, ouverte par ?
      [data-xo-split]           séparateur redimensionnable (souris et flèches)
      [data-xo-toast]           notification : bouton de fermeture, délai optionnel
+     [data-xo-key="y"]         dans une modale : la touche active le bouton
+     [data-xo-guard="texte"]   déverrouille [data-xo-guard-ok] quand la saisie
+                               correspond
    ========================================================================== */
 
 const KEY_PREV = ['ArrowUp', 'ArrowLeft'];
@@ -124,6 +127,43 @@ function initDialogs(scope) {
       e.target.closest('dialog')?.close();
     }
   });
+}
+
+/* --- Modales : touche d'action, et garde de saisie ------------------------ */
+
+/* Dans une boîte, [data-xo-key="y"] rend un bouton activable par sa touche —
+   la convention des confirmations en mode texte. La saisie est épargnée :
+   sinon on ne pourrait plus taper la lettre dans un champ. */
+function initDialogKeys(scope) {
+  scope.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey || isTyping(e.target)) return;
+    const dialog = e.target.closest?.('dialog[open]') ?? document.querySelector('dialog[open]');
+    if (!dialog) return;
+    const cible = [...dialog.querySelectorAll('[data-xo-key]')]
+      .find((el) => el.dataset.xoKey.toLowerCase() === e.key.toLowerCase());
+    if (!cible) return;
+    e.preventDefault();
+    cible.click();
+  });
+}
+
+/* Garde de saisie : le bouton reste inerte tant que la valeur attendue n'est
+   pas recopiée. Pour les suppressions qu'on ne veut pas voir confirmées d'un
+   réflexe. */
+function initGuards(scope) {
+  for (const champ of scope.querySelectorAll('[data-xo-guard]')) {
+    const portee = champ.closest('dialog, form') ?? document;
+    const boutons = [...portee.querySelectorAll('[data-xo-guard-ok]')];
+    if (!boutons.length) continue;
+
+    const verifier = () => {
+      const ok = champ.value.trim() === champ.dataset.xoGuard;
+      for (const b of boutons) b.disabled = !ok;
+    };
+
+    champ.addEventListener('input', verifier);
+    verifier();
+  }
 }
 
 /* --- Menus déroulants ---------------------------------------------------- */
@@ -328,11 +368,13 @@ export function mount(scope = document) {
     if (!mounted.has(el)) { mounted.add(el); initSplit(el); }
   }
   initToasts(scope);
+  initGuards(scope);
 }
 
 if (!mounted.has(document.body ?? document)) {
   initDialogs(document);
   initDropdowns(document);
+  initDialogKeys(document);
   initShortcuts();
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => mount());

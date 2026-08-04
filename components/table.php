@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/_page.php';
+require __DIR__ . '/../libs/specimen.php';
 
-xo_compo_debut('table', 'Le tableau partage la mécanique clavier de la liste : le même data-xo-list rend ses lignes navigables. Zébrage, alignement des nombres et en-tête collant font le reste.');
+xo_specimen_debut('table', 'Le tableau partage la mécanique clavier de la liste : le même data-xo-list rend ses lignes navigables. Zébrage, alignement des nombres et en-tête collant font le reste.');
 
 xo_specimen('Tableau simple', <<<'HTML'
 <div class="xo-table-wrap">
@@ -53,7 +53,7 @@ xo_specimen('Colonne triée', <<<'HTML'
 </div>
 HTML, 'La flèche est collée au libellé, sans espace : ↓Date. Côté serveur, valider la colonne contre une liste blanche — jamais interpoler $_GET dans un ORDER BY.', true);
 
-xo_compo_fin([
+xo_specimen_fin([
     'xo-table'      => 'le tableau',
     'xo-table-wrap' => 'conteneur défilant ; --xo-max-h active l’en-tête collant',
     'xo-num'        => 'aligne une colonne de nombres à droite',

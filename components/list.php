@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/_page.php';
+require __DIR__ . '/../libs/specimen.php';
 
-xo_compo_debut('list', 'La liste est le composant le plus chargé de sens du framework : c’est elle qui porte la sélection en vidéo inverse, d’un bord à l’autre. Ajouter data-xo-list suffit à la rendre navigable au clavier.');
+xo_specimen_debut('list', 'La liste est le composant le plus chargé de sens du framework : c’est elle qui porte la sélection en vidéo inverse, d’un bord à l’autre. Ajouter data-xo-list suffit à la rendre navigable au clavier.');
 
 xo_specimen('Liste simple', <<<'HTML'
 <ul class="xo-list" data-xo-list role="listbox" aria-label="Branches">
@@ -61,7 +61,7 @@ xo_specimen('Ligne désactivée', <<<'HTML'
 </ul>
 HTML, 'aria-disabled sort la ligne du parcours des flèches, sans la masquer.', true);
 
-xo_compo_fin([
+xo_specimen_fin([
     'xo-list'         => 'le conteneur',
     'xo-list__item'   => 'une ligne',
     'xo-list__icon'   => 'glyphe de tête, largeur fixe',
