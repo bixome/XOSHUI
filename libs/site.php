@@ -46,7 +46,7 @@ const XO_MODALES = [
     'prompt'   => ['Invite',        'Saisie, mot de passe, choix dans une liste'],
     'formulaire' => ['Formulaire',  'Plusieurs champs, étapes, validation'],
     'progress' => ['Progression',   'Tâche longue, attente bloquante, résultat'],
-    'panneau'  => ['Panneau',       'Tiroir latéral, plein écran'],
+    'panneau'  => ['Panneau',       'Boîte occupant tout l’écran'],
 ];
 
 /** Niveau 2 — sous-pages de « composants ». */
