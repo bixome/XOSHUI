@@ -1,0 +1,369 @@
+/* ==========================================================================
+   XOSHUI 1.0 — feuille unique. Aucune dépendance, aucun build.
+   <link rel="stylesheet" href="/libs/css/xoshui.css">
+   Thème : <html data-theme="mocha"> (défaut) ou "phosphor".
+   ========================================================================== */
+
+/* --- 1. Tokens ---------------------------------------------------------- */
+
+:root, [data-theme="mocha"] {
+  --xo-bg:        #1E1E2E;
+  --xo-panel:     #181825;
+  --xo-subtle:    #252537;
+  --xo-raise:     #313244;
+  --xo-fg:        #CDD6F4;
+  --xo-muted:     #A6ADC8;
+  --xo-faint:     #6C7086;   /* décor seulement : contraste < 4.5:1 */
+  --xo-inverse:   #1E1E2E;
+  --xo-accent:    #89B4FA;
+  --xo-success:   #A6E3A1;
+  --xo-warning:   #F9E2AF;
+  --xo-danger:    #F38BA8;
+  --xo-info:      #94E2D5;
+  --xo-special:   #CBA6F7;
+  --xo-alt:       #FAB387;
+  --xo-border:    #45475A;
+  --xo-rule:      #313244;
+  --xo-add:       #1B3A2A;
+  --xo-del:       #4A1F2B;
+  --xo-scrim:     rgba(17,17,27,.6);
+}
+
+[data-theme="phosphor"] {
+  --xo-bg: #000; --xo-panel: #000; --xo-subtle: #000C00; --xo-raise: #001100;
+  --xo-fg: #0F0; --xo-muted: #0C0; --xo-faint: #070; --xo-inverse: #000;
+  --xo-accent: #0F0; --xo-success: #0F0; --xo-warning: #FF0; --xo-danger: #F00;
+  --xo-info: #0FF; --xo-special: #F0F; --xo-alt: #FA0;
+  --xo-border: #080; --xo-rule: #050; --xo-add: #030; --xo-del: #300;
+  --xo-scrim: rgba(0,0,0,.7);
+}
+
+:root {
+  --xo-font: ui-monospace, "Cascadia Mono", "JetBrains Mono", Consolas,
+             "DejaVu Sans Mono", "Courier New", monospace;
+  --xo-fs:   14px;
+  --xo-lh:   1.35;
+  --xo-gap:  1ch;
+  --xo-pad:  8px;
+}
+
+/* --- 2. Base ------------------------------------------------------------ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { color-scheme: dark; }
+
+body {
+  margin: 0;
+  background: var(--xo-bg);
+  color: var(--xo-fg);
+  font: 400 var(--xo-fs)/var(--xo-lh) var(--xo-font);
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg { max-width: 100%; height: auto; }
+input, button, textarea, select { font: inherit; color: inherit; }
+:focus-visible { outline: 1px solid var(--xo-accent); outline-offset: -2px; }
+
+a { color: var(--xo-accent); text-decoration: none; }
+a:hover, a:focus-visible { text-decoration: underline; }
+
+hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
+
+/* --- 3. Mise en page ---------------------------------------------------- */
+
+.xo-app  { min-height: 100vh; display: flex; flex-direction: column; }
+.xo-main { flex: 1; padding: var(--xo-pad); min-height: 0; }
+
+.xo-grid { display: grid; gap: var(--xo-pad); grid-template-columns: repeat(12, 1fr); }
+.xo-col-2  { grid-column: span 2; }  .xo-col-3  { grid-column: span 3; }
+.xo-col-4  { grid-column: span 4; }  .xo-col-5  { grid-column: span 5; }
+.xo-col-6  { grid-column: span 6; }  .xo-col-8  { grid-column: span 8; }
+.xo-col-9  { grid-column: span 9; }  .xo-col-12 { grid-column: span 12; }
+
+.xo-row   { display: flex; gap: var(--xo-gap); align-items: center; flex-wrap: wrap; }
+.xo-stack { display: flex; flex-direction: column; gap: var(--xo-pad); }
+.xo-spacer{ flex: 1; }
+
+/* --- 4. Panneau --------------------------------------------------------- */
+
+.xo-panel {
+  position: relative;
+  background: var(--xo-panel);
+  border: 1px solid var(--xo-border);
+  padding: calc(var(--xo-pad) + 2px) var(--xo-gap) var(--xo-pad);
+  min-width: 0;
+}
+.xo-panel--active { border-color: var(--xo-accent); }
+.xo-panel--flush  { padding-left: 0; padding-right: 0; }
+
+.xo-panel__title,
+.xo-panel__count {
+  position: absolute;
+  background: var(--xo-panel);
+  padding: 0 .5ch;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+.xo-panel__title { top: 0; left: var(--xo-gap); transform: translateY(-50%); color: var(--xo-muted); }
+.xo-panel__count { bottom: 0; right: var(--xo-gap); transform: translateY(50%); color: var(--xo-faint); font-weight: 400; }
+.xo-panel--active .xo-panel__title { color: var(--xo-accent); }
+
+/* --- 5. Liste / arbre --------------------------------------------------- */
+
+.xo-list { margin: 0 calc(var(--xo-gap) * -1); }
+.xo-panel--flush .xo-list { margin: 0; }
+
+.xo-list__item {
+  display: flex;
+  gap: var(--xo-gap);
+  align-items: baseline;
+  padding: 2px var(--xo-gap);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.xo-list__item:hover { background: var(--xo-subtle); }
+.xo-list__item[aria-selected="true"] {
+  background: var(--xo-accent);
+  color: var(--xo-inverse);
+  font-weight: 700;
+}
+.xo-list__item[aria-selected="true"] * { color: inherit; }
+.xo-list__item[aria-disabled="true"] { color: var(--xo-faint); cursor: not-allowed; }
+
+.xo-list__icon { color: var(--xo-muted); }
+.xo-list__meta { margin-left: auto; color: var(--xo-muted); padding-left: 2ch; }
+
+.xo-list--tree .xo-list__item { padding-left: calc(var(--xo-gap) + var(--xo-depth, 0) * 2ch); }
+
+/* --- 6. Onglets --------------------------------------------------------- */
+
+.xo-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--xo-border);
+  margin-bottom: var(--xo-pad);
+  overflow-x: auto;
+}
+.xo-tabs__tab {
+  padding: var(--xo-pad) calc(var(--xo-gap) * 2);
+  background: none;
+  border: 0;
+  color: var(--xo-muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.xo-tabs__tab:hover { background: var(--xo-subtle); color: var(--xo-fg); }
+.xo-tabs__tab[aria-selected="true"] {
+  background: var(--xo-raise);
+  color: var(--xo-fg);
+  font-weight: 700;
+}
+.xo-tabpanel[hidden] { display: none; }
+
+/* --- 7. Tableau --------------------------------------------------------- */
+
+.xo-table-wrap { overflow-x: auto; }
+
+.xo-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+
+.xo-table th {
+  position: sticky;
+  top: 0;
+  text-align: left;
+  font-weight: 400;
+  color: var(--xo-muted);
+  background: var(--xo-raise);
+  padding: 2px var(--xo-gap);
+}
+.xo-table td { padding: 2px var(--xo-gap); border-bottom: 1px solid var(--xo-rule); }
+.xo-table tbody tr:nth-child(even) { background: var(--xo-subtle); }
+.xo-table tbody tr:hover           { background: var(--xo-raise); }
+.xo-table tbody tr[aria-selected="true"] {
+  background: var(--xo-accent);
+  color: var(--xo-inverse);
+  font-weight: 700;
+}
+.xo-table tbody tr[aria-selected="true"] td { color: inherit; }
+.xo-num { text-align: right; }
+
+/* --- 8. Boutons --------------------------------------------------------- */
+
+.xo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--xo-gap);
+  padding: 2px calc(var(--xo-gap) * 2);
+  background: transparent;
+  color: var(--xo-fg);
+  border: 1px solid var(--xo-border);
+  border-radius: 0;
+  cursor: pointer;
+}
+.xo-btn:hover, .xo-btn:focus-visible {
+  background: var(--xo-accent); color: var(--xo-inverse); border-color: var(--xo-accent);
+}
+.xo-btn--primary { border-color: var(--xo-accent); color: var(--xo-accent); }
+.xo-btn--danger  { border-color: var(--xo-danger); color: var(--xo-danger); }
+.xo-btn--danger:hover, .xo-btn--danger:focus-visible {
+  background: var(--xo-danger); color: var(--xo-inverse);
+}
+.xo-btn--ghost { border-color: transparent; }
+.xo-btn[disabled] { color: var(--xo-faint); border-color: var(--xo-rule); cursor: not-allowed; }
+.xo-btn[disabled]:hover { background: transparent; }
+
+/* --- 9. Formulaire ------------------------------------------------------ */
+
+.xo-field { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--xo-pad); }
+.xo-label { color: var(--xo-muted); }
+
+.xo-input, .xo-select, .xo-textarea {
+  background: var(--xo-bg);
+  color: var(--xo-fg);
+  border: 1px solid var(--xo-border);
+  border-radius: 0;
+  padding: 2px var(--xo-gap);
+  width: 100%;
+}
+.xo-input:focus, .xo-select:focus, .xo-textarea:focus {
+  border-color: var(--xo-accent); outline: none;
+}
+.xo-textarea { resize: vertical; min-height: 6em; }
+.xo-input::placeholder, .xo-textarea::placeholder { color: var(--xo-faint); }
+.xo-input[aria-invalid="true"] { border-color: var(--xo-danger); }
+.xo-help  { color: var(--xo-muted); }
+.xo-error { color: var(--xo-danger); }
+
+.xo-check { display: flex; gap: var(--xo-gap); align-items: baseline; cursor: pointer; }
+.xo-check input { accent-color: var(--xo-accent); }
+
+/* --- 10. Barres --------------------------------------------------------- */
+
+.xo-statusbar {
+  display: flex;
+  gap: calc(var(--xo-gap) * 2);
+  flex-wrap: wrap;
+  align-items: center;
+  background: var(--xo-raise);
+  border-bottom: 1px solid var(--xo-border);
+  padding: 2px var(--xo-gap);
+}
+.xo-statusbar__label { color: var(--xo-muted); }
+
+.xo-keys {
+  display: flex;
+  gap: calc(var(--xo-gap) * 2);
+  flex-wrap: wrap;
+  background: var(--xo-raise);
+  border-top: 1px solid var(--xo-border);
+  padding: 2px var(--xo-gap);
+  color: var(--xo-muted);
+  font-size: .85em;
+}
+.xo-keys kbd { color: var(--xo-accent); font: inherit; font-weight: 700; }
+
+/* --- 11. Badges, jauges, sparkline -------------------------------------- */
+
+.xo-badge {
+  display: inline-block;
+  padding: 0 .5ch;
+  border: 1px solid currentColor;
+  color: var(--xo-muted);
+  white-space: nowrap;
+}
+.xo-badge--solid   { background: currentColor; border-color: transparent; }
+.xo-badge--solid > * { color: var(--xo-inverse); }
+.xo-badge--success { color: var(--xo-success); }
+.xo-badge--warning { color: var(--xo-warning); }
+.xo-badge--danger  { color: var(--xo-danger); }
+.xo-badge--info    { color: var(--xo-info); }
+
+.xo-gauge {
+  display: flex; align-items: center; gap: var(--xo-gap);
+}
+.xo-gauge__track {
+  flex: 1; height: 1em; min-width: 8ch;
+  background: var(--xo-subtle);
+  border: 1px solid var(--xo-border);
+}
+.xo-gauge__fill { height: 100%; background: var(--xo-success); }
+.xo-gauge--warning .xo-gauge__fill { background: var(--xo-warning); }
+.xo-gauge--danger  .xo-gauge__fill { background: var(--xo-danger); }
+.xo-gauge__value { color: var(--xo-muted); min-width: 5ch; text-align: right; }
+
+.xo-spark { letter-spacing: -.05em; color: var(--xo-info); }
+
+/* --- 12. Code, terminal, diff ------------------------------------------- */
+
+.xo-pre {
+  margin: 0;
+  padding: var(--xo-pad) var(--xo-gap);
+  background: var(--xo-panel);
+  border: 1px solid var(--xo-border);
+  line-height: 1.2;
+  overflow-x: auto;
+  white-space: pre;
+  tab-size: 2;
+}
+.xo-pre--terminal { background: #000; color: var(--xo-success); }
+
+.xo-diff { line-height: 1.2; overflow-x: auto; }
+.xo-diff__line { display: flex; white-space: pre; }
+.xo-diff__num  { color: var(--xo-faint); padding-right: var(--xo-gap); user-select: none; min-width: 4ch; text-align: right; }
+.xo-diff__line--add { background: var(--xo-add); }
+.xo-diff__line--del { background: var(--xo-del); }
+
+/* --- 13. Modale --------------------------------------------------------- */
+
+.xo-dialog {
+  background: var(--xo-raise);
+  color: var(--xo-fg);
+  border: 1px solid var(--xo-accent);
+  border-radius: 0;
+  padding: var(--xo-pad) var(--xo-gap);
+  min-width: min(48ch, 90vw);
+  font: inherit;
+}
+.xo-dialog::backdrop { background: var(--xo-scrim); }
+.xo-dialog__title { color: var(--xo-accent); font-weight: 700; margin-bottom: var(--xo-pad); }
+.xo-dialog__actions { display: flex; gap: var(--xo-gap); justify-content: flex-end; margin-top: var(--xo-pad); }
+
+/* --- 14. Utilitaires ---------------------------------------------------- */
+
+.xo-muted   { color: var(--xo-muted); }
+.xo-faint   { color: var(--xo-faint); }
+.xo-success { color: var(--xo-success); }
+.xo-warning { color: var(--xo-warning); }
+.xo-danger  { color: var(--xo-danger); }
+.xo-info    { color: var(--xo-info); }
+.xo-special { color: var(--xo-special); }
+.xo-alt     { color: var(--xo-alt); }
+.xo-bold    { font-weight: 700; }
+.xo-right   { text-align: right; }
+.xo-nowrap  { white-space: nowrap; }
+.xo-scroll  { overflow: auto; }
+.xo-sr {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* --- 15. Préférences & responsive --------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@media (max-width: 719px) {
+  :root { --xo-fs: 12px; }
+  .xo-grid > [class*="xo-col-"] { grid-column: span 12; }
+  .xo-list__item { padding-top: 6px; padding-bottom: 6px; }
+}

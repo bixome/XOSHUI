@@ -1,0 +1,16 @@
+# Configuration locale (identifiants MySQL) — ne jamais versionner
+config.local.php
+.env
+
+# Éditeurs / OS
+.vscode/
+.idea/
+*.code-workspace
+Thumbs.db
+desktop.ini
+*~
+*.swp
+
+# Runtime
+*.log
+.cache/
