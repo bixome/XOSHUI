@@ -1,0 +1,21 @@
+# XOSHUI — ce qui ne doit pas être servi.
+# Apache 2.4 (Laragon). Sans effet si AllowOverride est à None dans le vhost.
+
+# Pas de listing : un dossier sans index ne dévoile pas son contenu.
+Options -Indexes
+
+# Le dépôt git et tout fichier caché deviennent inexistants pour le web.
+# 404 plutôt que 403 : un refus confirmerait la présence du fichier.
+# .well-known reste accessible (validation de certificat).
+RedirectMatch 404 /\.(?!well-known)
+
+# Fichiers de travail : présents dans le dépôt, mais ce ne sont pas des pages.
+# docs/ reste accessible, l'aide-mémoire est liée depuis l'interface.
+<FilesMatch "^(CLAUDE\.md|composer\.(json|lock)|package(-lock)?\.json)$">
+  Require all denied
+</FilesMatch>
+
+# Partiels PHP : inclus par d'autres fichiers, jamais appelés directement.
+<FilesMatch "^_.*\.php$">
+  Require all denied
+</FilesMatch>

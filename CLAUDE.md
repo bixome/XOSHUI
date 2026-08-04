@@ -4,7 +4,7 @@ Bootstrap maison au look **TUI** : monospace, fond sombre, panneaux à bordure f
 sélection en vidéo inverse. PHP / MySQL / JS vanilla — **aucun build, aucune dépendance,
 aucune ressource externe**.
 
-Servi par Laragon depuis `D:\laragon\www\XOSHUI` → http://xoshui.test
+Servi par Laragon (**nginx**, pas Apache) depuis `D:\laragon\www\XOSHUI` → http://xoshui.test
 
 ## Utilisation
 
@@ -30,6 +30,7 @@ composants un à un : c'est le chemin le plus court vers un écran correct.
 | `layouts/` | Recettes : des pages entières à copier |
 | `index.php` | Page d'accueil |
 | `tools/lint.php` | Vérifie les règles ci-dessous — `php tools/lint.php` |
+| `docs/deploiement.md` | Ce qui ne doit pas être servi (nginx / Apache) |
 | `moodboard/` | Références visuelles (archives) |
 
 ## Règles
