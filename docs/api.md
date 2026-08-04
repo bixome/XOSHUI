@@ -356,10 +356,15 @@ La légende s'incruste dans la bordure, comme le titre d'un panneau — mais en 
 </dialog>
 ```
 
+Sur ce site, la palette et l'aide sont émises par `xo_nav()` (voir `libs/site.php`) :
+une seule ligne PHP par page suffit à obtenir la navigation complète.
+
 `Ctrl+K` (ou `Cmd+K`) l'ouvre. La frappe filtre les lignes et surligne la correspondance ;
 `↑↓` circulent dans les lignes **visibles** ; `Entrée` émet `xo:activate` et referme.
 `xo-palette__label` est obligatoire sur le libellé : c'est là que le surlignage est inséré.
-Écouter `xo:activate` sur le dialogue pour exécuter la commande (`event.detail.value`).
+Pour naviguer, mettre un `<a href>` dans `xo-palette__label` : `Entrée` le clique, aucun JS
+à écrire. Pour exécuter une commande, écouter `xo:activate` sur le dialogue
+(`event.detail.value`).
 
 ## Aide des raccourcis
 

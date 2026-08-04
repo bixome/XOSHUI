@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 /** Page de démonstration XOSHUI — toutes les classes visibles d'un coup. */
 
-$e = static fn (string|int|float $v): string
-    => htmlspecialchars((string) $v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+require __DIR__ . '/libs/site.php';
+$e = 'xo_e';
 
 $processes = [
     ['pid' => 58406, 'user' => 'romain', 'cpu' => 41.0, 'mem' => 0.9,  'cmd' => 'php-fpm'],
@@ -49,16 +49,7 @@ $files = [
 <body>
 <div class="xo-app">
 
-  <!-- Navigation -->
-  <nav class="xo-nav" aria-label="Principale">
-    <span class="xo-nav__brand">XOSHUI</span>
-    <ul class="xo-nav__list">
-      <li><a class="xo-nav__link" href="#" aria-current="page">Démo</a></li>
-      <li><a class="xo-nav__link" href="/docs/api.md">Aide-mémoire</a></li>
-      <li><a class="xo-nav__link" href="/docs/charte-graphique.md">Charte</a></li>
-    </ul>
-    <span class="xo-spacer"></span>
-  </nav>
+<?php xo_nav('demo'); ?>
 
   <nav class="xo-breadcrumb" aria-label="Fil d'Ariane">
     <span class="xo-breadcrumb__sep" aria-hidden="true">/</span><a href="#">libs</a>
@@ -530,8 +521,8 @@ $ _</pre>
             <div><span class="xo-muted">sortie</span> <span class="xo-cursor" aria-hidden="true"></span></div>
             <div class="xo-rule">Actions</div>
             <div class="xo-row">
-              <button class="xo-btn xo-btn--primary" data-xo-open="#palette">Ctrl+K palette</button>
-              <button class="xo-btn" data-xo-open="#help">? aide</button>
+              <button class="xo-btn xo-btn--primary" data-xo-open="#xo-palette">Ctrl+K palette</button>
+              <button class="xo-btn" data-xo-open="#xo-help">? aide</button>
             </div>
           </div>
         </section>
@@ -575,54 +566,6 @@ $ _</pre>
   </div>
 
 </div>
-
-<!-- Palette de commandes - Ctrl+K -->
-<dialog class="xo-palette" id="palette" data-xo-palette aria-label="Palette de commandes">
-  <label class="xo-search">
-    <span class="xo-search__prefix" aria-hidden="true">&gt;</span>
-    <input type="text" placeholder="Tapez une commande..." aria-label="Commande">
-  </label>
-  <ul class="xo-palette__list xo-list" data-xo-list role="listbox" aria-label="Commandes">
-    <?php foreach ([
-        ['Ouvrir un fichier',         'Ctrl+O'],
-        ['Rechercher dans le projet', 'Ctrl+Maj+F'],
-        ['Basculer la colonne',       'Ctrl+B'],
-        ['Nouveau panneau',           'Ctrl+N'],
-        ['Recharger la page',         'F5'],
-        ['Quitter',                   'Ctrl+Q'],
-    ] as $i => [$cmd, $key]): ?>
-    <li class="xo-list__item" role="option" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"
-        data-value="<?= $e($cmd) ?>">
-      <span class="xo-palette__label"><?= $e($cmd) ?></span>
-      <span class="xo-list__meta"><?= $e($key) ?></span>
-    </li>
-    <?php endforeach; ?>
-  </ul>
-  <p class="xo-palette__empty" hidden>Aucune commande ne correspond.</p>
-  <div class="xo-keys">
-    <span><kbd>&uarr;&darr;</kbd> naviguer</span>
-    <span><kbd>Entree</kbd> executer</span>
-    <span><kbd>Echap</kbd> fermer</span>
-  </div>
-</dialog>
-
-<!-- Aide - ? -->
-<dialog class="xo-help" id="help" data-xo-help aria-label="Raccourcis clavier">
-  <p class="xo-help__title">Raccourcis</p>
-  <dl class="xo-help__grid">
-    <dt class="xo-help__group">Navigation</dt>
-    <dt>&uarr; &darr;</dt><dd>Deplacer la selection</dd>
-    <dt>&larr; &rarr;</dt><dd>Changer d&rsquo;onglet</dd>
-    <dt>Entree</dt><dd>Activer la selection</dd>
-    <dt class="xo-help__group">Global</dt>
-    <dt>Ctrl+K</dt><dd>Palette de commandes</dd>
-    <dt>?</dt><dd>Cette aide</dd>
-    <dt>Echap</dt><dd>Fermer</dd>
-  </dl>
-  <div class="xo-dialog__actions">
-    <button class="xo-btn" data-xo-close>Fermer</button>
-  </div>
-</dialog>
 
 <!-- Notifications -->
 <div class="xo-toasts">

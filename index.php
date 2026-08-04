@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
-
-$e = static fn (string|int|float $v): string
-    => htmlspecialchars((string) $v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+require __DIR__ . '/libs/site.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -15,17 +13,7 @@ $e = static fn (string|int|float $v): string
 <body>
 <div class="xo-app">
 
-  <nav class="xo-nav" aria-label="Principale">
-    <span class="xo-nav__brand">XOSHUI</span>
-    <ul class="xo-nav__list">
-      <li><a class="xo-nav__link" href="/" aria-current="page">Accueil</a></li>
-      <li><a class="xo-nav__link" href="/layouts/">Layouts</a></li>
-      <li><a class="xo-nav__link" href="/demo.php">Démo</a></li>
-      <li><a class="xo-nav__link" href="/docs/api.md">Aide-mémoire</a></li>
-    </ul>
-    <span class="xo-spacer"></span>
-    <span class="xo-muted">1.0</span>
-  </nav>
+<?php xo_nav('accueil'); ?>
 
   <main class="xo-main">
 
@@ -77,9 +65,9 @@ $e = static fn (string|int|float $v): string
               'PHP'          => PHP_VERSION,
           ] as $k => $v): ?>
           <div class="xo-kv__row">
-            <dt><?= $e($k) ?></dt>
+            <dt><?= xo_e($k) ?></dt>
             <span class="xo-kv__leader" aria-hidden="true"></span>
-            <dd><?= $e($v) ?></dd>
+            <dd><?= xo_e($v) ?></dd>
           </div>
           <?php endforeach; ?>
         </dl>

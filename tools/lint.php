@@ -247,8 +247,8 @@ if (PHP_SAPI === 'cli') {
 
 /* --- Sortie navigateur : le linter se rend avec ses propres composants ---- */
 
-$e = static fn (string|int $v): string
-    => htmlspecialchars((string) $v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+require ROOT . 'libs/site.php';
+$e = 'xo_e';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -261,17 +261,7 @@ $e = static fn (string|int $v): string
 <body>
 <div class="xo-app">
 
-  <nav class="xo-nav" aria-label="Principale">
-    <span class="xo-nav__brand">XOSHUI</span>
-    <span class="xo-muted">lint</span>
-    <ul class="xo-nav__list">
-      <li><a class="xo-nav__link" href="/">Accueil</a></li>
-      <li><a class="xo-nav__link" href="/layouts/">Layouts</a></li>
-      <li><a class="xo-nav__link" href="/demo.php">Démo</a></li>
-    </ul>
-    <span class="xo-spacer"></span>
-    <code class="xo-faint">php tools/lint.php</code>
-  </nav>
+<?php xo_nav('lint'); ?>
 
   <div class="xo-statusbar">
     <strong><?= $erreurs ? 'ÉCHEC' : 'OK' ?></strong>

@@ -351,7 +351,14 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
   border-bottom: 1px solid var(--xo-border);
   padding: var(--xo-pad) var(--xo-gap);
 }
-.xo-nav__brand { font-weight: 700; color: var(--xo-accent); }
+.xo-nav__brand { font-weight: 700; color: var(--xo-accent); text-decoration: none; }
+/* Sous-barre : même mécanique, poids visuel moindre. */
+.xo-nav--sub {
+  background: var(--xo-bg);
+  border-bottom: 1px solid var(--xo-rule);
+  padding: 2px var(--xo-gap);
+  gap: var(--xo-gap);
+}
 .xo-nav__list  { display: flex; gap: 0; flex-wrap: wrap; }
 .xo-nav__link {
   display: block;
@@ -612,7 +619,12 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 }
 .xo-palette::backdrop { background: var(--xo-scrim); }
 .xo-palette .xo-search { border: 0; border-bottom: 1px solid var(--xo-border); background: none; }
-.xo-palette__label { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+/* Un lien, pour que Entrée et le clic naviguent sans une ligne de JS. */
+.xo-palette__label {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  color: inherit; text-decoration: none;
+}
+.xo-palette__label:hover, .xo-palette__label:focus-visible { text-decoration: none; }
 .xo-palette__list  { max-height: 40vh; overflow: auto; }
 .xo-palette__empty { padding: var(--xo-pad) var(--xo-gap); color: var(--xo-muted); }
 .xo-palette .xo-keys { border-top: 1px solid var(--xo-border); border-bottom: 0; }
@@ -631,7 +643,14 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 .xo-help__grid  { display: grid; grid-template-columns: 12ch 1fr; gap: 2px var(--xo-gap); }
 .xo-help__grid dt { color: var(--xo-accent); font-weight: 700; text-align: right; }
 .xo-help__grid dd { margin: 0; color: var(--xo-muted); }
-.xo-help__group { grid-column: 1 / -1; color: var(--xo-faint); margin-top: var(--xo-pad); }
+/* text-align: left explicite : l'intitulé de groupe est un dt, il hériterait
+   sinon de l'alignement à droite des touches. */
+.xo-help__group {
+  grid-column: 1 / -1;
+  text-align: left;
+  color: var(--xo-faint);
+  margin-top: var(--xo-pad);
+}
 
 /* --- 21. Notifications, infobulle --------------------------------------- */
 
