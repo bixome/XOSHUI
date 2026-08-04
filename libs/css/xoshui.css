@@ -888,4 +888,14 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
   }
   .xo-split__handle { display: none; }
   .xo-split > :first-child { border-bottom: 1px solid var(--xo-border); }
+
+  /* Une colonne latérale figée à 24ch mange les deux tiers d'un écran étroit :
+     elle repasse au-dessus du contenu, en pleine largeur. */
+  .xo-layout { flex-direction: column; }
+  .xo-sidebar {
+    width: auto;
+    max-height: 40vh;
+    border-right: 0;
+    border-bottom: 1px solid var(--xo-border);
+  }
 }

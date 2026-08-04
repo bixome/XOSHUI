@@ -418,7 +418,7 @@ $ _</pre>
 
       <div class="xo-rule xo-rule--start" style="margin-bottom: 16px">Colonne laterale</div>
 
-      <div class="xo-layout" style="height: 12em; border: 1px solid var(--xo-border); margin-bottom: 16px">
+      <div class="xo-layout" style="min-height: 12em; border: 1px solid var(--xo-border); margin-bottom: 16px">
         <nav class="xo-sidebar" aria-label="Sections">
           <div class="xo-sidebar__group">Projet</div>
           <a class="xo-sidebar__link" href="#" aria-current="page">Vue d&rsquo;ensemble</a>
@@ -539,7 +539,7 @@ $ _</pre>
 
       <div class="xo-rule xo-rule--start" style="margin: 16px 0">Separateur redimensionnable</div>
 
-      <div class="xo-split" data-xo-split style="height: 14em; border: 1px solid var(--xo-border)">
+      <div class="xo-split" data-xo-split style="min-height: 14em; border: 1px solid var(--xo-border)">
         <div class="xo-scroll">
           <ul class="xo-list" data-xo-list role="listbox" aria-label="Fichiers">
             <?php foreach (['README.md', 'xoshui.css', 'xoshui.js', 'demo.php'] as $i => $f): ?>

@@ -423,6 +423,9 @@ reste la source de vérité : le focus et l'état viennent d'elle.
 <footer class="xo-footer"><span>XOSHUI 1.0</span></footer>
 ```
 
+Sous 720 px, `xo-layout` passe en colonne : la barre latérale se place **au-dessus** du
+contenu, en pleine largeur, plafonnée à `40vh` et défilable.
+
 ## Bannière, filet titré, avatar
 
 ```html
