@@ -80,7 +80,7 @@ sémantiques --xo-accent, --xo-bg-panel …  ← seule couche autorisée dans le
 |---|---|---|---|
 | `--xo-fg` | `#CDD6F4` | ≈ 12,4:1 | texte principal |
 | `--xo-fg-muted` | `#A6ADC8` | ≈ 7,7:1 | labels, méta, colonnes secondaires |
-| `--xo-fg-faint` | `#6C7086` | ≈ 3,1:1 | **décor uniquement** — bordures, filets, glyphes désactivés. ⚠️ Sous 4,5:1 : interdit pour du texte porteur d'information |
+| `--xo-fg-faint` | `#6C7086` | ≈ 3,1:1 | **décor uniquement** — bordures, filets, glyphes désactivés. Sous 4,5:1 : interdit pour du texte porteur d'information |
 | `--xo-fg-inverse` | `#1E1E2E` | — | texte sur fond accent |
 
 **Accents sémantiques** — chacun a **un** sens, à ne pas détourner.
@@ -131,16 +131,23 @@ Mêmes tokens, valeurs saturées. `data-theme="phosphor"`.
 
 ## 3. Typographie
 
-Une seule famille : **monospace**. Pas de police proportionnelle, pas de Google Fonts.
+Une seule famille : **JetBrains Mono**, auto-hébergée dans `libs/fonts/`, avec repli sur
+la pile monospace du système. Pas de police proportionnelle, jamais de CDN.
 
-> ⚠️ La v1.1 chargeait `Consolas` depuis Google Fonts : **cette police n'y existe pas**.
-> Le chargement échouait silencieusement. On n'appelle donc **aucune ressource externe** :
-> stack système uniquement, ce qui supprime aussi une requête réseau bloquante.
+> La v1.1 chargeait `Consolas` depuis Google Fonts : **cette police n'y existe pas**.
+> Le chargement échouait silencieusement. La règle est donc devenue absolue :
+> **aucune ressource réseau**, polices comprises — le linter le vérifie.
 
 ```css
---xo-font: ui-monospace, "Cascadia Mono", "JetBrains Mono", Consolas,
+--xo-font: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas,
            "DejaVu Sans Mono", "Courier New", monospace;
 ```
+
+Ligatures désactivées : aucun terminal ne fusionne `!=` ou `->`.
+
+**Tout glyphe décoratif doit exister dans la police.** Absent, il est rendu par une police
+de secours à une autre chasse, et la ligne sort de la grille. Vérifié pour `▾ ▸ ● ○ █ ░ ▁
+┌ ─ │ ✓ ✗ ├ ▖ ▘ ▝ ▗` ; le braille (`⣾`) et `⎇`, eux, n'y sont pas.
 
 ### 3.1 Échelle
 
@@ -368,7 +375,7 @@ Règles d'implémentation :
 ```
 
 Interdits : parallaxe, fondu au scroll, skeleton animé, spinner tournant.
-Le chargement s'exprime en texte : `[ ⣾ ] loading…` ou `[####----] 50%`.
+Le chargement s'exprime en texte : `[ ▖ ] loading…` ou `[####----] 50%`.
 
 ---
 

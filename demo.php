@@ -149,7 +149,7 @@ $files = [
               <li class="xo-list__item" role="option"
                   aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"
                   data-value="<?= $e($b['name']) ?>">
-                <span class="xo-list__icon" aria-hidden="true">⎇</span>
+                <span class="xo-list__icon" aria-hidden="true">├</span>
                 <span><?= $e($b['name']) ?></span>
                 <span class="xo-list__meta <?= $e($b['cls']) ?>"><?= $e($b['meta']) ?></span>
               </li>

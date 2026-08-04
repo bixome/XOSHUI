@@ -53,7 +53,7 @@ bordure, et le moindre `overflow` les couperait en deux. Faire défiler son corp
 ```html
 <ul class="xo-list" data-xo-list role="listbox">
   <li class="xo-list__item" role="option" aria-selected="true" data-value="x">
-    <span class="xo-list__icon" aria-hidden="true">⎇</span>
+    <span class="xo-list__icon" aria-hidden="true">├</span>
     <span>Libellé</span>
     <span class="xo-list__meta">meta</span>
   </li>
@@ -289,7 +289,7 @@ et la fermeture après un choix. `--right` sur le menu pour l'aligner à droite.
 
 La barre est découpée en cellules d'un caractère (rendu `████░░░░`) par le CSS : rien à
 générer côté serveur. `--success` `--warning` `--danger` changent la couleur du remplissage.
-`xo-spinner` anime `⣾⣽⣻⢿⡿⣟⣯⣷`, figé sous `prefers-reduced-motion`.
+`xo-spinner` anime `▖▘▝▗`, figé sous `prefers-reduced-motion`.
 
 ## Journal
 

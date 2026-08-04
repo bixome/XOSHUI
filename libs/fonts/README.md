@@ -4,15 +4,19 @@ XOSHUI est écrit en **JetBrains Mono**, auto-hébergée. Aucune requête résea
 la règle « aucune ressource externe » vaut aussi pour les polices, et le linter
 refuse tout lien vers un CDN.
 
-## Fichiers attendus
+## Fichiers utilisés
 
-| Nom exact | Graisse |
+| Chemin | Graisse |
 |---|---|
-| `JetBrainsMono-Regular.woff2` | 400 |
-| `JetBrainsMono-Bold.woff2` | 700 |
+| `webfonts/JetBrainsMono-Regular.woff2` | 400 |
+| `webfonts/JetBrainsMono-Bold.woff2` | 700 |
 
-Ces deux noms sont ceux déclarés dans `libs/css/xoshui.css`. Le framework
-n'utilise que deux graisses et aucune italique : inutile de déposer le reste.
+Ce sont les deux chemins déclarés dans `libs/css/xoshui.css`. Le framework
+n'utilise que ces deux graisses et aucune italique.
+
+Le dossier `webfonts/` reprend tel quel celui de l'archive officielle, qui
+contient les seize autres variantes — non utilisées, mais conservées pour
+pouvoir en ajouter une sans retourner chercher l'archive.
 
 ## Où les prendre
 
@@ -28,7 +32,7 @@ Rien ne casse : le navigateur passe silencieusement à la pile système
 ## Licence
 
 SIL Open Font License 1.1 — l'embarquement est autorisé, à condition de
-conserver le fichier de licence. Déposer `OFL.txt` à côté des `.woff2`.
+conserver le fichier de licence. Déposer `OFL.txt` dans ce dossier — il **manque** actuellement.
 
 ## Ligatures
 

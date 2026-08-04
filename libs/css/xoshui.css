@@ -4,21 +4,21 @@
    ========================================================================== */
 
 /* --- 0. Police embarquée -------------------------------------------------
-   Deux fichiers à déposer dans libs/fonts/ — voir libs/fonts/README.md.
-   Tant qu'ils sont absents, le navigateur passe à la pile système sans rien
-   casser : la seule trace est un 404 dans la console.
-   Auto-hébergée, jamais chargée depuis le réseau. */
+   JetBrains Mono, auto-hébergée dans libs/fonts/webfonts/ — jamais chargée
+   depuis le réseau. Deux graisses suffisent : le framework n'utilise que 400
+   et 700, et aucune italique. Fichiers absents, le navigateur passe à la pile
+   système sans rien casser. */
 
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  src: url("../fonts/webfonts/JetBrainsMono-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  src: url("../fonts/webfonts/JetBrainsMono-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -566,10 +566,12 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 .xo-progress--danger  .xo-progress__fill { background: var(--xo-danger); }
 
 .xo-spinner { color: var(--xo-accent); }
-.xo-spinner::after { content: "⣾"; animation: xo-spin 800ms steps(1) infinite; }
+/* Quadrants plutôt que braille : JetBrains Mono n'a pas les points braille,
+   ils tombaient sur une police de secours et sortaient de la chasse. */
+.xo-spinner::after { content: "▖"; animation: xo-spin 800ms steps(1) infinite; }
 @keyframes xo-spin {
-  0%   { content: "⣾"; } 12.5% { content: "⣽"; } 25%   { content: "⣻"; } 37.5% { content: "⢿"; }
-  50%  { content: "⡿"; } 62.5% { content: "⣟"; } 75%   { content: "⣯"; } 87.5% { content: "⣷"; }
+  0%  { content: "▖"; } 25% { content: "▘"; }
+  50% { content: "▝"; } 75% { content: "▗"; }
 }
 
 .xo-log { overflow: auto; max-height: var(--xo-max-h, none); line-height: 1.2; }
