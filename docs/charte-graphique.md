@@ -381,6 +381,19 @@ Le chargement s'exprime en texte : `[ ▖ ] loading…` ou `[####----] 50%`.
 
 ---
 
+## 8 bis. Impression
+
+Le papier n'a ni focus, ni survol, ni défilement. On garde la grammaire — monospace,
+filets d'un trait, titres incrustés — et on retire ce qui n'existe que parce qu'un écran
+est interactif : barres de navigation et de raccourcis, onglets, colonne latérale.
+
+- Fond blanc, encre noire. Les accents deviennent des gris ; là où la couleur portait du
+  sens, c'est le gras qui prend le relais.
+- La sélection en vidéo inverse deviendrait un aplat noir : gras et chevron `>`.
+- Tout ce qui était replié ou défilant est déroulé — le papier ne défile pas.
+- `break-inside: avoid` sur les panneaux et les lignes ; en-tête de tableau répété.
+- Les liens de `xo-prose` sont suivis de leur URL, sauf les ancres.
+
 ## 9. Responsive
 
 Les TUI supposent une grille large. Stratégie en 3 paliers :

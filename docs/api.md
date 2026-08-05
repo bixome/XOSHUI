@@ -558,6 +558,29 @@ quand un élément n'a pas d'icône. **Prendre les glyphes dans [icons.php](../i
 un caractère absent de JetBrains Mono est rendu par une police de secours, à une autre
 chasse, et la ligne sort de la grille.
 
+## États d'écran
+
+```html
+<div class="xo-state">
+  <p class="xo-state__code">404</p>
+  <p class="xo-state__title">Page introuvable</p>
+  <p class="xo-state__msg">/layouts/tiroir.php n'existe pas.</p>
+  <div class="xo-row"><a class="xo-btn xo-btn--primary" href="/">Accueil</a></div>
+</div>
+```
+
+Occupe la vue ; `--xo-min-h` règle sa hauteur. `xo-empty` fait la même chose **dans un
+panneau**. Un état répond toujours à trois questions : que s'est-il passé, est-ce ma faute,
+que puis-je faire — le dernier point est le plus souvent oublié.
+
+## Impression
+
+Rien à faire : `@media print` est dans la feuille. Fond blanc, encre noire, chrome retiré
+(nav, raccourcis, barre d'outils, onglets, colonne latérale), `<details>` dépliés, zones
+défilantes déroulées, en-tête de tableau répété d'une page à l'autre, et l'URL ajoutée
+derrière chaque lien de `xo-prose`. La sélection en vidéo inverse deviendrait un aplat noir :
+elle passe en gras, précédée d'un chevron.
+
 ## Utilitaires
 
 `xo-muted` `xo-faint` `xo-accent` `xo-success` `xo-warning` `xo-danger` `xo-info` `xo-special` `xo-alt`

@@ -70,6 +70,7 @@ const XO_COMPOSANTS = [
     'code'     => ['Code',       'Bloc, terminal, diff, invite'],
     'overlay'  => ['Surcouches', 'Modale, menu, palette, aide'],
     'layout'   => ['Mise en page', 'Grille, pile, séparateur, texte'],
+    'etats'    => ['États',      'Chargement, vide, erreur, hors-ligne'],
 ];
 
 /** Niveau 2 — sous-pages de « layouts ». */

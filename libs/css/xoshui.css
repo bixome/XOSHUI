@@ -504,6 +504,24 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
   transform: translateY(-.3em);
 }
 
+/* État d'écran : le vide, l'erreur ou l'attente à l'échelle de la page.
+   xo-empty fait la même chose dans un panneau — celui-ci occupe la vue. */
+.xo-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--xo-pad);
+  min-height: var(--xo-min-h, 50vh);
+  padding: calc(var(--xo-pad) * 3) var(--xo-gap);
+  text-align: center;
+}
+.xo-state__code  { font-size: 3em; line-height: 1; font-weight: 700; color: var(--xo-faint); }
+.xo-state__art   { white-space: pre; line-height: 1.1; color: var(--xo-faint);
+                   max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+.xo-state__title { font-weight: 700; }
+.xo-state__msg   { color: var(--xo-muted); max-width: 60ch; }
+
 .xo-empty {
   display: flex;
   flex-direction: column;
@@ -876,7 +894,8 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
   padding: var(--xo-pad) var(--xo-gap);
   text-align: center;
 }
-.xo-banner__art { white-space: pre; line-height: 1.05; color: var(--xo-accent); overflow-x: auto; }
+.xo-banner__art { white-space: pre; line-height: 1.05; color: var(--xo-accent);
+                  overflow-x: auto; overflow-y: hidden; }
 .xo-banner__tagline { color: var(--xo-muted); }
 
 .xo-rule { display: flex; align-items: center; gap: var(--xo-gap); color: var(--xo-muted); }
@@ -1024,6 +1043,82 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
     animation-duration: .01ms !important;    /* xo-lint-ignore : préférence utilisateur */
     transition-duration: .01ms !important;   /* xo-lint-ignore : préférence utilisateur */
   }
+}
+
+/* --- Impression ----------------------------------------------------------
+   Le papier n'a ni focus, ni survol, ni défilement. On garde la grammaire —
+   monospace, filets d'un trait, titres incrustés — et on retire tout ce qui
+   n'existe que parce qu'un écran est interactif. */
+
+@media print {
+  :root {
+    /* Encre : fond blanc, texte noir. Les accents deviennent des gris, sauf
+       là où la couleur porte du sens, qui passe alors par le gras. */
+    --xo-bg: #FFF;  --xo-panel: #FFF;  --xo-subtle: #FFF;  --xo-raise: #FFF;
+    --xo-fg: #000;  --xo-muted: #333;  --xo-faint: #666;   --xo-inverse: #FFF;
+    --xo-accent: #000;  --xo-success: #000;  --xo-warning: #000;
+    --xo-danger: #000;  --xo-info: #000;  --xo-special: #000;  --xo-alt: #000;
+    --xo-border: #000;  --xo-rule: #999;
+    --xo-add: #FFF;  --xo-del: #FFF;  --xo-term: #FFF;
+    --xo-fs: 10pt;
+  }
+
+  @page { margin: 15mm; }
+
+  html { color-scheme: light; }
+  body { background: #FFF; color: #000; }
+
+  /* Le chrome de l'écran : rien de tout cela ne s'imprime. */
+  .xo-nav, .xo-keys, .xo-toolbar, .xo-statusbar, .xo-tabs,
+  .xo-pagination, .xo-toasts, .xo-split__handle, .xo-sidebar,
+  .xo-skeleton, .xo-spinner, .xo-cursor { display: none !important; }  /* xo-lint-ignore */
+
+  /* Une boîte fermée ne s'imprime pas ; une boîte ouverte s'imprime en place. */
+  dialog:not([open]) { display: none !important; }   /* xo-lint-ignore */
+  dialog[open] { position: static; border: 1px solid #000; max-height: none; }
+  dialog::backdrop { display: none; }
+
+  /* Rien ne doit rester replié ni hors du cadre : le papier ne défile pas. */
+  details > summary { display: none; }
+  details > *:not(summary) { display: block !important; }   /* xo-lint-ignore */
+  .xo-panel__body, .xo-table-wrap, .xo-log, .xo-dialog__body, .xo-scroll {
+    overflow: visible;
+    max-height: none;
+  }
+
+  /* Une ligne sélectionnée en vidéo inverse noircit la page : le gras et un
+     chevron disent la même chose sans vider la cartouche. */
+  .xo-list__item[aria-selected="true"],
+  .xo-table tbody tr[aria-selected="true"],
+  .xo-nav__link[aria-current="page"] {
+    background: none;
+    color: #000;
+    font-weight: 700;
+  }
+  .xo-list__item[aria-selected="true"]::before { content: "> "; }
+
+  /* Un lien imprimé sans son URL est un lien perdu — sauf les ancres. */
+  .xo-prose a[href]:not([href^="#"])::after {
+    content: " (" attr(href) ")";
+    color: #666;
+  }
+
+  /* Ne pas couper un panneau ni une ligne de tableau entre deux pages. */
+  .xo-panel, .xo-alert, .xo-kv__row, .xo-log__line, tr { break-inside: avoid; }
+  h1, h2, h3, .xo-panel__title { break-after: avoid; }
+  thead { display: table-header-group; }
+
+  /* Les barres pleines dévorent la cartouche. Les trois modificateurs sont
+     listés : sans eux, .xo-progress--danger .xo-progress__fill l'emporterait
+     en spécificité et resterait noir. */
+  .xo-progress__fill,
+  .xo-progress--success .xo-progress__fill,
+  .xo-progress--warning .xo-progress__fill,
+  .xo-progress--danger  .xo-progress__fill {
+    background: #DDD;
+    border: 1px solid #000;
+  }
+  .xo-progress__track::after { display: none; }
 }
 
 @media (max-width: 719px) {
