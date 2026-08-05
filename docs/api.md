@@ -535,6 +535,25 @@ Glisser à la souris, ← → au clavier. La largeur vit dans `--xo-split` (15 %
 Sous 720 px les deux volets s'empilent et la poignée disparaît — elle sort donc aussi du
 parcours clavier.
 
+## Éditeur
+
+```html
+<div class="xo-editor" style="--xo-max-h: 40vh">
+  <div class="xo-editor__gutter" aria-hidden="true">  1
+  2
+  3</div>
+  <textarea class="xo-editor__area" wrap="off" rows="3">…</textarea>
+</div>
+```
+
+C'est le **conteneur** qui défile, pas la zone de saisie : sans quoi il faudrait
+synchroniser deux défilements en JavaScript pour garder les numéros en face des lignes.
+La zone doit donc être aussi haute que son contenu — `rows` = nombre de lignes — et
+`wrap="off"` pour qu'une ligne reste une ligne.
+
+Voir [layouts/editor.php](../layouts/editor.php) : la saisie reste une `<textarea>`, la
+coloration se fait dans l'aperçu à côté.
+
 ## Texte de lecture
 
 ```html

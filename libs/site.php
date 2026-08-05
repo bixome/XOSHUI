@@ -82,6 +82,7 @@ const XO_LAYOUTS = [
     'explorer'      => ['Explorateur',     'Trois volets : arbre, contenu, aperçu'],
     'form'          => ['Formulaire',      'Champs groupés, validation, actions'],
     'console'       => ['Console',         'Journal défilant et invite'],
+    'editor'        => ['Éditeur',         'Texte, markdown, brut — source colorée'],
     'article'       => ['Article',         'Lecture : sommaire, texte'],
     'login'         => ['Connexion',       'Panneau centré'],
 ];
