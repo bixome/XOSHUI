@@ -31,7 +31,7 @@ faut comprendre un comportement précis.
 | `docs.php` | Lecture des documents dans le framework (liste blanche XO_DOCS) |
 | `docs/api.md` | Aide-mémoire des classes |
 | `docs/charte-graphique.md` | Référence design (palette, grammaire, a11y) — consultation, pas lecture par défaut |
-| `demo.php` | Page de démonstration : chaque classe isolée |
+| `demo.php` | L'écran de contrôle : les 213 classes en une page, sans commentaire |
 | `foundations.php` | Tokens lus dans `xoshui.css`, contrastes calculés |
 | `icons.php` | Pack de glyphes — n'en utiliser aucun qui n'y figure |
 | `favicon.svg` | Seul fichier où des couleurs sont écrites hors de `xoshui.css` |

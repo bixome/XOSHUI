@@ -8,7 +8,8 @@
 Tout est en monospace, sans arrondi, sans ombre. La sélection est une barre en vidéo
 inverse.
 
-- **[demo.php](../demo.php)** — chaque classe, isolée.
+- **[demo.php](../demo.php)** — l'écran de contrôle : les 213 classes en une page,
+  sans commentaire. Pour juger la densité et la cohésion d'un coup d'œil.
 - **[layouts/](../layouts/)** — des pages entières à copier : tableau de bord,
   maître-détail, table, explorateur, formulaire, console, article, connexion.
   Partir de là coûte moins cher que d'assembler les composants un à un.
