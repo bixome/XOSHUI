@@ -32,6 +32,8 @@ faut comprendre un comportement précis.
 | `docs/api.md` | Aide-mémoire des classes |
 | `docs/charte-graphique.md` | Référence design (palette, grammaire, a11y) — consultation, pas lecture par défaut |
 | `demo.php` | Page de démonstration : chaque classe isolée |
+| `icons.php` | Pack de glyphes — n'en utiliser aucun qui n'y figure |
+| `favicon.svg` | Seul fichier où des couleurs sont écrites hors de `xoshui.css` |
 | `layouts/` | Recettes : des pages entières à copier |
 | `components/` | Un composant par page, isolé, avec sa source |
 | `modals/` | Boîtes de message : confirmation, invite, progression, tiroir |
@@ -52,6 +54,7 @@ erreur, `/tools/lint.php` pour la même analyse en navigateur). Une ligne portan
 - Les états ayant un équivalent ARIA sont ciblés par attribut (`[aria-selected="true"]`),
   pas par classe.
 - `border-radius: 0`, aucune ombre, aucun dégradé. Monospace partout.
+- Les glyphes viennent de `icons.php`. Un caractère absent de la police sort de la grille.
 - Comportements déclarés en HTML (`data-xo-list`, `data-xo-tabs`, `data-xo-open`,
   `data-xo-palette`, `data-xo-help`, `data-xo-split`, `data-xo-toast`, `data-xo-tip`,
   `data-xo-key`, `data-xo-guard`) — pas d'appel JS à écrire.

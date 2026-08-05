@@ -23,6 +23,7 @@ const XO_PAGES = [
     'layouts' => ['/layouts/',       'Layouts', 'Pages entières à copier'],
     'compos'  => ['/components/',    'Composants', 'Un composant par page, isolé'],
     'modales' => ['/modals/',        'Modales', 'Boîtes de message, invites, confirmations'],
+    'icones'  => ['/icons.php',      'Icônes',  'Le pack de glyphes vérifiés'],
     'demo'    => ['/demo.php',       'Démo',    'Chaque classe isolée'],
     'docs'    => ['/docs.php',       'Docs',    'Aide-mémoire, charte, déploiement'],
     'lint'    => ['/tools/lint.php', 'Lint',    'Vérification des règles'],

@@ -146,8 +146,10 @@ la pile monospace du système. Pas de police proportionnelle, jamais de CDN.
 Ligatures désactivées : aucun terminal ne fusionne `!=` ou `->`.
 
 **Tout glyphe décoratif doit exister dans la police.** Absent, il est rendu par une police
-de secours à une autre chasse, et la ligne sort de la grille. Vérifié pour `▾ ▸ ● ○ █ ░ ▁
-┌ ─ │ ✓ ✗ ├ ▖ ▘ ▝ ▗` ; le braille (`⣾`) et `⎇`, eux, n'y sont pas.
+de secours à une autre chasse, et la ligne sort de la grille. Le pack vérifié — 67 glyphes,
+6 groupes — est dans `icons.php` : ne rien prendre en dehors sans avoir mesuré sa largeur
+contre celle de `M`. Écartés faute de chasse : le braille (`⣾`), `⎇`, les étoiles (`★ ☆`),
+les cœurs, les touches Mac et l'ensemble des emoji.
 
 ### 3.1 Échelle
 

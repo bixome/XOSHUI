@@ -883,6 +883,15 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 .xo-rule::before, .xo-rule::after { content: ""; flex: 1; border-top: 1px solid var(--xo-rule); }
 .xo-rule--start::before { flex: 0 0 2ch; }
 
+/* Réserve une cellule et centre le glyphe : les colonnes restent alignées
+   même quand un élément de la liste n'a pas d'icône. */
+.xo-icon {
+  display: inline-block;
+  flex: none;
+  width: 1ch;
+  text-align: center;
+}
+
 .xo-avatar {
   display: inline-flex; align-items: center; justify-content: center;
   width: 3ch; height: 1.5em;
@@ -992,6 +1001,7 @@ hr { border: 0; border-top: 1px solid var(--xo-rule); margin: var(--xo-pad) 0; }
 
 .xo-muted   { color: var(--xo-muted); }
 .xo-faint   { color: var(--xo-faint); }
+.xo-accent  { color: var(--xo-accent); }
 .xo-success { color: var(--xo-success); }
 .xo-warning { color: var(--xo-warning); }
 .xo-danger  { color: var(--xo-danger); }

@@ -35,6 +35,7 @@ $pages = 42;
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Table — XOSHUI</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/libs/css/xoshui.css">
 </head>
 <body>

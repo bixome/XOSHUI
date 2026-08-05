@@ -13,6 +13,7 @@ $valeurs = ['hote' => 'db.interne', 'port' => '33O6', 'base' => 'xoshui', 'user'
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Formulaire — XOSHUI</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/libs/css/xoshui.css">
 </head>
 <body>

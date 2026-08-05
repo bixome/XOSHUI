@@ -194,6 +194,7 @@ $doc = xo_md($source);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= xo_e($titre) ?> — XOSHUI</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/libs/css/xoshui.css">
 </head>
 <body>

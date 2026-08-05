@@ -15,7 +15,8 @@ inverse.
 - **[components/](../components/)** — un composant par page, isolé, avec ses variantes
   et sa source à déplier.
 - **[modals/](../modals/)** — les boîtes de message : information, confirmation, invite,
-  formulaire, progression, tiroir.
+  formulaire, progression, plein écran.
+- **[icons.php](../icons.php)** — le pack de glyphes, tous mesurés dans la police.
 
 ## Mise en page
 
@@ -542,9 +543,20 @@ Seule zone du framework qui ne remplit pas l'écran : largeur plafonnée à `80c
 les marges que le reset supprime, préfixe les titres de `##` / `###`, et style les listes,
 citations, `code` et tableaux. À réserver au contenu rédigé — jamais à une interface.
 
+## Icônes
+
+```html
+<span class="xo-icon" aria-hidden="true">▾</span>
+```
+
+`xo-icon` réserve une cellule et centre le glyphe : les colonnes restent alignées même
+quand un élément n'a pas d'icône. **Prendre les glyphes dans [icons.php](../icons.php)** :
+un caractère absent de JetBrains Mono est rendu par une police de secours, à une autre
+chasse, et la ligne sort de la grille.
+
 ## Utilitaires
 
-`xo-muted` `xo-faint` `xo-success` `xo-warning` `xo-danger` `xo-info` `xo-special` `xo-alt`
+`xo-muted` `xo-faint` `xo-accent` `xo-success` `xo-warning` `xo-danger` `xo-info` `xo-special` `xo-alt`
 `xo-bold` `xo-right` `xo-num` `xo-nowrap` `xo-scroll` `xo-sr` (masqué visuellement)
 
 ## Tokens
