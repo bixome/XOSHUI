@@ -74,13 +74,13 @@ sémantiques --xo-accent, --xo-bg-panel …  ← seule couche autorisée dans le
 | `--xo-bg-subtle` | `#252537` | ligne paire de tableau, survol |
 | `--xo-bg-inverse` | `#1E1E2E` | texte posé **sur** une sélection |
 
-**Texte**
+**Texte** — contrastes calculés, et vérifiables sur [foundations.php](../foundations.php).
 
 | Token | Valeur | Contraste /`--xo-bg` | Usage |
 |---|---|---|---|
-| `--xo-fg` | `#CDD6F4` | ≈ 12,4:1 | texte principal |
-| `--xo-fg-muted` | `#A6ADC8` | ≈ 7,7:1 | labels, méta, colonnes secondaires |
-| `--xo-fg-faint` | `#6C7086` | ≈ 3,1:1 | **décor uniquement** — bordures, filets, glyphes désactivés. Sous 4,5:1 : interdit pour du texte porteur d'information |
+| `--xo-fg` | `#CDD6F4` | 11,34:1 | texte principal |
+| `--xo-fg-muted` | `#A6ADC8` | 7,37:1 | labels, méta, colonnes secondaires |
+| `--xo-fg-faint` | `#6C7086` | 3,36:1 | **décor uniquement** — bordures, filets, glyphes désactivés. Sous 4,5:1 : interdit pour du texte porteur d'information |
 | `--xo-fg-inverse` | `#1E1E2E` | — | texte sur fond accent |
 
 **Accents sémantiques** — chacun a **un** sens, à ne pas détourner.

@@ -20,10 +20,10 @@ function xo_e(string|int|float|null $v): string
 /** Niveau 1 — slug => [url, libellé, description]. */
 const XO_PAGES = [
     'accueil' => ['/',               'Accueil', 'Point d’entrée'],
+    'fond'    => ['/foundations.php','Fondations', 'Tokens, contrastes, glyphes'],
     'layouts' => ['/layouts/',       'Layouts', 'Pages entières à copier'],
     'compos'  => ['/components/',    'Composants', 'Un composant par page, isolé'],
     'modales' => ['/modals/',        'Modales', 'Boîtes de message, invites, confirmations'],
-    'icones'  => ['/icons.php',      'Icônes',  'Le pack de glyphes vérifiés'],
     'demo'    => ['/demo.php',       'Démo',    'Chaque classe isolée'],
     'docs'    => ['/docs.php',       'Docs',    'Aide-mémoire, charte, déploiement'],
     'lint'    => ['/tools/lint.php', 'Lint',    'Vérification des règles'],
@@ -37,6 +37,12 @@ const XO_DOCS = [
     'api'         => ['docs/api.md',               'Aide-mémoire'],
     'charte'      => ['docs/charte-graphique.md',  'Charte graphique'],
     'deploiement' => ['docs/deploiement.md',       'Déploiement'],
+];
+
+/** Niveau 2 — sous-pages de « fondations ». */
+const XO_FONDATIONS = [
+    'tokens' => ['Tokens', 'Couleur, texte, espacement, formes'],
+    'icones' => ['Icônes', 'Le pack de glyphes vérifiés'],
 ];
 
 /** Niveau 2 — sous-pages de « modales ». */
@@ -54,6 +60,7 @@ const XO_MODALES = [
 const XO_COMPOSANTS = [
     'index'    => ['Sommaire',   'La liste des composants'],
     'panel'    => ['Panneau',    'Le cadre à titre incrusté'],
+    'button'   => ['Boutons',    'Variantes, états, groupes'],
     'list'     => ['Liste',      'Sélection, arbre, navigation clavier'],
     'table'    => ['Tableau',    'En-tête collant, zébrage, tri'],
     'form'     => ['Formulaire', 'Champs, cases, radio, curseur'],
@@ -90,6 +97,7 @@ function xo_section(string $current): string
     if (isset(XO_LAYOUTS[$current]))    { return 'layouts'; }
     if (isset(XO_COMPOSANTS[$current])) { return 'compos'; }
     if (isset(XO_MODALES[$current]))    { return 'modales'; }
+    if (isset(XO_FONDATIONS[$current])) { return 'fond'; }
     return 'accueil';
 }
 
@@ -133,6 +141,17 @@ function xo_nav(string $current = ''): void
       <?php foreach (XO_COMPOSANTS as $slug => [$label, $_]):
           $url  = $slug === 'index' ? '/components/' : '/components/' . $slug . '.php';
           $ici  = $slug === $current || ($slug === 'index' && $current === $section); ?>
+      <li><a class="xo-nav__link" href="<?= xo_e($url) ?>"
+             <?= $ici ? 'aria-current="page"' : '' ?>><?= xo_e($label) ?></a></li>
+      <?php endforeach; ?>
+    </ul>
+  </nav>
+    <?php elseif ($section === 'fond'): ?>
+  <nav class="xo-nav xo-nav--sub" aria-label="Fondations">
+    <ul class="xo-nav__list">
+      <?php foreach (XO_FONDATIONS as $slug => [$label, $_]):
+          $url = $slug === 'tokens' ? '/foundations.php' : '/icons.php';
+          $ici = $slug === $current || ($slug === 'tokens' && $current === $section); ?>
       <li><a class="xo-nav__link" href="<?= xo_e($url) ?>"
              <?= $ici ? 'aria-current="page"' : '' ?>><?= xo_e($label) ?></a></li>
       <?php endforeach; ?>
@@ -205,6 +224,10 @@ function xo_palette(string $current = ''): void
     foreach (XO_COMPOSANTS as $slug => [$label, $desc]) {
         $url = $slug === 'index' ? '/components/' : '/components/' . $slug . '.php';
         $entrees[] = [$url, 'Composants › ' . $label, $desc];
+    }
+    foreach (XO_FONDATIONS as $slug => [$label, $desc]) {
+        $url = $slug === 'tokens' ? '/foundations.php' : '/icons.php';
+        $entrees[] = [$url, 'Fondations › ' . $label, $desc];
     }
     foreach (XO_MODALES as $slug => [$label, $desc]) {
         $url = $slug === 'index' ? '/modals/' : '/modals/' . $slug . '.php';

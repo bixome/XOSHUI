@@ -32,6 +32,7 @@ faut comprendre un comportement précis.
 | `docs/api.md` | Aide-mémoire des classes |
 | `docs/charte-graphique.md` | Référence design (palette, grammaire, a11y) — consultation, pas lecture par défaut |
 | `demo.php` | Page de démonstration : chaque classe isolée |
+| `foundations.php` | Tokens lus dans `xoshui.css`, contrastes calculés |
 | `icons.php` | Pack de glyphes — n'en utiliser aucun qui n'y figure |
 | `favicon.svg` | Seul fichier où des couleurs sont écrites hors de `xoshui.css` |
 | `layouts/` | Recettes : des pages entières à copier |

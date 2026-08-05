@@ -16,6 +16,7 @@ inverse.
   et sa source à déplier.
 - **[modals/](../modals/)** — les boîtes de message : information, confirmation, invite,
   formulaire, progression, plein écran.
+- **[foundations.php](../foundations.php)** — les tokens, avec les contrastes calculés.
 - **[icons.php](../icons.php)** — le pack de glyphes, tous mesurés dans la police.
 
 ## Mise en page
@@ -96,8 +97,11 @@ navigables. L'en-tête ne devient collant que si la hauteur est contrainte :
 
 ## Boutons
 
-`xo-btn` · `--primary` · `--danger` · `--ghost` · `[disabled]`
-Transparent au repos, plein au survol et au focus.
+`xo-btn` · `--primary` · `--danger` · `--ghost` · `[disabled]` · `xo-btn-group`
+Transparent au repos, plein au survol et au focus — le remplissage signale l'interaction,
+pas l'existence. Bouton bascule : `aria-pressed`. Bouton réduit à un glyphe : `aria-label`
+obligatoire. Pleine largeur : `style="width: 100%; justify-content: center"`, sans quoi le
+libellé reste collé à gauche.
 
 ## Formulaire
 
