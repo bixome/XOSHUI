@@ -1,7 +1,7 @@
 # XOSHUI
 
 Bootstrap maison au look **TUI** : monospace, fond sombre, panneaux à bordure fine,
-sélection en vidéo inverse. PHP / MySQL / JS vanilla — **aucun build, aucune dépendance,
+sélection en vidéo inverse. PHP / JS vanilla — **aucun build, aucune dépendance,
 aucune ressource externe**.
 
 Servi par Laragon (**nginx**, pas Apache) depuis `D:\laragon\www\XOSHUI` → http://xoshui.test
@@ -19,6 +19,8 @@ Servi par Laragon (**nginx**, pas Apache) depuis `D:\laragon\www\XOSHUI` → htt
 composants un à un : c'est le chemin le plus court vers un écran correct.
 **[components/](components/)** — un composant isolé, ses variantes et sa source, quand il
 faut comprendre un comportement précis.
+**[templates/](templates/)** — le squelette d'une page vierge, quand aucune recette ne
+correspond et qu'il faut partir de zéro.
 
 ## Fichiers
 
@@ -35,6 +37,7 @@ faut comprendre un comportement précis.
 | `foundations.php` | Tokens lus dans `xoshui.css`, contrastes calculés |
 | `icons.php` | Pack de glyphes — n'en utiliser aucun qui n'y figure |
 | `favicon.svg` | Seul fichier où des couleurs sont écrites hors de `xoshui.css` |
+| `templates/` | Squelettes de page vierge : `page.php` (dans le site), `page-nue.php` (hors du site) |
 | `layouts/` | Recettes : des pages entières à copier |
 | `components/` | Un composant par page, isolé, avec sa source |
 | `modals/` | Boîtes de message : confirmation, invite, progression, tiroir |
@@ -61,4 +64,5 @@ erreur, `/tools/lint.php` pour la même analyse en navigateur). Une ligne portan
   `data-xo-key`, `data-xo-guard`) — pas d'appel JS à écrire.
 - Tout navigable au clavier, focus toujours visible. `xo-keys` en bas de chaque écran.
 - `--xo-faint` a un contraste < 4,5:1 : décor uniquement, jamais de texte utile.
-- PHP : `declare(strict_types=1)`, PDO + requêtes préparées, `htmlspecialchars` en sortie.
+- PHP : `declare(strict_types=1)`, `htmlspecialchars` en sortie. Le framework ne touche
+  aucune base ; si une page consommatrice en lit une, PDO + requêtes préparées.

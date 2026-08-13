@@ -3,7 +3,7 @@
 > **Version** 2.0 · **Date** 04/08/2026
 > **Statut** : source de vérité du design. Remplace la v1.1 (`moodboard/charte-graphique-…md`),
 > conservée comme archive.
-> **Périmètre** : framework de design réutilisable, PHP / MySQL / JS vanilla, sans build.
+> **Périmètre** : framework de design réutilisable, PHP / JS vanilla, sans build.
 
 ---
 
@@ -444,8 +444,9 @@ primitives/sémantiques ne se justifiant plus dans un fichier unique. `api.md` f
 3. JS en modules ES, aucune dépendance, aucun global. Les comportements se déclarent en
    HTML (`data-xo-list`, `data-xo-tabs`, `data-xo-open`, `data-xo-theme`).
 4. Le HTML reste **fonctionnel sans JS** ; le JS n'ajoute que le confort clavier.
-5. PHP : `declare(strict_types=1)`, PDO + requêtes préparées, échappement systématique en
-   sortie (`htmlspecialchars(..., ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')`).
+5. PHP : `declare(strict_types=1)`, échappement systématique en sortie
+   (`htmlspecialchars(..., ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')`). Le framework ne touche
+   aucune base ; si une page consommatrice en lit une, PDO + requêtes préparées.
 6. Le thème vit dans `document.documentElement.dataset.theme`, persisté en `localStorage`,
    relu par un `<script>` inline en `<head>` pour éviter le flash au chargement.
 

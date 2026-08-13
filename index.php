@@ -23,7 +23,7 @@ require __DIR__ . '/libs/site.php';
  \ \/ // _ \/ __| || | | | |_ _|
   &gt;  &lt;| (_) \__ \ __ | |_| || |
  /_/\_\\___/|___/_||_|\___/|___|</pre>
-      <p class="xo-banner__tagline">Bootstrap maison au look TUI — PHP / MySQL / JS vanilla</p>
+      <p class="xo-banner__tagline">Bootstrap maison au look TUI — PHP / JS vanilla</p>
     </div>
 
     <div class="xo-grid">
