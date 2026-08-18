@@ -30,7 +30,7 @@ const EXCLUS = ['.git', 'moodboard', 'docs', 'vendor', 'node_modules', '.cache']
 
 /** Comportements que le module JS sait monter. */
 const HOOKS = ['list', 'tabs', 'open', 'close', 'palette', 'help', 'split', 'toast', 'tip',
-               'timer', 'key', 'guard', 'guard-ok'];
+               'timer', 'key', 'guard', 'guard-ok', 'menu'];
 
 /* ---------------------------------------------------------------- Collecte */
 

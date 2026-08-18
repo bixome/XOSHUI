@@ -4,10 +4,13 @@
 
    Tout se déclare en HTML :
      [data-xo-list]            navigation ↑↓, sélection, événement "xo:select"
+                               ="horizontal" ←→ · ="grid" ←→ d'une case, ↑↓ d'une
+                               rangée (calendrier, pack de glyphes)
      [data-xo-tabs]            onglets ←→, bascule des [role="tabpanel"]
      [data-xo-open="#id"]      ouvre la <dialog> ciblée
      [data-xo-close]           ferme la <dialog> parente
      .xo-dropdown              <details> : Échap et clic extérieur referment
+     [data-xo-menu="#id"]      menu contextuel au clic droit, événement "xo:menu"
      [data-xo-palette]         palette de commandes, ouverte par Ctrl+K
      [data-xo-help]            aide des raccourcis, ouverte par ?
      [data-xo-split]           séparateur redimensionnable (souris et flèches)
@@ -23,8 +26,14 @@ const KEY_NEXT = ['ArrowDown', 'ArrowRight'];
 /* --- Listes ------------------------------------------------------------- */
 
 function initList(root) {
-  const items = () => [...root.querySelectorAll('.xo-list__item, tbody tr')]
+  const items = () => [...root.querySelectorAll('.xo-list__item, .xo-cal__day, tbody tr')]
     .filter((el) => el.getAttribute('aria-disabled') !== 'true' && !el.hidden);
+
+  /* Nombre de colonnes d'une grille, lu dans la grille elle-même. Compter les
+     éléments de la première rangée ne marcherait pas : celle d'un calendrier
+     est incomplète dès que le mois ne commence pas un lundi. Lu à chaque appel
+     plutôt que déclaré — une grille qui se réagence reste juste. */
+  const cols = () => getComputedStyle(root).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
 
   const select = (el, notify = true) => {
     if (!el) return;
@@ -48,12 +57,17 @@ function initList(root) {
   };
 
   root.addEventListener('keydown', (e) => {
-    const vertical = root.dataset.xoList !== 'horizontal';
-    const prev = vertical ? 'ArrowUp' : 'ArrowLeft';
-    const next = vertical ? 'ArrowDown' : 'ArrowRight';
+    const mode = root.dataset.xoList;
+    const grille = mode === 'grid';
+    // En grille, ↑↓ sautent une rangée entière et ←→ avancent d'une case.
+    const pas  = grille ? cols() : 1;
+    const prev = mode === 'horizontal' ? 'ArrowLeft'  : 'ArrowUp';
+    const next = mode === 'horizontal' ? 'ArrowRight' : 'ArrowDown';
 
-    if (e.key === prev)            { e.preventDefault(); move(-1); }
-    else if (e.key === next)       { e.preventDefault(); move(1); }
+    if (e.key === prev)            { e.preventDefault(); move(-pas); }
+    else if (e.key === next)       { e.preventDefault(); move(pas); }
+    else if (grille && e.key === 'ArrowLeft')  { e.preventDefault(); move(-1); }
+    else if (grille && e.key === 'ArrowRight') { e.preventDefault(); move(1); }
     else if (e.key === 'Home')     { e.preventDefault(); select(items()[0]); }
     else if (e.key === 'End')      { e.preventDefault(); select(items().at(-1)); }
     else if (e.key === 'Enter' || e.key === ' ') {
@@ -69,7 +83,7 @@ function initList(root) {
   });
 
   root.addEventListener('click', (e) => {
-    const el = e.target.closest('.xo-list__item, tbody tr');
+    const el = e.target.closest('.xo-list__item, .xo-cal__day, tbody tr');
     if (el && root.contains(el)) select(el);
   });
 
@@ -191,6 +205,78 @@ function initDropdowns(scope) {
     e.preventDefault();
     open.open = false;
     open.querySelector('summary')?.focus();
+  });
+}
+
+/* --- Menu contextuel ----------------------------------------------------- */
+
+/**
+ * Clic droit dans [data-xo-menu="#id"] : le menu s'ouvre au curseur.
+ *
+ * Le menu vit hors de la liste, une seule fois dans la page, et sert toutes ses
+ * lignes : le recopier sur chaque élément multiplierait le balisage par le
+ * nombre de lignes pour un menu dont un seul est visible à la fois.
+ *
+ * La cible retenue est le premier ancêtre porteur de `data-value` — la même
+ * convention que les listes. Le choix émet `xo:menu` sur le conteneur, avec
+ * `{action, value, item}` ; le module ne décide de rien.
+ */
+function initMenu(root) {
+  const menu = document.querySelector(root.dataset.xoMenu);
+  if (!menu) return;
+
+  let cible = null;
+
+  const fermer = () => {
+    menu.hidden = true;
+    cible = null;
+  };
+
+  root.addEventListener('contextmenu', (e) => {
+    const item = e.target.closest('[data-value]');
+    if (!item || !root.contains(item)) return;
+
+    e.preventDefault();
+    cible = item;
+
+    // L'intitulé de la cible, s'il y a de quoi le remplir : un menu contextuel
+    // sans rappel de ce qu'il vise laisse un doute dans une liste longue.
+    const titre = menu.querySelector('.xo-menu__titre');
+    if (titre) titre.textContent = (item.dataset.libelle ?? item.textContent).trim().slice(0, 80);
+
+    // Mesurer une fois affiché : un élément caché n'a pas de dimensions.
+    menu.hidden = false;
+    const large = menu.offsetWidth;
+    const haut = menu.offsetHeight;
+
+    // Rabattre plutôt que déborder — près du bord bas, un menu qui sort de la
+    // fenêtre est inatteignable, la page ne défilant pas sous lui.
+    const x = e.clientX + large > window.innerWidth ? e.clientX - large : e.clientX;
+    const y = e.clientY + haut > window.innerHeight ? e.clientY - haut : e.clientY;
+
+    menu.style.left = `${Math.max(0, x)}px`;
+    menu.style.top = `${Math.max(0, y)}px`;
+  });
+
+  menu.addEventListener('click', (e) => {
+    const choix = e.target.closest('.xo-menu__item');
+    if (!choix || choix.getAttribute('aria-disabled') === 'true') return;
+
+    root.dispatchEvent(new CustomEvent('xo:menu', {
+      bubbles: true,
+      detail: { action: choix.dataset.action ?? null, value: cible?.dataset.value ?? null, item: cible },
+    }));
+    fermer();
+  });
+
+  // Un menu posé en coordonnées fixes suivrait le curseur au défilement : il se
+  // ferme, comme le fait le système.
+  document.addEventListener('pointerdown', (e) => {
+    if (!menu.hidden && !e.target.closest('.xo-menu')) fermer();
+  });
+  document.addEventListener('scroll', () => { if (!menu.hidden) fermer(); }, true);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !menu.hidden) fermer();
   });
 }
 
@@ -352,20 +438,36 @@ function initSplit(root) {
 
 /* --- Montage ------------------------------------------------------------ */
 
-const mounted = new WeakSet();
+/* Un élément peut porter plusieurs comportements — `data-xo-list` et
+   `data-xo-menu` sur la même liste, par exemple. Retenir « déjà monté » par
+   élément ne suffit donc pas : le premier hook monté ferait sauter les
+   suivants. On retient le couple élément × comportement. */
+const mounted = new WeakMap();
+
+function une_fois(el, nom, init) {
+  let faits = mounted.get(el);
+  if (!faits) {
+    faits = new Set();
+    mounted.set(el, faits);
+  }
+  if (faits.has(nom)) {
+    return;
+  }
+  faits.add(nom);
+  init(el);
+}
 
 export function mount(scope = document) {
-  for (const el of scope.querySelectorAll('[data-xo-list]')) {
-    if (!mounted.has(el)) { mounted.add(el); initList(el); }
-  }
-  for (const el of scope.querySelectorAll('[data-xo-tabs]')) {
-    if (!mounted.has(el)) { mounted.add(el); initTabs(el); }
-  }
-  for (const el of scope.querySelectorAll('[data-xo-palette]')) {
-    if (!mounted.has(el)) { mounted.add(el); initPalette(el); }
-  }
-  for (const el of scope.querySelectorAll('[data-xo-split]')) {
-    if (!mounted.has(el)) { mounted.add(el); initSplit(el); }
+  for (const [nom, init] of [
+    ['list', initList],
+    ['tabs', initTabs],
+    ['palette', initPalette],
+    ['split', initSplit],
+    ['menu', initMenu],
+  ]) {
+    for (const el of scope.querySelectorAll(`[data-xo-${nom}]`)) {
+      une_fois(el, nom, init);
+    }
   }
   initToasts(scope);
   initGuards(scope);
