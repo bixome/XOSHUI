@@ -37,6 +37,12 @@ $sources = [
 
 <?php xo_layout_nav('console'); ?>
 
+  <!-- Tout l'écran est en mode console. La navigation du site reste en dehors :
+       c'est le chrome de la vitrine, pas de l'outil. Retirer « xo-console »
+       ci-dessous rend la recette à sa grammaire d'origine, sans rien d'autre
+       à changer. -->
+  <div class="xo-console" style="flex: 1; display: flex; flex-direction: column; min-height: 0">
+
   <div class="xo-toolbar">
     <div class="xo-btn-group" role="group" aria-label="Niveau">
       <button class="xo-btn" aria-pressed="true">Tout</button>
@@ -136,6 +142,8 @@ $sources = [
     <span><kbd>/</kbd> filtrer</span>
     <span class="xo-spacer"></span>
     <span class="xo-faint">app · nginx · redis</span>
+  </div>
+
   </div>
 
 </div>

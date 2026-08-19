@@ -8,7 +8,7 @@
 Tout est en monospace, sans arrondi, sans ombre. La sélection est une barre en vidéo
 inverse.
 
-- **[demo.php](../demo.php)** — l'écran de contrôle : les 213 classes en une page,
+- **[demo.php](../demo.php)** — l'écran de contrôle : les 238 classes en une page,
   sans commentaire. Pour juger la densité et la cohésion d'un coup d'œil.
 - **[layouts/](../layouts/)** — des pages entières à copier : tableau de bord,
   maître-détail, table, explorateur, formulaire, console, article, connexion.
@@ -270,6 +270,28 @@ la clé à la valeur.
 
 Bâti sur `<details>` : ouvre et ferme sans JS. Le module ajoute `Échap`, le clic extérieur
 et la fermeture après un choix. `--right` sur le menu pour l'aligner à droite.
+
+## Menu contextuel
+
+```html
+<ul class="xo-list" data-xo-list data-xo-menu="#menu-fil">
+  <li class="xo-list__item" data-value="42" data-libelle="Ce que vise le menu">…</li>
+</ul>
+
+<div class="xo-menu" id="menu-fil" role="menu" hidden>
+  <div class="xo-menu__titre"></div>
+  <button class="xo-menu__item" role="menuitem" data-action="ouvrir">Ouvrir</button>
+  <div class="xo-menu__sep" role="separator"></div>
+  <button class="xo-menu__item" role="menuitem" data-action="suivre">Suivre</button>
+</div>
+```
+
+Le clic droit sur un élément portant `data-value` ouvre le menu au curseur et émet
+`xo:menu` sur le conteneur — `event.detail.{action, value, item}`. Le menu se rabat s'il
+déborde du bas ou de la droite, et se ferme au clic extérieur, à `Échap` et au défilement.
+
+Un seul menu sert toute la liste : `xo-menu__titre`, s'il est présent, reçoit le
+`data-libelle` de la ligne visée (ou son texte). Le module ne décide d'aucune action.
 
 ## Recherche
 
@@ -592,6 +614,211 @@ chasse, et la ligne sort de la grille.
 Occupe la vue ; `--xo-min-h` règle sa hauteur. `xo-empty` fait la même chose **dans un
 panneau**. Un état répond toujours à trois questions : que s'est-il passé, est-ce ma faute,
 que puis-je faire — le dernier point est le plus souvent oublié.
+
+## Graphe temporel
+
+Un `<pre>` de blocs, calculé côté serveur. Aucun canvas, aucune dépendance — comme
+`xo-bars`, en deux dimensions. Une colonne par point, la rangée du bas remplie la
+première, huit sous-niveaux par ligne (`▁▂▃▄▅▆▇█`).
+
+| Classe | Rôle |
+|---|---|
+| `xo-plot` | Grille : échelle à gauche, tracé à droite |
+| `xo-plot__scale` | Graduations, réparties sur la hauteur du tracé |
+| `xo-plot__area` | Le `<pre>` — lui donner `role="img"` et un `aria-label` qui résume |
+| `xo-plot__foot` | Bornes de l'axe du temps |
+| `xo-plot--success` `--warning` `--danger` | Teinte du tracé |
+
+L'échelle et le tracé partagent la rangée de grille : leurs hauteurs sont donc égales,
+et `space-between` fait tomber les graduations en face des bonnes lignes.
+
+```php
+function xo_plot_rangees(array $valeurs, int $hauteur): array   // valeurs entre 0 et 1
+{
+    $blocs   = [' ', '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
+    $rangees = array_fill(0, $hauteur, '');
+    foreach ($valeurs as $v) {
+        $rempli = max(0.0, min(1.0, $v)) * $hauteur;
+        for ($r = 0; $r < $hauteur; $r++) {
+            $part = max(0.0, min(1.0, $rempli - ($hauteur - 1 - $r)));
+            $rangees[$r] .= $blocs[(int) round($part * 8)];
+        }
+    }
+    return $rangees;
+}
+```
+
+## Carte de chaleur
+
+Une grille de caractères dont la **densité** porte la valeur (`·` `░` `▒` `▓` `█`) : elle
+reste lisible en noir et blanc, et la couleur n'ajoute qu'un second signal.
+
+| Classe | Rôle |
+|---|---|
+| `xo-heat` | Conteneur — `role="img"` et un `aria-label` qui résume la forme |
+| `xo-heat__row` | Une rangée : libellé + cellules |
+| `xo-heat__label` | Libellé de rangée, 4ch minimum, aligné à droite |
+| `xo-heat__cells` | La suite de cellules — `white-space: pre` |
+| `xo-heat__cell` + `--0` … `--4` | Une cellule et son niveau |
+| `xo-heat--seuils` | La couleur double la densité (info → succès → avertissement → danger) |
+| `xo-heat__foot` | La légende « moins ·░▒▓█ plus » |
+
+Les cellules sont des caractères collés : **les émettre sans séparateur**, l'indentation
+du gabarit deviendrait visible.
+
+## Calendrier
+
+La disposition de `cal` : sept colonnes de trois caractères, quantième aligné à droite,
+troisième caractère laissé en gouttière. Les jours hors du mois sont **vides**, pas grisés.
+
+| Classe | Rôle |
+|---|---|
+| `xo-cal` | Conteneur |
+| `xo-cal__head` | Mois et navigation (deux `xo-btn--ghost`) |
+| `xo-cal__month` | Le libellé du mois, centré |
+| `xo-cal__grid` | Grille de 7 × 3ch. En poser deux : une pour les en-têtes, une pour les jours |
+| `xo-cal__dow` | En-tête de colonne (`lu`, `ma`…) |
+| `xo-cal__day` | Un jour — un `<button>` |
+| `xo-cal__day--event` | Pastille `·` dans la gouttière, sans décaler le quantième |
+
+États par attribut : `aria-selected="true"` (vidéo inverse), `aria-current="date"`
+(aujourd'hui — accent souligné), `aria-disabled="true"`.
+
+```html
+<div class="xo-cal__grid" data-xo-list="grid" role="listbox" aria-label="Août 2026">
+  <span aria-hidden="true"></span>          <!-- décalage du 1er du mois -->
+  <button type="button" role="option" class="xo-cal__day" aria-selected="false">1</button>
+</div>
+```
+
+`data-xo-list="grid"` donne la navigation à deux dimensions : ←→ d'une case, ↑↓ d'une
+rangée. Le nombre de colonnes est lu dans `grid-template-columns`, donc juste même quand
+la première rangée est incomplète. Le mode sert toute grille, pas seulement le calendrier.
+
+## Mouvement
+
+Quatre utilitaires, en CSS seul — aucun JS à écrire. Ils servent surtout aux deux modes,
+où une sortie **arrive**, mais rien ne les y limite.
+
+| Classe | Rôle |
+|---|---|
+| `xo-appear` + `--xo-i` | Apparition échelonnée : la ligne `--xo-i: 3` apparaît 270 ms après la première |
+| `xo-type` + `--xo-n` | La saisie se tape ; `--xo-n` = le nombre de caractères du texte |
+| `xo-progress--busy` | Attente sans progression connue : un bloc traverse le rail |
+| `xo-flash` | Confirmation d'un geste : une pulsation, **une seule**. `--success` `--warning` `--danger` |
+
+```html
+<div class="xo-log__line xo-appear" style="--xo-i: 4">…</div>
+<span class="xo-type" style="--xo-n: 34">xoshui deploy --cible xoshui.test</span>
+<li class="xo-list__item xo-flash--success">retenu</li>
+```
+
+`xo-flash` bat au fond, jamais sur le texte : rien ne saute à la lecture pendant
+l'animation. À retirer après `animationend` — une classe laissée en place ne rejouerait
+pas, mais mentirait sur l'état.
+
+## Teinte et atténuation
+
+Deux utilitaires pour dire un état sans ajouter ni glyphe ni colonne.
+
+| Classe | Rôle |
+|---|---|
+| `xo-tint--*` | Fond teinté à 14 % — `accent` `success` `warning` `danger` `faint` |
+| `xo-fade` + `--xo-fade` | Opacité de 1 (net) à 0 (effacé) |
+
+```html
+<li class="xo-list__item xo-tint--accent">suivi</li>
+<span class="xo-fade" style="--xo-fade: .6">il y a 2 h</span>
+```
+
+La teinte reste basse pour ne pas passer devant la sélection, qui demeure le repère fort ;
+survol et sélection gardent la main sur une ligne teintée.
+
+`xo-fade` ne va que sur du **décor** — heure, source, séparateur. Sur du texte utile, une
+opacité basse retombe sous le contraste minimum, exactement comme `--xo-faint`.
+
+Ce n'est pas la durée qui fait l'effet — elle est d'une milliseconde — mais le **retard**,
+pendant lequel `animation-fill-mode: both` maintient l'état de départ. Un terminal n'a pas
+de fondu : la ligne s'affiche d'un coup.
+
+Une animation ne tourne pas dans un conteneur en `display: none` : dans un onglet, la
+sortie **rejoue** donc à chaque ouverture. C'est voulu.
+
+`prefers-reduced-motion` annule durée **et retard** : tout s'affiche d'emblée, rien ne
+reste invisible en attendant son tour.
+
+## Mode console
+
+`xo-console` sur un conteneur : à l'intérieur, les composants passent en rendu plein
+caractère. **Aucun balisage à changer** — mêmes classes, mêmes `data-xo-*`, même module.
+Voir **[tui.php](../tui.php)**.
+
+```html
+<div class="xo-console">…</div>          <!-- un panneau, une section -->
+<div class="xo-app xo-console">…</div>   <!-- un écran entier -->
+```
+
+| Ce qui change | Comment |
+|---|---|
+| Grille | Tout tombe sur la cellule `--xo-cell` (= `--xo-fs` × 1.5) ; les écarts se comptent en `ch` |
+| `xo-btn` | `[ Valider ]`, inversé au survol et au focus. `--ghost` perd ses crochets |
+| `xo-input` `xo-select` `xo-textarea` | Bloc de saisie sans cadre ; vidéo inverse au focus |
+| `xo-list__item` | Sélection pleine largeur, précédée d'un `▸` hors flux |
+| `xo-panel__title` | Interrompt le filet : `──┤ Titre ├──` |
+| `xo-table` | En-tête en vidéo inverse, zébrage retiré |
+| `xo-tabs__tab` | L'onglet actif devient une étiquette pleine |
+| `xo-badge` | `[libellé]` ; `--solid` reste un aplat |
+| `xo-statusbar` `xo-keys` | Une cellule de haut, sans retour à la ligne |
+| `xo-bars` `xo-progress` | Rangées sur la cellule ; la jauge perd son cadre |
+| `xo-spark` | Perd son resserrement : un caractère vaut une chasse pleine |
+| `xo-range` | Rail d'une cellule, curseur d'un caractère |
+| `xo-cal` | Hauteurs sur la cellule ; la disposition est déjà celle de `cal` |
+| `xo-plot` `xo-heat` | Interligne sur la cellule ; ils sont déjà en caractères |
+
+`xo-check` et `xo-radio` ne sont **pas** retraduits : le socle les dessine déjà en
+caractères (§22). Y ajouter un marqueur en afficherait deux.
+
+Le mode ne touche pas `--xo-pad` : une soixantaine de composants s'en servent et le mode
+n'en retraduit qu'une vingtaine. Ceux qu'il ne couvre pas (navigation, palette, aide,
+modales, notifications, colonne latérale) gardent donc leur rembourrage et restent
+lisibles — c'est ce qui permet d'appliquer `xo-console` à une page entière.
+
+## Mode CLI
+
+`xo-cli` — même méthode, autre grammaire. Le mode console simule un **écran** ; le mode
+CLI simule un **flux** : la sortie de `git status` ou de `npm install`, qui se lit de haut
+en bas et qu'on ne pilote pas. Voir **[cli.php](../cli.php)**.
+
+Trois différences portent tout le mode :
+
+| | |
+|---|---|
+| **Aucune colonne** | `xo-grid` redevient un empilement, les `xo-col-*` n'ont plus d'effet |
+| **Aucun cadre** | `xo-panel` perd sa bordure ; `xo-panel__title` sort du filet et devient une ligne `==> Titre` |
+| **Aucun défilement interne** | `--xo-max-h` est neutralisé sur `xo-log`, `xo-panel__body` et `xo-table-wrap` |
+
+| Ce qui change encore | Comment |
+|---|---|
+| Sélection | Plus de vidéo inverse : le marqueur de ligne passe de `-` à `*`, en gras |
+| `xo-list--tree` | Garde ses guides, comme `npm ls` — pas de marqueur ajouté |
+| `xo-table` | Colonnes alignées, aucun filet, aucun zébrage |
+| `xo-btn` | Un mot précédé de `»`, en surbrillance au survol et au focus ; `--ghost` perd son préfixe |
+| `xo-field` | Une invite sur une ligne : `? Branche main` |
+| `xo-statusbar` `xo-keys` | Du texte muet, sans fond ni filet |
+
+Mêmes réserves qu'en mode console : `xo-check` / `xo-radio` ne sont pas retraduits, et
+`--xo-pad` n'est pas touché. Les deux modes sont exclusifs — poser les deux classes sur le
+même conteneur donne un résultat indéfini.
+
+Deux classes n'existent que pour ce mode :
+
+| Classe | Rôle |
+|---|---|
+| `xo-list__guide` | Les branches d'un arbre écrites en caractères (`├─` `└─` `│  `) — seul le HTML sait quelle branche se poursuit. Se combine avec `--xo-depth: 0` |
+| `xo-btn__key` | La lettre d'accès rapide, soulignée |
+
+Le mode ne touche ni le HTML, ni les rôles ARIA, ni le JS. Un écran bascule en ajoutant
+une classe, et revient en la retirant.
 
 ## Impression
 

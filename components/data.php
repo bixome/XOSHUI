@@ -93,6 +93,38 @@ xo_specimen('Graphe en barres et sparkline', <<<'HTML'
 </div>
 HTML, 'La barre est du texte : str_repeat(\'█\', round($pct / 3)). Aucun canvas, aucune dépendance.');
 
+xo_specimen('Graphe temporel', <<<'HTML'
+<div class="xo-plot xo-plot--warning">
+  <div class="xo-plot__scale" aria-hidden="true">
+    <span>100%</span><span>50%</span><span>0%</span>
+  </div>
+  <pre class="xo-plot__area" role="img" aria-label="Charge sur 40 minutes, pic à 96 %">      ▂▅▇█▇▅▂        ▁▄▆█▆▄▁
+   ▃▇████████▇▃   ▄████████▄
+▁▅███████████████████████████▅▁</pre>
+  <div class="xo-plot__foot">
+    <span>-40m</span><span class="xo-spacer"></span><span>maintenant</span>
+  </div>
+</div>
+HTML, 'Un <pre> de blocs, calculé côté serveur : une colonne par point, la rangée du bas remplie la première, huit sous-niveaux par ligne. L’échelle partage la rangée de grille du tracé, donc leurs hauteurs sont égales.');
+
+xo_specimen('Carte de chaleur', <<<'HTML'
+<div class="xo-heat xo-heat--seuils" role="img"
+     aria-label="Activité par heure : creux la nuit, pic l’après-midi, week-end calme">
+  <div class="xo-heat__row">
+    <span class="xo-heat__label">lun</span>
+    <span class="xo-heat__cells" aria-hidden="true"><span class="xo-heat__cell xo-heat__cell--0">·</span><span class="xo-heat__cell xo-heat__cell--1">░</span><span class="xo-heat__cell xo-heat__cell--2">▒</span><span class="xo-heat__cell xo-heat__cell--3">▓</span><span class="xo-heat__cell xo-heat__cell--4">█</span><span class="xo-heat__cell xo-heat__cell--4">█</span><span class="xo-heat__cell xo-heat__cell--3">▓</span><span class="xo-heat__cell xo-heat__cell--1">░</span></span>
+  </div>
+  <div class="xo-heat__row">
+    <span class="xo-heat__label">sam</span>
+    <span class="xo-heat__cells" aria-hidden="true"><span class="xo-heat__cell xo-heat__cell--0">·</span><span class="xo-heat__cell xo-heat__cell--0">·</span><span class="xo-heat__cell xo-heat__cell--1">░</span><span class="xo-heat__cell xo-heat__cell--1">░</span><span class="xo-heat__cell xo-heat__cell--2">▒</span><span class="xo-heat__cell xo-heat__cell--1">░</span><span class="xo-heat__cell xo-heat__cell--0">·</span><span class="xo-heat__cell xo-heat__cell--0">·</span></span>
+  </div>
+</div>
+
+<p class="xo-heat__foot" style="margin-top: 8px">
+  <span>moins</span><span aria-hidden="true">·░▒▓█</span><span>plus</span>
+</p>
+HTML, 'La densité porte la valeur, la couleur ne fait que la doubler : la carte reste lisible en noir et blanc. Les cellules sont des caractères collés — les émettre sans séparateur, sinon l’indentation du gabarit devient visible.');
+
 xo_specimen('Chronologie et étapes', <<<'HTML'
 <div class="xo-steps" style="margin-bottom: 8px">
   <span class="xo-steps__step xo-steps__step--done">✓ Analyse</span>
@@ -134,7 +166,9 @@ xo_specimen_fin([
     'xo-progress'    => 'jauge ou progression, en cellules',
     'xo-spinner'     => 'attente animée, figée sous prefers-reduced-motion',
     'xo-bars'        => 'graphe en barres de caractères',
-    'xo-spark'       => 'courbe compacte en blocs',
+    'xo-spark'       => 'courbe compacte en blocs, sur une ligne',
+    'xo-plot'        => 'graphe temporel sur plusieurs lignes',
+    'xo-heat'        => 'carte de chaleur : la densité porte la valeur',
     'xo-timeline'    => 'suite d’événements datés',
     'xo-steps'       => 'progression par étapes',
     'xo-skeleton'    => 'réservation de place pendant le chargement',

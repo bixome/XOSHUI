@@ -40,7 +40,7 @@ require __DIR__ . '/libs/site.php';
       <section class="xo-panel xo-panel--pad xo-col-4">
         <h2 class="xo-panel__title">Démo</h2>
         <p class="xo-muted" style="margin-bottom: 8px">
-          Toutes les classes sur une page, en quatre onglets.
+          Toutes les classes sur une page, en sept onglets — dont le mode console et le mode CLI.
         </p>
         <a class="xo-btn" href="/demo.php">Ouvrir</a>
       </section>

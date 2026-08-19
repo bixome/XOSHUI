@@ -41,6 +41,87 @@ $journal = [
     ['14:01:02', 'warn',  'Requête lente : SELECT * FROM sessions (1.4 s)'],
     ['14:01:09', 'error', 'Échec du montage /mnt/backup'],
 ];
+
+/* ---- Onglets 6 et 7 : les deux modes ------------------------------------ */
+
+/**
+ * Les rangées d'un graphe temporel, en blocs — voir docs/api.md.
+ *
+ * @param list<float> $valeurs entre 0 et 1
+ * @return list<string>
+ */
+function xo_demo_plot(array $valeurs, int $hauteur): array
+{
+    $blocs   = [' ', '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
+    $rangees = array_fill(0, $hauteur, '');
+
+    foreach ($valeurs as $v) {
+        $rempli = max(0.0, min(1.0, $v)) * $hauteur;
+        for ($r = 0; $r < $hauteur; $r++) {
+            $part = max(0.0, min(1.0, $rempli - ($hauteur - 1 - $r)));
+            $rangees[$r] .= $blocs[(int) round($part * 8)];
+        }
+    }
+
+    return $rangees;
+}
+
+/* Console — arbre, série et carte, tous figés : l'écran de contrôle doit se
+   lire à l'identique d'un rechargement à l'autre. */
+$conArbre = [
+    ['',       '▾', 'xoshui',     'xo-info', ''],
+    ['├─',     '▾', 'libs',       'xo-info', ''],
+    ['│  ├─',  ' ', 'xoshui.css', '',        '41K'],
+    ['│  └─',  ' ', 'xoshui.js',  '',        '13K'],
+    ['├─',     '▸', 'layouts',    'xo-info', '10'],
+    ['└─',     ' ', 'demo.php',   'xo-alt',  '46K'],
+];
+
+$conSerie = [];
+for ($i = 0; $i < 60; $i++) {
+    $conSerie[] = max(0.0, min(1.0, 0.45 + 0.34 * sin($i / 7) + 0.16 * sin($i / 2.3)));
+}
+$conPic = (int) round(max($conSerie) * 100);
+
+$conHeat = [];
+foreach (['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'] as $d => $jour) {
+    $ligne = [];
+    for ($h = 0; $h < 24; $h++) {
+        $charge = sin(max(0.0, ($h - 6) / 16) * M_PI) * ($d >= 5 ? 0.35 : 1.0);
+        $ligne[] = max(0, min(4, (int) round($charge * 4)));
+    }
+    $conHeat[$jour] = $ligne;
+}
+$conNiveaux = [0 => '·', 1 => '░', 2 => '▒', 3 => '▓', 4 => '█'];
+
+$conMois     = new DateTimeImmutable('2026-08-01');
+$conJours    = (int) $conMois->format('t');
+$conDecalage = (int) $conMois->format('N') - 1;   // 0 = lundi
+
+/* CLI — le transcrit d'un déploiement. */
+$cliDeps = [
+    ['',      'xoshui',         '1.0.0',   'xo-info'],
+    ['├─',    'jetbrains-mono', '2.304',   ''],
+    ['├─',    'php-fpm',        '8.3.30',  ''],
+    ['│  └─', 'opcache',        'intégré', 'xo-muted'],
+    ['└─',    'nginx',          '1.25.3',  ''],
+];
+
+$cliFichiers = [
+    ['✓', 'libs/css/xoshui.css',   '41.2K', 'xo-success'],
+    ['✓', 'libs/js/xoshui.js',     '12.8K', 'xo-success'],
+    ['✓', 'libs/site.php',          '7.4K', 'xo-success'],
+    ['⚠', 'templates/page-nue.php', '1.1K', 'xo-warning'],
+    ['✓', 'demo.php',              '46.0K', 'xo-success'],
+];
+
+$cliFlux = [
+    ['09:41:02', 'info',  'xoshui-deploy 1.0 — cible : xoshui.test'],
+    ['09:41:03', 'ok',    'lint : 0 erreur, 0 avertissement sur 44 fichiers'],
+    ['09:41:07', 'info',  'copie de 44 fichiers'],
+    ['09:41:12', 'warn',  'templates/page-nue.php : aucun xo-keys en bas d’écran'],
+    ['09:41:14', 'ok',    'déploiement terminé en 12,4 s'],
+];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -74,6 +155,8 @@ $journal = [
       <button class="xo-tabs__tab" role="tab" aria-selected="false" aria-controls="t-form">[3] Formulaire</button>
       <button class="xo-tabs__tab" role="tab" aria-selected="false" aria-controls="t-retour">[4] Retour</button>
       <button class="xo-tabs__tab" role="tab" aria-selected="false" aria-controls="t-code">[5] Code</button>
+      <button class="xo-tabs__tab" role="tab" aria-selected="false" aria-controls="t-console">[6] Console</button>
+      <button class="xo-tabs__tab" role="tab" aria-selected="false" aria-controls="t-cli">[7] CLI</button>
     </div>
 
     <!-- ============================================== 1. Structure -->
@@ -84,7 +167,7 @@ $journal = [
  \ \/ // _ \/ __| || | | | |_ _|
   &gt;  &lt;| (_) \__ \ __ | |_| || |
  /_/\_\\___/|___/_||_|\___/|___|</pre>
-        <p class="xo-banner__tagline">213 classes, une feuille, un module</p>
+        <p class="xo-banner__tagline">238 classes, une feuille, un module</p>
       </div>
 
       <nav class="xo-breadcrumb" aria-label="Fil d’Ariane" style="margin-bottom: 16px">
@@ -524,6 +607,305 @@ $ _</pre>
         </section>
 
       </div>
+    </section>
+
+    <!-- ============================================== 6. Console -->
+    <!-- Le mode console : les composants ci-dessus, sans une ligne de HTML
+         changée, dans un conteneur qui porte xo-console. L'apparition
+         échelonnée rejoue à chaque ouverture de l'onglet : une sortie
+         masquée ne s'anime pas, elle repart quand elle s'affiche. -->
+    <section id="t-console" role="tabpanel" class="xo-tabpanel" hidden>
+
+      <div class="xo-console">
+
+        <div class="xo-statusbar">
+          <strong>xoshui-top</strong>
+          <span><span class="xo-statusbar__label">hôte:</span> laragon</span>
+          <span><span class="xo-statusbar__label">charge:</span> <span class="xo-warning">1.84</span></span>
+          <span class="xo-spacer"></span>
+          <span class="xo-spinner" aria-hidden="true"></span>
+          <span class="xo-faint">1 s</span>
+        </div>
+
+        <div class="xo-main">
+          <div class="xo-grid">
+
+            <section class="xo-panel xo-col-4">
+              <h3 class="xo-panel__title">Fichiers</h3>
+              <ul class="xo-list xo-list--tree" data-xo-list role="tree" aria-label="Fichiers">
+                <?php foreach ($conArbre as $i => [$guide, $chevron, $nom, $cls, $meta]): ?>
+                <li class="xo-list__item xo-appear" role="treeitem" style="--xo-depth: 0; --xo-i: <?= $i ?>"
+                    aria-selected="<?= $i === 2 ? 'true' : 'false' ?>">
+                  <span class="xo-list__guide" aria-hidden="true"><?= $e($guide) ?></span>
+                  <span class="xo-list__icon" aria-hidden="true"><?= $e($chevron) ?></span>
+                  <span class="<?= $e($cls) ?>"><?= $e($nom) ?></span>
+                  <?php if ($meta !== ''): ?><span class="xo-list__meta"><?= $e($meta) ?></span><?php endif; ?>
+                </li>
+                <?php endforeach; ?>
+              </ul>
+              <span class="xo-panel__count">↑↓ pour naviguer</span>
+            </section>
+
+            <section class="xo-panel xo-col-8">
+              <h3 class="xo-panel__title">Processus</h3>
+              <table class="xo-table" data-xo-list>
+                <thead>
+                  <tr>
+                    <th class="xo-num">PID</th><th>UTIL.</th>
+                    <th class="xo-num">%CPU</th><th class="xo-num">%MÉM</th><th>COMMANDE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($processus as $i => $p): ?>
+                  <tr class="xo-appear" style="--xo-i: <?= $i ?>" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>">
+                    <td class="xo-num"><?= $e($p['pid']) ?></td>
+                    <td><?= $e($p['user']) ?></td>
+                    <td class="xo-num"><?= $e(number_format($p['cpu'], 1)) ?></td>
+                    <td class="xo-num"><?= $e(number_format($p['mem'], 1)) ?></td>
+                    <td><?= $e($p['cmd']) ?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+              <span class="xo-panel__count">4 / 187</span>
+            </section>
+
+            <section class="xo-panel xo-panel--pad xo-col-8">
+              <h3 class="xo-panel__title">Charge</h3>
+              <div class="xo-plot xo-plot--warning">
+                <div class="xo-plot__scale" aria-hidden="true">
+                  <span>100%</span><span>50%</span><span>0%</span>
+                </div>
+                <pre class="xo-plot__area" role="img"
+                     aria-label="Charge processeur sur 60 minutes, pic à <?= $e($conPic) ?> %"><?php
+                     echo $e(implode("\n", xo_demo_plot($conSerie, 6))); ?></pre>
+                <div class="xo-plot__foot">
+                  <span>-60m</span><span class="xo-spacer"></span>
+                  <span>pic <?= $e($conPic) ?>%</span><span class="xo-spacer"></span><span>maintenant</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="xo-panel xo-panel--pad xo-col-4">
+              <h3 class="xo-panel__title">Ressources</h3>
+              <?php foreach ([['CPU', 29, 'success'], ['Mémoire', 78, 'warning'], ['Disque', 94, 'danger']] as [$n, $v, $ton]): ?>
+              <div class="xo-progress xo-progress--<?= $e($ton) ?>">
+                <span class="xo-progress__label"><?= $e($n) ?></span>
+                <div class="xo-progress__track" role="meter" aria-valuenow="<?= $e($v) ?>"
+                     aria-valuemin="0" aria-valuemax="100" aria-label="<?= $e($n) ?>">
+                  <div class="xo-progress__fill" style="width: <?= $e($v) ?>%"></div>
+                </div>
+                <span class="xo-progress__value"><?= $e($v) ?>%</span>
+              </div>
+              <?php endforeach; ?>
+
+              <div class="xo-progress xo-progress--busy">
+                <span class="xo-progress__label">Indexation</span>
+                <div class="xo-progress__track" role="progressbar" aria-label="Indexation en cours">
+                  <div class="xo-progress__fill"></div>
+                </div>
+                <span class="xo-progress__value xo-muted">…</span>
+              </div>
+            </section>
+
+            <section class="xo-panel xo-panel--pad xo-col-4">
+              <h3 class="xo-panel__title">Activité</h3>
+              <div class="xo-heat xo-heat--seuils" role="img"
+                   aria-label="Activité par heure : creux la nuit, pic l’après-midi, week-end calme">
+                <?php foreach ($conHeat as $jour => $heures): ?>
+                <div class="xo-heat__row">
+                  <span class="xo-heat__label"><?= $e($jour) ?></span>
+                  <span class="xo-heat__cells" aria-hidden="true"><?php
+                      foreach ($heures as $h => $n) {
+                          $cls = 'xo-heat__cell xo-heat__cell--' . $n;
+                          printf('<span class="%s" title="%s %02dh">%s</span>', $cls, $e($jour), $h, $conNiveaux[$n]);
+                      } ?></span>
+                </div>
+                <?php endforeach; ?>
+              </div>
+              <p class="xo-heat__foot" style="margin-top: 8px">
+                <span>moins</span><span aria-hidden="true"><?= implode('', $conNiveaux) ?></span><span>plus</span>
+              </p>
+            </section>
+
+            <section class="xo-panel xo-panel--pad xo-col-4">
+              <h3 class="xo-panel__title">Planification</h3>
+              <div class="xo-cal">
+                <div class="xo-cal__grid" aria-hidden="true">
+                  <?php foreach (['lu','ma','me','je','ve','sa','di'] as $j): ?>
+                  <span class="xo-cal__dow"><?= $e($j) ?></span>
+                  <?php endforeach; ?>
+                </div>
+                <div class="xo-cal__grid" data-xo-list="grid" role="listbox" aria-label="Août 2026">
+                  <?php for ($i = 0; $i < $conDecalage; $i++): ?><span aria-hidden="true"></span><?php endfor; ?>
+                  <?php for ($j = 1; $j <= $conJours; $j++): ?>
+                  <button type="button" role="option"
+                          class="xo-cal__day<?= in_array($j, [3, 12, 14, 21, 28], true) ? ' xo-cal__day--event' : '' ?>"
+                          aria-selected="<?= $j === 21 ? 'true' : 'false' ?>"
+                          <?= $j === 14 ? 'aria-current="date"' : '' ?>><?= $j ?></button>
+                  <?php endfor; ?>
+                </div>
+              </div>
+              <span class="xo-panel__count">←→↑↓ dans la grille</span>
+            </section>
+
+            <section class="xo-panel xo-panel--pad xo-col-4">
+              <h3 class="xo-panel__title">Filtre</h3>
+              <div class="xo-field">
+                <label class="xo-label" for="c-cmd">Commande</label>
+                <input class="xo-input" id="c-cmd" value="xoshui" placeholder="motif">
+              </div>
+              <div class="xo-row">
+                <label class="xo-check"><input type="checkbox" checked><span>fils</span></label>
+                <label class="xo-radio"><input type="radio" name="c-tri" checked><span>par CPU</span></label>
+              </div>
+              <div class="xo-row" style="margin-top: 8px">
+                <button class="xo-btn xo-btn--primary"><span class="xo-btn__key">A</span>ppliquer</button>
+                <button class="xo-btn xo-btn--danger"><span class="xo-btn__key">T</span>uer</button>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
+        <div class="xo-keys">
+          <span><kbd>↑↓</kbd> ligne</span>
+          <span><kbd>Tab</kbd> volet</span>
+          <span><kbd>q</kbd> quitter</span>
+          <span class="xo-spacer"></span>
+          <span class="xo-faint">xoshui-top 1.0</span>
+        </div>
+
+      </div>
+
+      <p class="xo-muted" style="margin-top: 16px">
+        Une seule classe sépare cet écran du reste de la page :
+        <code>xo-console</code>. Le détail est dans <a href="/tui.php">Console</a>.
+      </p>
+
+    </section>
+
+    <!-- ============================================== 7. CLI -->
+    <!-- Le mode CLI : un flux. Une colonne, aucun cadre, rien qui défile en
+         interne. La ligne de commande se tape, la sortie arrive ligne à
+         ligne — le retard fait tout, la durée ne fait rien. -->
+    <section id="t-cli" role="tabpanel" class="xo-tabpanel" hidden>
+
+      <div class="xo-cli">
+        <div class="xo-main">
+
+          <div class="xo-prompt">
+            <span class="xo-prompt__sign" aria-hidden="true">$</span>
+            <span class="xo-type" style="--xo-n: 34">xoshui deploy --cible xoshui.test</span>
+          </div>
+
+          <div class="xo-grid" style="margin-top: 16px">
+
+            <section class="xo-panel xo-col-6">
+              <h3 class="xo-panel__title">Dépendances</h3>
+              <ul class="xo-list xo-list--tree" role="tree" aria-label="Dépendances">
+                <?php foreach ($cliDeps as $i => [$guide, $nom, $ver, $cls]): ?>
+                <li class="xo-list__item xo-appear" role="treeitem"
+                    style="--xo-depth: 0; --xo-i: <?= $i + 16 ?>">
+                  <span class="xo-list__guide" aria-hidden="true"><?= $e($guide) ?></span>
+                  <span class="<?= $e($cls) ?>"><?= $e($nom) ?></span>
+                  <span class="xo-muted"><?= $e($ver) ?></span>
+                </li>
+                <?php endforeach; ?>
+              </ul>
+            </section>
+
+            <section class="xo-panel xo-col-6">
+              <h3 class="xo-panel__title">Fichiers</h3>
+              <table class="xo-table">
+                <thead><tr><th>ÉTAT</th><th>CHEMIN</th><th class="xo-num">TAILLE</th></tr></thead>
+                <tbody>
+                  <?php foreach ($cliFichiers as $i => [$etat, $chemin, $taille, $cls]): ?>
+                  <tr class="xo-appear" style="--xo-i: <?= $i + 22 ?>">
+                    <td class="<?= $e($cls) ?>"><?= $e($etat) ?></td>
+                    <td><?= $e($chemin) ?></td>
+                    <td class="xo-num"><?= $e($taille) ?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+              <span class="xo-panel__count">5 fichiers, 74,1K</span>
+            </section>
+
+            <section class="xo-panel xo-col-12">
+              <h3 class="xo-panel__title">Transfert</h3>
+              <?php foreach ([['Envoi', 100, 'success'], ['Vérification', 100, 'success']] as [$n, $v, $ton]): ?>
+              <div class="xo-progress xo-progress--<?= $e($ton) ?>">
+                <span class="xo-progress__label"><?= $e($n) ?></span>
+                <div class="xo-progress__track" role="progressbar" aria-valuenow="<?= $e($v) ?>"
+                     aria-valuemin="0" aria-valuemax="100" aria-label="<?= $e($n) ?>">
+                  <div class="xo-progress__fill" style="width: <?= $e($v) ?>%"></div>
+                </div>
+                <span class="xo-progress__value"><?= $e($v) ?>%</span>
+              </div>
+              <?php endforeach; ?>
+              <div class="xo-progress xo-progress--busy">
+                <span class="xo-progress__label">Bascule</span>
+                <div class="xo-progress__track" role="progressbar" aria-label="Bascule en cours">
+                  <div class="xo-progress__fill"></div>
+                </div>
+                <span class="xo-progress__value xo-muted">…</span>
+              </div>
+            </section>
+
+            <section class="xo-panel xo-col-12">
+              <h3 class="xo-panel__title">Journal</h3>
+              <div class="xo-log">
+                <?php foreach ($cliFlux as $i => [$heure, $niveau, $message]): ?>
+                <div class="xo-log__line xo-log__line--<?= $e($niveau) ?> xo-appear" style="--xo-i: <?= $i + 28 ?>">
+                  <span class="xo-log__time"><?= $e($heure) ?></span>
+                  <span class="xo-log__level"><?= $e($niveau) ?></span>
+                  <span class="xo-log__msg"><?= $e($message) ?></span>
+                </div>
+                <?php endforeach; ?>
+              </div>
+            </section>
+
+            <section class="xo-panel xo-col-12">
+              <h3 class="xo-panel__title">Résultat</h3>
+              <div class="xo-alert xo-alert--success xo-appear" role="status" style="--xo-i: 34">
+                <span aria-hidden="true">✓</span>
+                <span class="xo-alert__body">
+                  <span class="xo-alert__title">Déployé.</span> 44 fichiers en 12,4 s — 1 avertissement.
+                </span>
+              </div>
+              <dl class="xo-kv" style="margin-top: 8px">
+                <?php foreach (['Cible' => 'xoshui.test', 'Durée' => '12,4 s', 'Révision' => 'ffdb5ef'] as $k => $v): ?>
+                <div class="xo-kv__row">
+                  <dt><?= $e($k) ?></dt>
+                  <span class="xo-kv__leader" aria-hidden="true"></span>
+                  <dd><?= $e($v) ?></dd>
+                </div>
+                <?php endforeach; ?>
+              </dl>
+              <div class="xo-row" style="margin-top: 8px">
+                <button class="xo-btn xo-btn--primary">Voir le rapport</button>
+                <button class="xo-btn">Relancer</button>
+                <button class="xo-btn xo-btn--danger">Annuler le déploiement</button>
+              </div>
+            </section>
+
+          </div>
+
+          <div class="xo-prompt xo-appear" style="--xo-i: 36; margin-top: 16px">
+            <span class="xo-prompt__sign" aria-hidden="true">$</span>
+            <span class="xo-cursor" aria-hidden="true"></span>
+          </div>
+
+        </div>
+      </div>
+
+      <p class="xo-muted" style="margin-top: 16px">
+        La grille est déclarée comme partout ailleurs — le mode la rend en empilement,
+        et les <code>xo-col-*</code> n’ont plus d’effet. Le détail est dans
+        <a href="/cli.php">CLI</a>.
+      </p>
+
     </section>
 
   </main>
